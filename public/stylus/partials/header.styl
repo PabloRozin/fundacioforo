@@ -1,0 +1,201 @@
+.scrolled
+	
+	#header
+		
+		@media screen and (min-width: width-break)
+		
+			.logo
+				padding 15px 0
+				
+				a
+					
+					img
+						height 60px
+						
+			.menu
+				left 90px
+				
+				ul
+					
+					li
+						
+						a
+						span
+							line-height 90px !important
+
+#header
+	position: fixed
+	top 0
+	left 0
+	right 0
+	z-index: 1000
+	background: color-verde
+	
+	@media screen and (min-width: width-break)
+		background white
+
+	.center
+		position: relative;
+		height 60px
+		
+		@media screen and (min-width: width-break)
+			height auto
+
+	.logo
+		padding 20px 0
+		position: absolute
+		left 50%
+		margin-left -33px
+		transition padding .5s
+		
+		@media screen and (min-width: width-break)
+			padding 30px 0
+			position relative
+			left auto
+			margin-left 0
+
+		a
+			width: 60px
+			display: block
+
+		@media screen and (min-width: width-break)
+			width: 120px
+
+		img
+			display: block
+			height: 20px
+			width: auto
+			transition height .5s
+				
+			&.big
+				display none
+
+			@media screen and (min-width: width-break)
+				height: 120px
+			
+				&.small
+					display none
+					
+				&.big
+					display block
+
+	.menu
+		position: absolute;
+		top 100%
+		left 0
+		right: 0
+		display: none
+		background color-verde-oscuro
+		transition left .5s
+
+		&.open
+			display block
+
+		@media screen and (min-width: width-break)
+			display: block !important
+			left 150px
+			top 0
+			right 0
+			background none
+
+		> ul
+			list-style: none
+
+			> li
+				position: relative;
+
+				@media screen and (min-width: width-break)
+					float: left
+					border 0
+					
+				&.user
+					position relative
+					border-top solid 1px white
+					
+					@media screen and (min-width: width-break)
+						position: absolute
+						right 0
+						top 0
+						
+					.name
+						color white
+						font-weight 500
+						
+						&:hover
+							color color-verde
+						
+						@media screen and (min-width: width-break)
+							color color-verde
+							
+							&:hover
+								color color-verde-oscuro
+							
+					span
+						montserratFont(13px, 45px, white, 300)
+						padding 0 0 0 15px
+						display block
+						transition line-height .5s
+						
+						@media screen and (min-width: width-break)
+							montserratFont(16px, 180px, color-gris-texto, 300)
+							display inline-block
+					
+					.logout
+						position: absolute
+						top 0
+						right 0
+						
+						@media screen and (min-width: width-break)
+							position: relative
+							display inline-block
+
+				> a
+					montserratFont(13px, 45px, white, 300)
+					padding 0 15px
+					display: block
+					transition line-height .5s
+
+					&.active
+						font-weight bold
+
+					&:hover
+						background: color-verde
+
+					@media screen and (min-width: width-break)
+						montserratFont(16px, 180px, color-verde, 300)
+
+						&.active
+							font-weight 300
+
+						&:hover
+							background none
+							color: color-verde
+
+	.act-menu
+		position absolute
+		top 0
+		line-height: 60px
+		left 0
+		width: 60px
+		text-align: center
+		cursor: pointer
+		color white
+		
+		&.open
+			background color-verde-oscuro
+		
+		@media screen and (min-width: width-break)
+			display none
+		
+	.act-search
+		position absolute
+		top 0
+		line-height: 60px
+		right 0
+		width: 60px
+		text-align: center
+		cursor: pointer
+		color white
+		
+		@media screen and (min-width: width-break)
+			display none

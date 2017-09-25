@@ -1,0 +1,54 @@
+body {
+  padding-top: 79px;
+}
+.admin-pagination .pagination {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.admin-pagination.first {
+  padding-bottom: 8px;
+}
+.admin-pagination.last {
+  padding-top: 15px;
+}
+.admin-message {
+  margin-bottom: 25px;
+}
+.admin-message .alert {
+  margin-bottom: 0;
+}
+.admin-options {
+  padding-bottom: 25px;
+}
+.admin-list {
+  padding-bottom: 300px;
+}
+.admin-list .list-group-item {
+  padding: 10px;
+  line-height: 31px;
+}
+.admin-list-options {
+  position: relative;
+  top: -1px;
+}
+.admin-image-preview {
+  width: 100%;
+  text-align: center;
+  background-color: #eee;
+  background-size: cover;
+  position: relative;
+}
+.admin-image-preview:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+.admin-image-preview-button {
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  margin-top: -19px;
+  width: 100%;
+}
+
+/*# sourceMappingURL=admin.css.map */

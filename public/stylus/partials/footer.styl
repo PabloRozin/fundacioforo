@@ -1,0 +1,84 @@
+.phrase
+  padding 30px 0
+  background: color-naranja
+
+  @media screen and (min-width: width-break)
+    padding 60px 0
+
+  .center
+    poppinsFont(21px, 31px, white, 300, 2px)
+    text-align: center;
+
+    @media screen and (min-width: width-break)
+      poppinsFont(28px, 38px, white, 300, 2px)
+
+.footer
+  padding 30px 0
+
+  @media screen and (min-width: width-break)
+    padding 60px 0
+
+  .copy
+    poppinsFont(13px, 18px, black, 400)
+    margin-bottom: 30px
+
+  .title
+    poppinsFont(13px, 18px, color-gris-texto, 400)
+    text-transform: uppercase;
+
+  .text
+    poppinsFont(13px, 18px, black, 400)
+    margin-top: 5px
+
+    &.mb
+      margin-bottom: 15px
+
+  a
+    poppinsFont(13px, 18px, color-verde, 400)
+
+    &:hover
+      poppinsFont(13px, 18px, color-naranja, 400)
+
+  .sections
+    list-style: none
+
+    li
+      line-height: 18px
+
+  .social
+    list-style: none
+    margin-top: 5px
+
+    li
+      float: left
+      margin-right: 10px
+
+  .form
+    padding-right: 45px
+    position: relative;
+    margin-top: 5px
+
+    input
+      border solid 1px color-gris-texto
+      border-right: 0
+
+    button
+      padding 0
+      width: 45px
+      position: absolute;
+      right 0
+      top 0
+
+  .heniax
+    height: 20px
+    width: 90px
+    overflow: hidden
+    background: url('/img/web/logo-heniax.png') center -20px no-repeat
+
+    img
+      display: block
+
+    &:hover
+
+      img
+        opacity: 0
