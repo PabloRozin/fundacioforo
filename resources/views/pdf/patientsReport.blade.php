@@ -21,7 +21,7 @@
 	@foreach($patients as $key => $patient)
 		<tr>
 			<td style="vertical-align:top;width:15mm;border-bottom:solid 1px #d9d9d9;padding:5px 0;">
-				{{ $patient->id }}
+				{{ $patient->system_id }}
 			</td>
 			<td style="vertical-align:top;width:50mm;border-bottom:solid 1px #d9d9d9;padding:5px 0;">
 				{{ $patient->patient_firstname }} {{ $patient->patient_lastname }}

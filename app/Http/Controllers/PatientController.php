@@ -18,6 +18,12 @@ class PatientController extends AdminController
 	private $patientData = [
 		'Datos del paciente' => [
 			'Personales' => [
+				'system_id' => [
+					'css_class' => 'col-1-4',
+					'type' => 'inputText',
+					'title' => 'ID',
+					'validation' => 'required|string|max:50|unique:patients',
+				],
 				'patient_firstname' => [
 					'css_class' => 'col-1-4',
 					'type' => 'inputText',
@@ -57,7 +63,7 @@ class PatientController extends AdminController
 					'css_class' => 'col-1-4',
 					'type' => 'inputDate',
 					'title' => 'Fecha de nacimiento',
-					'validation' => 'date',
+					'validation' => 'required|date',
 				],
 				'patient_nationality' => [
 					'css_class' => 'col-1-6',
@@ -1454,6 +1460,14 @@ class PatientController extends AdminController
 				'E.P.' => 'Entrevista Psiquiátrica',
 				'I.C.' => 'Interconsulta',
 				'otros' => 'Otros',
+			];
+
+			$data['professions'] = [
+				'psicología' => 'Lic. Psicología',
+				'psiquiatra' => 'Médico Psiquiatra',
+				'psicopedagogia' => 'Lic. Psicopedagogía',
+				'at' => 'A.T.',
+				'otros' => 'Otro',
 			];
 
 			$view =  \View::make('pdf.hc', $data)->render();

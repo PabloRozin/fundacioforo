@@ -19,7 +19,7 @@
 				<form class="form" action="{{ route('patients.index') }}" method="GET">
 					
 					<div class="item">
-						<input class="focus" type="text" name="id" placeholder="ID">
+						<input class="focus" type="text" name="system_id" placeholder="ID">
 					</div>
 					
 					<div class="item">
@@ -183,7 +183,7 @@
 								@endif
 								--><div class="hc-item-data id">
 									<div class="t">Id</div>
-									<div class="p">{{ $patient->id }}</div>
+									<div class="p">{{ $patient->system_id }}</div>
 								</div><!--
 								--><div class="hc-item-data name">
 									<div class="t">Nombre y Apellido</div>

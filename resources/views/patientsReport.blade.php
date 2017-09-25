@@ -41,7 +41,7 @@
 						<div class="hc-item-data-cont hc"><!--
 							--><div class="hc-item-data report-id">
 								<div class="t">Id</div>
-								<div class="p">{{ $patient->id }}</div>
+								<div class="p">{{ $patient->system_id }}</div>
 							</div><!--
 							--><div class="hc-item-data report-name">
 								<div class="t">Nombre y Apellido</div>

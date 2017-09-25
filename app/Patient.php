@@ -12,6 +12,7 @@ class Patient extends Model
 	 * @var array
 	 */
 	protected $fillable = [
+		'system_id',
 		'patient_firstname',
 		'patient_lastname',
 		'patient_document_number',
