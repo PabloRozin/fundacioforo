@@ -22,7 +22,8 @@ class PatientController extends AdminController
 					'css_class' => 'col-1-4',
 					'type' => 'inputText',
 					'title' => 'ID',
-					'validation' => 'required|string|max:50|unique:patients',
+					'is_unique' => true,
+					'validation' => 'required|string|max:50|unique:patients,system_id',
 				],
 				'patient_firstname' => [
 					'css_class' => 'col-1-4',
@@ -558,7 +559,7 @@ class PatientController extends AdminController
 					'validation' => '',
 				],
 			],
-			'Familiares o Genograma' => [
+			'Familiares y/o Genograma' => [
 				'background_family_genogram' => [
 					'css_class' => '',
 					'type' => 'textarea',
@@ -568,14 +569,6 @@ class PatientController extends AdminController
 			],
 			'Médicos Personales' => [
 				'background_medical_personal' => [
-					'css_class' => '',
-					'type' => 'textarea',
-					'title' => '',
-					'validation' => '',
-				],
-			],
-			'Médicos Familiares' => [
-				'background_medical_family' => [
 					'css_class' => '',
 					'type' => 'textarea',
 					'title' => '',
@@ -604,6 +597,16 @@ class PatientController extends AdminController
 					'validation' => '',
 				],
 			],
+		],
+		'Formulación de caso' => [
+			'' => [
+				'case_formulation' => [
+					'css_class' => '',
+					'type' => 'textarea',
+					'title' => '',
+					'validation' => '',
+				],
+			]
 		],
 		'Examen mental' => [
 			'' => [
@@ -1222,7 +1225,11 @@ class PatientController extends AdminController
 			foreach ($itemGroup as $key => $itemSubroup) {
 				foreach ($itemSubroup as $itemName => $item) {
 					if ( ! empty($item['validation'])) {
-						$validation[$itemName] = $item['validation'];
+						if (isset($item['is_unique']) and $item['is_unique']) {
+							$validation[$itemName] = $item['validation'].','.$patient->id;
+						} else {
+							$validation[$itemName] = $item['validation'];
+						}
 					}
 				}
 			}

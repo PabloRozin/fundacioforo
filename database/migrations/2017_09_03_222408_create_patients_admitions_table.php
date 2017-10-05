@@ -27,10 +27,10 @@ class CreatePatientsAdmitionsTable extends Migration
             $table->text('background_previous_psi_treatments')->nullable();
             $table->text('background_family_genogram')->nullable();
             $table->text('background_medical_personal')->nullable();
-            $table->text('background_medical_family')->nullable();
             $table->text('interview_synthesis_themes')->nullable();
             $table->text('interview_synthesis_appetite')->nullable();
             $table->text('interview_synthesis_work_study_data')->nullable();
+            $table->text('case_formulation')->nullable();
             $table->text('mental_exam_presentation')->nullable();
             $table->text('mental_exam_attention')->nullable();
             $table->text('mental_exam_orientation')->nullable();

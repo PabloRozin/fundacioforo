@@ -243,7 +243,7 @@
 							@endif
 							--><div class="hc-item-data id">
 								<div class="t">Id</div>
-								<div class="p">{{ $patient->id }}</div>
+								<div class="p">{{ $patient->system_id }}</div>
 							</div><!--
 							--><div class="hc-item-data name">
 								<div class="t">Nombre y Apellido</div>

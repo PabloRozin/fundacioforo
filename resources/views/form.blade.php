@@ -49,20 +49,24 @@
 						@foreach ($subgroup_items as $item_name => $item)
 							
 							@if ( ! in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data']))
-								
-								--><div class="col {{ $item['css_class'] }}">
-									@include('form.'.$item['type'], [
-										'title' => (isset($item['title'])) ? $item['title'] : null,
-										'name' => $item_name, 
-										'options' => (isset($item['options'])) ? $item['options'] : null, 
-										'value' => (isset($item['value'])) ? $item['value'] : null,
-										'min' => (isset($item['min'])) ? $item['min'] : '1900-01-01',
-										'max' => (isset($item['max'])) ? $item['max'] : date('Y-m-d'),
-										'only_view' => (isset($only_view) and $only_view) ? true : false,
-										'config' => (isset($item['config'])) ? $item['config'] : []
-									])
-								</div><!--
 
+								@if ( ! isset($item['not_show_to']) or  ! in_array(Auth::user()->permissions, $item['not_show_to']))
+									
+									--><div class="col {{ $item['css_class'] }}">
+										@include('form.'.$item['type'], [
+											'title' => (isset($item['title'])) ? $item['title'] : null,
+											'name' => $item_name, 
+											'options' => (isset($item['options'])) ? $item['options'] : null, 
+											'value' => (isset($item['value'])) ? $item['value'] : null,
+											'min' => (isset($item['min'])) ? $item['min'] : '1900-01-01',
+											'max' => (isset($item['max'])) ? $item['max'] : date('Y-m-d'),
+											'only_view' => (isset($only_view) and $only_view) ? true : false,
+											'config' => (isset($item['config'])) ? $item['config'] : []
+										])
+									</div><!--
+
+								@endif
+							
 							@endif
 
 						@endforeach
