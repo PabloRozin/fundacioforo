@@ -116,6 +116,44 @@ class PatientController extends AdminController
 					'validation' => 'string|max:50',
 				],
 			],
+			'Dirección' => [
+				'patient_street' => [
+					'css_class' => 'col-1-4',
+					'type' => 'inputText',
+					'title' => 'Calle',
+					'validation' => 'string|max:50',
+				],
+				'patient_number' => [
+					'css_class' => 'col-1-12',
+					'type' => 'inputText',
+					'title' => 'Número',
+					'validation' => 'string',
+				],
+				'patient_flat' => [
+					'css_class' => 'col-1-12',
+					'type' => 'inputText',
+					'title' => 'Dpto.',
+					'validation' => 'string|max:50',
+				],
+				'patient_city' => [
+					'css_class' => 'col-1-4',
+					'type' => 'inputText',
+					'title' => 'Ciudad',
+					'validation' => 'string|max:50',
+				],
+				'patient_district' => [
+					'css_class' => 'col-1-4',
+					'type' => 'inputText',
+					'title' => 'Barrio',
+					'validation' => 'string|max:50',
+				],
+				'patient_postal_code' => [
+					'css_class' => 'col-1-12',
+					'type' => 'inputText',
+					'title' => 'C. postal',
+					'validation' => 'string|max:10',
+				],
+			],
 			'Otros' => [
 				'patient_studies' => [
 					'css_class' => 'col-1-4',
@@ -206,43 +244,11 @@ class PatientController extends AdminController
 					],
 					'validation' => 'in:allegado,pariente,padre,madre',
 				],
-			],
-			'Dirección' => [
-				'consultant_street' => [
+				'consultant_email' => [
 					'css_class' => 'col-1-4',
-					'type' => 'inputText',
-					'title' => 'Calle',
-					'validation' => 'string|max:50',
-				],
-				'consultant_number' => [
-					'css_class' => 'col-1-12',
-					'type' => 'inputText',
-					'title' => 'Número',
-					'validation' => 'string',
-				],
-				'consultant_flat' => [
-					'css_class' => 'col-1-12',
-					'type' => 'inputText',
-					'title' => 'Dpto.',
-					'validation' => 'string|max:50',
-				],
-				'consultant_city' => [
-					'css_class' => 'col-1-4',
-					'type' => 'inputText',
-					'title' => 'Ciudad',
-					'validation' => 'string|max:50',
-				],
-				'consultant_district' => [
-					'css_class' => 'col-1-4',
-					'type' => 'inputText',
-					'title' => 'Barrio',
-					'validation' => 'string|max:50',
-				],
-				'consultant_postal_code' => [
-					'css_class' => 'col-1-12',
-					'type' => 'inputText',
-					'title' => 'C. postal',
-					'validation' => 'string|max:10',
+					'type' => 'inputEmail',
+					'title' => 'Email',
+					'validation' => 'string|max:250',
 				],
 			],
 		],
@@ -278,6 +284,12 @@ class PatientController extends AdminController
 					'title' => 'Vínculo',
 					'validation' => 'string|max:50',
 				],
+				'significant_email_1' => [
+					'css_class' => 'col-1-4',
+					'type' => 'inputEmail',
+					'title' => 'Email',
+					'validation' => 'string|max:250',
+				],
 			],
 			'Persona significativa 2' => [
 				'significant_firstname_2' => [
@@ -310,6 +322,12 @@ class PatientController extends AdminController
 					'title' => 'Vínculo',
 					'validation' => 'string|max:50',
 				],
+				'significant_email_2' => [
+					'css_class' => 'col-1-4',
+					'type' => 'inputEmail',
+					'title' => 'Email',
+					'validation' => 'string|max:250',
+				],
 			],
 			'Persona significativa 3' => [
 				'significant_firstname_3' => [
@@ -341,6 +359,12 @@ class PatientController extends AdminController
 					'type' => 'inputText',
 					'title' => 'Vínculo',
 					'validation' => 'string|max:50',
+				],
+				'significant_email_3' => [
+					'css_class' => 'col-1-4',
+					'type' => 'inputEmail',
+					'title' => 'Email',
+					'validation' => 'string|max:250',
 				],
 			],
 		],
