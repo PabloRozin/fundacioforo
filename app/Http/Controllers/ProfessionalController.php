@@ -106,8 +106,9 @@ class ProfessionalController extends Controller
 					'css_class' => 'col-1-4',
 					'type' => 'inputEmail',
 					'title' => 'Email',
-					'validation' => 'string|max:250|required|unique:users',
+					'validation' => 'string|max:250|required|unique:users:professionals,email',
 					'user_data' => true,
+					'is_unique' => true,
 				],
 				'password' => [
 					'css_class' => 'col-1-4',
@@ -559,7 +560,11 @@ class ProfessionalController extends Controller
 				foreach ($itemSubroup as $itemName => $item) {
 					if ( ! in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data'])) {
 						if ( ! empty($item['validation'])) {
-							$validation[$itemName] = $item['validation'];
+							if (isset($item['is_unique']) and $item['is_unique']) {
+								$validation[$itemName] = $item['validation'].','.$patient->id;
+							} else {
+								$validation[$itemName] = $item['validation'];
+							}
 						}
 					}
 				}
