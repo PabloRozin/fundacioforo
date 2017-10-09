@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/register', function() {
-	abort(404);
-});
-
 Route::auth();
 
 // Admin
