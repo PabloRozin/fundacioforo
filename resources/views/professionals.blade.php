@@ -202,7 +202,7 @@
 						--></div>
 						<ul class="hc-item-options">
 							<li>
-								@if (in_array(Auth::user()->permissions, ['professional']) and $professional->user_id == Auth::user()->id)
+								@if ((in_array(Auth::user()->permissions, ['professional']) and $professional->user_id == Auth::user()->id) or in_array(Auth::user()->permissions, ['superadmin']))
 									<a href="{{ route('professionals.edit', ['id' => $professional['id']]) }}">Datos</a>
 								@else
 									<a href="{{ route('professionals.show', ['id' => $professional['id']]) }}">Datos</a>
