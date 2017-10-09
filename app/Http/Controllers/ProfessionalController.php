@@ -354,33 +354,26 @@ class ProfessionalController extends Controller
 			],
 		];
 
-		$data['professionals'] = Professional::orderBy('firstname', 'ASC');
+		$data['professionals'] = Professional::all();
 
-		$filters = false;
-		
-		foreach ($data['filters'] as $itemName => $filter) {
-			if ( ! empty($filter['value'])) {
-				if ( ! isset($filter['nested'])) {
-					$data['professionals'] = $data['professionals']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
-					echo $filter['type'];
-				} else {
-					$data['professionals'] = $data['professionals']->{$filter['type']}(function($query) use ($filter) {
-						foreach($filter['nested'] as $nestedName) {
-							$query->{$filter['nested_type']}($nestedName, 'like', '%'.$filter['value'].'%');
-						}
-					});
-				}
-				$filters = true;
-			}
+		foreach ($data['professionals'] as $key => $professional) {
+			
+			$password = rand();
+
+			$user = new User;
+			$user->name = $professional->firstname . ' ' . $professional->lastname;
+			$user->email = $professional->email;
+			$user->permissions = 'professional';
+			$user->password = Hash::make($password);
+
+			$user->save();
+
+			echo $user->name . '<br>' . $user->email . '<br>' . $password . '<br><br><br>';
+
+			$professional->user_id = $user->id;
+
+			$professional->save();
 		}
-
-		if ($filters) {
-			$data['back_url'] = route('professionals.index');
-		}
-
-		$data['professionals'] = $data['professionals']->paginate(20);
-
-		return view('professionals', $data);
 	}
 
 	/**
