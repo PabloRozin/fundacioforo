@@ -204,7 +204,7 @@ class PatientController extends AdminController
 						['id' => 'padre', 'value' => 'Padre'],
 						['id' => 'madre', 'value' => 'Madre'],
 					],
-					'validation' => 'in:allegado,pariente,padre_madre',
+					'validation' => 'in:allegado,pariente,padre,madre',
 				],
 			],
 			'Dirección' => [
