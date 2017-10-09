@@ -561,7 +561,7 @@ class ProfessionalController extends Controller
 					if ( ! in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data'])) {
 						if ( ! empty($item['validation'])) {
 							if (isset($item['is_unique']) and $item['is_unique']) {
-								$validation[$itemName] = $item['validation'].','.$patient->id;
+								$validation[$itemName] = $item['validation'].','.$professional->id;
 							} else {
 								$validation[$itemName] = $item['validation'];
 							}
