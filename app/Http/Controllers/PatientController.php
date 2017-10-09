@@ -1470,7 +1470,7 @@ class PatientController extends AdminController
 			];
 
 			$data['professions'] = [
-				'psicología' => 'Lic. Psicología',
+				'psicologia' => 'Lic. Psicología',
 				'psiquiatra' => 'Médico Psiquiatra',
 				'psicopedagogia' => 'Lic. Psicopedagogía',
 				'at' => 'A.T.',

@@ -60,13 +60,13 @@ class ProfessionalController extends Controller
 					'type' => 'select',
 					'title' => 'Profesión',
 					'options' => [
-						['id' => 'psicología', 'value' => 'Lic. Psicología'],
+						['id' => 'psicologia', 'value' => 'Lic. Psicología'],
 						['id' => 'psiquiatra', 'value' => 'Médico Psiquiatra'],
 						['id' => 'psicopedagogia', 'value' => 'Lic. Psicopedagogía'],
 						['id' => 'at', 'value' => 'A.T.'],
 						['id' => 'otros', 'value' => 'Otros'],
 					],
-					'validation' => 'in:psicología,psiquiatra,psicopedagogia,at,otros',
+					'validation' => 'in:psicologia,psiquiatra,psicopedagogia,at,otros',
 				],
 				'registration_number' => [
 					'css_class' => 'col-1-6',
