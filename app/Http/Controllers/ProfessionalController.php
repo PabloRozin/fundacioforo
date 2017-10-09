@@ -571,7 +571,7 @@ class ProfessionalController extends Controller
 		foreach ($this->professionalData as $key => $itemGroup) {
 			foreach ($itemGroup as $key => $itemSubroup) {
 				foreach ($itemSubroup as $itemName => $item) {
-					if ( ! in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data'])) {
+					if ($itemName != 'password'){
 						$professional->$itemName = $request->$itemName;
 					}
 				}
@@ -582,10 +582,8 @@ class ProfessionalController extends Controller
 
 		$user->name = $request->firstname.' '.$request->lastname;
 
-		if ( ! in_array(Auth::user()->permissions, ['professional']) or $professional->user_id != Auth::user()->id) {
-			if ( ! empty($request->password)) {
-				$user->password = Hash::make($request->password);
-			}
+		if ( ! empty($request->password)) {
+			$user->password = Hash::make($request->password);
 		}
 
 		$user->save();
