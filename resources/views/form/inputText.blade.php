@@ -13,5 +13,6 @@
 		@if($only_view)
 			disabled
 		@endif
+		autocomplete="off"
 	>
 </div>

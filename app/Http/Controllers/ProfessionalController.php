@@ -106,9 +106,9 @@ class ProfessionalController extends Controller
 					'css_class' => 'col-1-4',
 					'type' => 'inputEmail',
 					'title' => 'Email',
-					'validation' => 'string|max:250|required|unique:users:professionals,email',
+					'validation' => 'string|max:250|required|unique:users',
 					'user_data' => true,
-					'is_unique' => true,
+					'not_updatable' => true,
 				],
 				'password' => [
 					'css_class' => 'col-1-4',
@@ -521,6 +521,7 @@ class ProfessionalController extends Controller
 			'form_url' => route('professionals.update', ['id' => $id]),
 			'form_method' => 'PUT',
 			'title' => 'Profesional "' . $professional['firstname'] . ' ' . $professional['lastname'] . '"',
+			'edit' => true
 		];
 
 		foreach ($data['items'] as $key => &$itemGroup) {
@@ -559,12 +560,8 @@ class ProfessionalController extends Controller
 			foreach ($itemGroup as $key => $itemSubroup) {
 				foreach ($itemSubroup as $itemName => $item) {
 					if ( ! in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data'])) {
-						if ( ! empty($item['validation'])) {
-							if (isset($item['is_unique']) and $item['is_unique']) {
-								$validation[$itemName] = $item['validation'].','.$professional->id;
-							} else {
-								$validation[$itemName] = $item['validation'];
-							}
+						if ( ! empty($item['validation']) and ( ! isset($item['not_updatable']) or ! $item['not_updatable'])) {
+							$validation[$itemName] = $item['validation'];
 						}
 					}
 				}
@@ -576,7 +573,7 @@ class ProfessionalController extends Controller
 		foreach ($this->professionalData as $key => $itemGroup) {
 			foreach ($itemGroup as $key => $itemSubroup) {
 				foreach ($itemSubroup as $itemName => $item) {
-					if ($itemName != 'password'){
+					if ($itemName != 'password' and ( ! isset($item['not_updatable']) or ! $item['not_updatable'])){
 						$professional->$itemName = $request->$itemName;
 					}
 				}

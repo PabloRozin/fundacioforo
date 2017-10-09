@@ -21,7 +21,7 @@
 		@if (isset($only_view) and $only_view)
 			<div class="form">
 		@else
-			<form class="form" action="{{ $form_url }}" method="POST" enctype="multipart/form-data" autocomplete="false">
+			<form class="form" action="{{ $form_url }}" method="POST" enctype="multipart/form-data" autocomplete="off">
 		@endif
 
 			@if ($form_method == 'PUT')
@@ -61,6 +61,7 @@
 											'min' => (isset($item['min'])) ? $item['min'] : '1900-01-01',
 											'max' => (isset($item['max'])) ? $item['max'] : date('Y-m-d'),
 											'only_view' => (isset($only_view) and $only_view) ? true : false,
+											'not_updatable' => (isset($edit) and $edit and isset($item['not_updatable']) and $item['not_updatable']) ? true : false,
 											'config' => (isset($item['config'])) ? $item['config'] : []
 										])
 									</div><!--

@@ -3,7 +3,7 @@
 		<label for="{{ $name }}">{{ $title }}</label>
 	@endif
 	<input 
-		autocomplete="false"
+		autocomplete="off"
 		type="email"
 		name="{{ $name }}"
 		@if(isset($value)) 
@@ -11,7 +11,7 @@
 		@elseif(old($name))
 			value="{{ old($name) }}" 
 		@endif
-		@if($only_view)
+		@if($only_view or $not_updatable)
 			disabled
 		@endif
 	>
