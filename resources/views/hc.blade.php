@@ -74,7 +74,7 @@
 							@if (in_array(Auth::user()->permissions, ['superadmin', 'professional']))
 								--><div class="hc-item-data hc-detail hidden">
 									<div class="t">Evolución</div>
-									<div class="p">{{ nl2br($hc_date->detail) }}</div>
+									<div class="p">{!! nl2br($hc_date->detail) !!}</div>
 									@if( ! empty($hc_date['files']))
 										@foreach(explode(',', $hc_date['files']) as $file)
 											<div class="hc-item-data hc-file hidden" style="padding:0 10px 0 0">
