@@ -362,7 +362,6 @@ class ProfessionalController extends Controller
 			if ( ! empty($filter['value'])) {
 				if ( ! isset($filter['nested'])) {
 					$data['professionals'] = $data['professionals']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
-					echo $filter['type'];
 				} else {
 					$data['professionals'] = $data['professionals']->{$filter['type']}(function($query) use ($filter) {
 						foreach($filter['nested'] as $nestedName) {
