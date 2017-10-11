@@ -6,7 +6,6 @@
 	
 	<div class="center">
 
-		<!--
 		@if ($errors->any())
 			<div class="alert alert-danger">
 				<ul>
@@ -16,7 +15,6 @@
 				</ul>
 			</div>
 		@endif
-		-->
 
 		@if (isset($only_view) and $only_view)
 			<div class="form">

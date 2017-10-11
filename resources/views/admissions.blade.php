@@ -39,7 +39,7 @@
 						<div class="hc-item-data-cont"><!--
 							--><div class="hc-item-data admission-date">
 								<div class="t">Fecha</div>
-								<div class="p">{{ $admission->created_at }}</div>
+								<div class="p">{{ date('d-m-Y', strtotime($admission->created_at)) }}</div>
 							</div><!--
 						--></div>
 						<ul class="hc-item-options">

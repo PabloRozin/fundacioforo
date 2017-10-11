@@ -561,7 +561,9 @@ class ProfessionalController extends Controller
 				foreach ($itemSubroup as $itemName => $item) {
 					if ( ! in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data'])) {
 						if ( ! empty($item['validation']) and ( ! isset($item['not_updatable']) or ! $item['not_updatable'])) {
-							$validation[$itemName] = $item['validation'];
+							if ( ! isset($item['not_show_to']) or  ! in_array(Auth::user()->permissions, $item['not_show_to'])) {
+								$validation[$itemName] = $item['validation'];
+							}
 						}
 					}
 				}

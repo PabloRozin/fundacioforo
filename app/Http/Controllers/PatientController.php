@@ -90,8 +90,8 @@ class PatientController extends AdminController
 					'type' => 'select',
 					'title' => 'Habilitado',
 					'options' => [
-						['id' => 1, 'value' => 'Si'],
 						['id' => 0, 'value' => 'No'],
+						['id' => 1, 'value' => 'Si', 'defalut' => true],
 					],
 					'validation' => 'boolean',
 				],
@@ -1001,9 +1001,9 @@ class PatientController extends AdminController
 	public function index(Request $request)
 	{
 		$data['filters'] = [
-			'id' => [
+			'system_id' => [
 				'type' => 'where',	
-				'value' => $request->input('id'),
+				'value' => $request->input('system_id'),
 			],
 			'patient_document_number' => [
 				'type' => 'where',	
@@ -1021,6 +1021,10 @@ class PatientController extends AdminController
 				'type' => 'where',	
 				'value' => $request->input('patient_phone'),
 			],
+			'patient_cellphone' => [
+				'type' => 'where',	
+				'value' => $request->input('patient_cellphone'),
+			],
 			'patient_email_1' => [
 				'type' => 'where',	
 				'value' => $request->input('patient_email'),
@@ -1033,6 +1037,10 @@ class PatientController extends AdminController
 				'type' => 'where',	
 				'value' => $request->input('patient_email'),
 			],
+			'patient_state' => [
+				'type' => 'where',	
+				'value' => $request->input('patient_state'),
+			],
 		];
 
 		if (in_array(Auth::user()->permissions, ['professional'])) {
@@ -1041,13 +1049,13 @@ class PatientController extends AdminController
 
 			$data['patients'] = Patient::whereDoesntHave('professionals', function ($query) use ($data) {
 				$query->where('id', $data['professional']->id);
-			})->orderBy('patient_firstname', 'ASC');
+			})->orderBy('patient_firstname', 'ASC')->where('patient_state', 1);
 
 			$filters = false;
 
 			foreach ($data['filters'] as $itemName => $filter) {
 				if ( ! empty($filter['value'])) {
-					$data['patients'] = $data['patients']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
+					$data['patients'] = $data['patients']->{$filter['type']}($itemName, 'like', '%'.str_replace(' ','%',$filter['value']).'%');
 					$filters = true;
 				}
 			}
@@ -1058,7 +1066,7 @@ class PatientController extends AdminController
 
 			$data['patientsHighlight'] = Patient::whereHas('professionals', function ($query) use ($data) {
 				$query->where('id', $data['professional']->id);
-			})->orderBy('patient_firstname', 'ASC');
+			})->orderBy('patient_firstname', 'ASC')->where('patient_state', 1);
 
 			foreach ($data['filters'] as $itemName => $filter) {
 				if ( ! empty($filter['value'])) {
@@ -1081,6 +1089,10 @@ class PatientController extends AdminController
 					$data['patients'] = $data['patients']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
 					$filters = true;
 				}
+			}
+
+			if (in_array(Auth::user()->permissions, ['professional'])) {
+				$data['patients'] = $data['patients']->where('patient_state', 1);
 			}
 
 			if ($filters) {

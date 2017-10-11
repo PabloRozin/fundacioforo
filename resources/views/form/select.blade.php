@@ -7,7 +7,14 @@
 	>
 		@foreach ($options as $option)
 			<option value="{{ $option['id'] }}" 
-				@if($option['id'] == $value or $option['id'] == old($name)) selected @endif >{{ $option['value'] }}
+				@if($option['id'] == $value or $option['id'] == old($name)) 
+					selected
+				@elseif (isset($option['defalut']) and $option['defalut'])
+					selected
+				@endif 
+
+			>
+				{{ $option['value'] }}
 			</option>
 		@endforeach
 	</select>

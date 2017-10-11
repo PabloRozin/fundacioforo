@@ -39,16 +39,22 @@
 					</div>
 					
 					<div class="item">
-						<input type="email" name="patient_email" placeholder="Email">
+						<input type="text" name="patient_cellphone" placeholder="Celular">
 					</div>
 					
 					<div class="item">
-						<select name="estado">
-							<option value="">Habilitado</option>
-							<option value="1">Si</option>
-							<option value="0">No</option>
-						</select>
+						<input type="email" name="patient_email" placeholder="Email">
 					</div>
+					
+					@if (in_array(Auth::user()->permissions, ['superadmin']))
+						<div class="item">
+							<select name="patient_state">
+								<option value="">Habilitado</option>
+								<option value="1">Si</option>
+								<option value="0">No</option>
+							</select>
+						</div>
+					@endif
 
 					<div class="item">
 						<button type="submit" class="btn">Buscar</button>
