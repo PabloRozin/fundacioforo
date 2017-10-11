@@ -123,7 +123,7 @@ class ProfessionalController extends Controller
 					'type' => 'select',
 					'title' => 'Habilitado',
 					'options' => [
-						['id' => 1, 'value' => 'Si'],
+						['id' => 1, 'value' => 'Si', 'defalut' => true],
 						['id' => 0, 'value' => 'No'],
 					],
 					'validation' => 'boolean',
@@ -357,6 +357,10 @@ class ProfessionalController extends Controller
 
 		$data['professionals'] = Professional::orderBy('firstname', 'ASC');
 
+		if ( ! in_array(Auth::user()->permissions, ['superadmin'])) {
+			$data['professionals'] = $data['professionals']->where('state', 1);
+		}
+
 		$filters = false;
 		
 		foreach ($data['filters'] as $itemName => $filter) {
@@ -476,6 +480,12 @@ class ProfessionalController extends Controller
 	public function show(Request $request, $id)
 	{
 		$professional = Professional::findOrFail($id);
+
+		if (in_array(Auth::user()->permissions, ['superadmin'])) {
+			$professional = Professional::findOrFail($id);
+		} else {
+			$professional = Professional::where('state', 1)->where('id', $id)->firstOrFail();
+		}
 
 		$data = [
 			'items' => $this->professionalData,

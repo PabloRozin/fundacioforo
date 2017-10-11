@@ -1091,7 +1091,7 @@ class PatientController extends AdminController
 				}
 			}
 
-			if (in_array(Auth::user()->permissions, ['professional'])) {
+			if ( ! in_array(Auth::user()->permissions, ['superadmin'])) {
 				$data['patients'] = $data['patients']->where('patient_state', 1);
 			}
 
@@ -1182,7 +1182,11 @@ class PatientController extends AdminController
 	 */
 	public function show(Request $request, $id)
 	{
-		$patient = Patient::findOrFail($id);
+		if (in_array(Auth::user()->permissions, ['superadmin'])) {
+			$patient = Patient::findOrFail($id);
+		} else {
+			$patient = Patient::where('state', 1)->where('id', $id)->firstOrFail();
+		}
 
 		$data = [
 			'items' => $this->patientData,
@@ -1212,7 +1216,11 @@ class PatientController extends AdminController
 	 */
 	public function edit(Request $request, $id)
 	{
-		$patient = Patient::findOrFail($id);
+		if (in_array(Auth::user()->permissions, ['superadmin'])) {
+			$patient = Patient::findOrFail($id);
+		} else {
+			$patient = Patient::where('state', 1)->where('id', $id)->firstOrFail();
+		}
 
 		if ( ! in_array(Auth::user()->permissions, ['superadmin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
