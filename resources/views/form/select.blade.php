@@ -9,7 +9,7 @@
 			<option value="{{ $option['id'] }}" 
 				@if($option['id'] == $value or $option['id'] == old($name)) 
 					selected
-				@elseif (isset($option['defalut']) and $option['defalut'])
+				@elseif ( ! isset($value) and isset($option['defalut']) and $option['defalut'])
 					selected
 				@endif 
 
