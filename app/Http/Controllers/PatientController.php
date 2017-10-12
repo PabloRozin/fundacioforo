@@ -1185,7 +1185,7 @@ class PatientController extends AdminController
 		if (in_array(Auth::user()->permissions, ['superadmin'])) {
 			$patient = Patient::findOrFail($id);
 		} else {
-			$patient = Patient::where('state', 1)->where('id', $id)->firstOrFail();
+			$patient = Patient::where('patient_state', 1)->where('id', $id)->firstOrFail();
 		}
 
 		$data = [
@@ -1219,7 +1219,7 @@ class PatientController extends AdminController
 		if (in_array(Auth::user()->permissions, ['superadmin'])) {
 			$patient = Patient::findOrFail($id);
 		} else {
-			$patient = Patient::where('state', 1)->where('id', $id)->firstOrFail();
+			$patient = Patient::where('patient_state', 1)->where('id', $id)->firstOrFail();
 		}
 
 		if ( ! in_array(Auth::user()->permissions, ['superadmin', 'professional'])) {
