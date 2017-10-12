@@ -32,7 +32,7 @@
 
 	<!-- Styles -->
 	<link href="{{ asset('/js/dropzone/dropzone.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('/css/web.css') }}" rel="stylesheet">
+	<link href="{{ asset('/css/web.css') }}?1" rel="stylesheet">
 
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700" rel="stylesheet">
