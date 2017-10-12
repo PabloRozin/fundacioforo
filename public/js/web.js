@@ -1,4 +1,23 @@
-$(document).ready( function()
+$(document).ready(function()
+{
+	resize();
+});
+$(window).resize(function()
+{
+	resize();
+});
+function resize() 
+{
+	$('.fotocentrada').each(function()
+	{
+		
+	});
+}
+
+
+
+
+$(document).ready(function()
 {
 	on_scroll();
 	resize();
