@@ -479,8 +479,6 @@ class ProfessionalController extends Controller
 	 */
 	public function show(Request $request, $id)
 	{
-		$professional = Professional::findOrFail($id);
-
 		if (in_array(Auth::user()->permissions, ['superadmin'])) {
 			$professional = Professional::findOrFail($id);
 		} else {
@@ -515,7 +513,11 @@ class ProfessionalController extends Controller
 	 */
 	public function edit(Request $request, $id)
 	{
-		$professional = Professional::findOrFail($id);
+		if (in_array(Auth::user()->permissions, ['superadmin'])) {
+			$professional = Professional::findOrFail($id);
+		} else {
+			$professional = Professional::where('state', 1)->where('id', $id)->firstOrFail();
+		}
 
 		if ( ! in_array(Auth::user()->permissions, ['superadmin']) and 
 			( ! in_array(Auth::user()->permissions, ['professional']) or $professional->user_id != Auth::user()->id)
