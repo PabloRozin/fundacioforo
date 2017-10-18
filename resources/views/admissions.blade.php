@@ -46,7 +46,9 @@
 							</div><!--
 							--><div class="hc-item-data admission-professional">
 								<div class="t">Profesional</div>
-								<div class="p">{{ $admission->professional->firstname }} {{ $admission->professional->lastname }}</div>
+								@if ($admission->professional)
+									<div class="p">{{ $admission->professional->firstname }} {{ $admission->professional->lastname }}</div>
+								@endif
 							</div><!--
 						--></div>
 						<ul class="hc-item-options">
