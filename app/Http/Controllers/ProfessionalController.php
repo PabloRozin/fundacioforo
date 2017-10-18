@@ -9,6 +9,8 @@ use App\Professional;
 use App\User;
 use Auth;
 use Hash;
+use Storage;
+use Dompdf\Dompdf;
 
 class ProfessionalController extends Controller
 {
@@ -668,9 +670,15 @@ class ProfessionalController extends Controller
 
 		if ($request->pdf) {
 			$view =  \View::make('pdf.professionalsReport', $data)->render();
-			$pdf = \App::make('dompdf.wrapper');
+			
+			$pdf = new Dompdf();
+
 			$pdf->loadHTML($view);
-			$pdf->output();
+			$pdf->setPaper('A4');
+			$pdf->render();
+			$canvas = $pdf->get_canvas();
+			$canvas->page_text(15, 15, '{PAGE_NUM} de {PAGE_COUNT}', null, 10, array(0, 0, 0));
+
 			return $pdf->stream('reporte_professionales_'.$data['since'].'_'.$data['to'].'.pdf');
 		}
 
