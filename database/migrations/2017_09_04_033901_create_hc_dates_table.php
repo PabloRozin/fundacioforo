@@ -22,9 +22,8 @@ class CreateHcDatesTable extends Migration
 
             $table->text('type_info')->nullable();
             $table->text('detail')->nullable();
-            $table->string('file_1')->nullable();
-            $table->string('file_2')->nullable();
-            $table->string('file_3')->nullable();
+            $table->string('files')->nullable();
+            $table->boolean('is_consultation')->nullable();
             $table->string('type')->nullable();
         });
     }
