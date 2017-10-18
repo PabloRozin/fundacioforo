@@ -85,4 +85,12 @@ class PatientAdmision extends Model
 	{
 		return $this->belongsTo('App\Patient');
 	}
+
+	/**
+	* Get the professional that owns the admision.
+	*/
+	public function professional()
+	{
+		return $this->belongsTo('App\Professional');
+	}
 }

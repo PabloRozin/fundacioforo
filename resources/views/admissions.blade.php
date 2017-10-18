@@ -29,6 +29,9 @@
 						--><div class="hc-item-data admission-date">
 							<div class="t">Fecha</div>
 						</div><!--
+						--><div class="hc-item-data admission-professional">
+							<div class="t">Profesional</div>
+						</div><!--
 					--></div>
 				</div>
 			</div>
@@ -40,6 +43,10 @@
 							--><div class="hc-item-data admission-date">
 								<div class="t">Fecha</div>
 								<div class="p">{{ date('d-m-Y', strtotime($admission->created_at)) }}</div>
+							</div><!--
+							--><div class="hc-item-data admission-professional">
+								<div class="t">Profesional</div>
+								<div class="p">{{ $admission->professional->firstname }} {{ $admission->professional->lastname }}</div>
 							</div><!--
 						--></div>
 						<ul class="hc-item-options">

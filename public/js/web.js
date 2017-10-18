@@ -1,24 +1,5 @@
 $(document).ready(function()
 {
-	resize();
-});
-$(window).resize(function()
-{
-	resize();
-});
-function resize() 
-{
-	$('.fotocentrada').each(function()
-	{
-		
-	});
-}
-
-
-
-
-$(document).ready(function()
-{
 	on_scroll();
 	resize();
 	menu();
@@ -93,7 +74,11 @@ $(document).ready(function()
 
 				if(input.val() != textarea.attr('data-value'))
 				{
-					textarea.val('');
+					textarea.find('textarea').remove();
+				}
+				else
+				{
+					textarea.append('<textarea required data-value="'+textarea.attr('data-value')+'" data-target="'+textarea.attr('data-target')+'" name="'+textarea.attr('data-name')+'"></textarea required>');
 				}
 			});
 		});

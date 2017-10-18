@@ -12,12 +12,7 @@
 					@if($only_view) disabled @endif
 				> {{ $option['value'] }}
 				@if (isset($option['with_text']) and $option['with_text'])
-					<textarea class="radio-text" data-value="{{ $option['id'] }}" data-target=".radio-input-{{ $name }}-{{ $option['id'] }}"
-						name="{{ $option['with_text'] }}"
-						@if($only_view)
-							disabled
-						@endif
-					>@if(isset($option['with_text_value'])) {{ $option['with_text_value'] }} @elseif (old($name)) {{ old($option['with_text']) }} @endif</textarea>
+					<div class="radio-text" data-value="{{ $option['id'] }}" data-target=".radio-input-{{ $name }}-{{ $option['id'] }}" data-name="{{ $option['with_text'] }}"></div>
 				@endif
 			</label>
 		@endforeach
