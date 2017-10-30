@@ -1,6 +1,8 @@
 <?php
 
-echo date_default_timezone_get();
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+
+echo date();
 
 /**
  * Laravel - A PHP Framework For Web Artisans
