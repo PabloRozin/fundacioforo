@@ -1,5 +1,7 @@
 <?php
 
+echo date_default_timezone_get();
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
