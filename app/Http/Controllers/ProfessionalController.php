@@ -12,7 +12,7 @@ use Hash;
 use Storage;
 use Dompdf\Dompdf;
 
-class ProfessionalController extends Controller
+class ProfessionalController extends AdminController
 {
 	private $professionalData = [
 		'Datos generales' => [
