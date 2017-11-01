@@ -55,7 +55,7 @@
 						<div class="hc-item-data-cont hc"><!--
 							--><div class="hc-item-data hc-date">
 								<div class="t">Fecha consulta</div>
-								<div class="p">{{ date('d-m-Y', strtotime($hc_date->created_at)) }}</div>
+								<div class="p">{{ $hc_date->created_at }}</div>
 							</div><!--
 							--><div class="hc-item-data hc-tipo">
 								<div class="t">Tipo de consulta</div>

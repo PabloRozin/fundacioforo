@@ -114,4 +114,18 @@ class Patient extends Model
     {
         return $this->belongsToMany('App\Professional');
     }
+
+	public function getCreatedAtAttribute($value)
+    {
+    	$date = date('Y-m-d h:i:s', strtotime($value) - 10800);
+
+        return $date;
+    }
+
+	public function getUpdatedAtAttribute($value)
+    {
+    	$date = date('Y-m-d h:i:s', strtotime($value) - 10800);
+
+        return $date;
+    }
 }
