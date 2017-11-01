@@ -430,8 +430,18 @@ class ProfessionalController extends Controller
 		$validation = [];
 
 		foreach ($this->professionalData as $key => $itemGroup) {
+			if ( ! empty($key)) {
+				$validationName = $key;
+			}
 			foreach ($itemGroup as $key => $itemSubroup) {
+				if ( ! empty($key)) {
+					$validationName = $key;
+				}
 				foreach ($itemSubroup as $itemName => $item) {
+					if ( ! empty($item['title'])) {
+						$validationName = $item['title'];
+					}
+					$validationNames[$itemName] = $validationName;
 					if ( ! empty($item['validation'])) {
 						$validation[$itemName] = $item['validation'];
 					}
@@ -441,7 +451,7 @@ class ProfessionalController extends Controller
 
 		$validation['password'] = $validation['password'].'|required';
 
-		$this->validate($request, $validation);
+		$this->validate($request, $validation, array(), $validationNames);
 
 		$professional = new Professional;
 
@@ -571,8 +581,18 @@ class ProfessionalController extends Controller
 		$validation = [];
 
 		foreach ($this->professionalData as $key => $itemGroup) {
+			if ( ! empty($key)) {
+				$validationName = $key;
+			}
 			foreach ($itemGroup as $key => $itemSubroup) {
+				if ( ! empty($key)) {
+					$validationName = $key;
+				}
 				foreach ($itemSubroup as $itemName => $item) {
+					if ( ! empty($item['title'])) {
+						$validationName = $item['title'];
+					}
+					$validationNames[$itemName] = $validationName;
 					if ( ! in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data'])) {
 						if ( ! empty($item['validation']) and ( ! isset($item['not_updatable']) or ! $item['not_updatable'])) {
 							if ( ! isset($item['not_show_to']) or  ! in_array(Auth::user()->permissions, $item['not_show_to'])) {
@@ -584,7 +604,7 @@ class ProfessionalController extends Controller
 			}
 		}
 
-		$this->validate($request, $validation);
+		$this->validate($request, $validation, array(), $validationNames);
 
 		foreach ($this->professionalData as $key => $itemGroup) {
 			foreach ($itemGroup as $key => $itemSubroup) {
@@ -632,7 +652,12 @@ class ProfessionalController extends Controller
 			'to' => 'required|date',
 		];
 
-		$this->validate($request, $validation);
+		$validationNames = [
+			'since' => 'Desde',
+			'to' => 'Hasta',
+		];
+
+		$this->validate($request, $validation, array(), $validationNames);
 
 		$data = [
 			'back_url' => route('professionals.index'),
@@ -665,8 +690,6 @@ class ProfessionalController extends Controller
 		}
 
 		$data['professionals'] = $data['professionals']->get();
-
-		$this->validate($request, $validation);
 
 		if ($request->pdf) {
 			$view =  \View::make('pdf.professionalsReport', $data)->render();

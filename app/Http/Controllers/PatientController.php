@@ -1146,16 +1146,27 @@ class PatientController extends AdminController
 		$validation = [];
 
 		foreach ($this->patientData as $key => $itemGroup) {
+			if ( ! empty($key)) {
+				$validationName = $key;
+			}
 			foreach ($itemGroup as $key => $itemSubroup) {
+				if ( ! empty($key)) {
+					$validationName = $key;
+				}
 				foreach ($itemSubroup as $itemName => $item) {
+					if ( ! empty($item['title'])) {
+						$validationName = $item['title'];
+					}
 					if ( ! empty($item['validation'])) {
 						$validation[$itemName] = $item['validation'];
+
+						$validationNames[$itemName] = $validationName;
 					}
 				}
 			}
 		}
 
-		$this->validate($request, $validation);
+		$this->validate($request, $validation, array(), $validationNames);
 
 		$patient = new Patient;
 
@@ -1267,20 +1278,30 @@ class PatientController extends AdminController
 		$validation = [];
 
 		foreach ($this->patientData as $key => $itemGroup) {
+			if ( ! empty($key)) {
+				$validationName = $key;
+			}
 			foreach ($itemGroup as $key => $itemSubroup) {
+				if ( ! empty($key)) {
+					$validationName = $key;
+				}
 				foreach ($itemSubroup as $itemName => $item) {
+					if ( ! empty($item['title'])) {
+						$validationName = $item['title'];
+					}
 					if ( ! empty($item['validation'])) {
 						if (isset($item['is_unique']) and $item['is_unique']) {
 							$validation[$itemName] = $item['validation'].','.$patient->id;
 						} else {
 							$validation[$itemName] = $item['validation'];
 						}
+						$validationNames[$itemName] = $validationName;
 					}
 				}
 			}
 		}
 
-		$this->validate($request, $validation);
+		$this->validate($request, $validation, array(), $validationNames);
 
 		foreach ($this->patientData as $key => $itemGroup) {
 			foreach ($itemGroup as $key => $itemSubroup) {
@@ -1316,7 +1337,12 @@ class PatientController extends AdminController
 			'to' => 'required|date',
 		];
 
-		$this->validate($request, $validation);
+		$validationNames = [
+			'since' => 'Desde',
+			'to' => 'Hasta',
+		];
+
+		$this->validate($request, $validation, array(), $validationNames);
 
 		$data = [
 			'back_url' => route('patients.index'),
@@ -1437,16 +1463,26 @@ class PatientController extends AdminController
 		$validation = [];
 
 		foreach ($this->patientAdmitionData as $key => $itemGroup) {
+			if ( ! empty($key)) {
+				$validationName = $key;
+			}
 			foreach ($itemGroup as $key => $itemSubroup) {
+				if ( ! empty($key)) {
+					$validationName = $key;
+				}
 				foreach ($itemSubroup as $itemName => $item) {
+					if ( ! empty($item['title'])) {
+						$validationName = $item['title'];
+					}
 					if ( ! empty($item['validation'])) {
 						$validation[$itemName] = $item['validation'];
+						$validationNames[$itemName] = $validationName;
 					}
 				}
 			}
 		}
 
-		$this->validate($request, $validation);
+		$this->validate($request, $validation, array(), $validationNames);
 
 		$patientAdmision->patient_id = $patient_id;
 
@@ -1592,16 +1628,26 @@ class PatientController extends AdminController
 		$validation = [];
 
 		foreach ($this->patientHCData as $key => $itemGroup) {
+			if ( ! empty($key)) {
+				$validationName = $key;
+			}
 			foreach ($itemGroup as $key => $itemSubroup) {
+				if ( ! empty($key)) {
+					$validationName = $key;
+				}
 				foreach ($itemSubroup as $itemName => $item) {
+					if ( ! empty($item['title'])) {
+						$validationName = $item['title'];
+					}
 					if ( ! empty($item['validation'])) {
 						$validation[$itemName] = $item['validation'];
+						$validationNames[$itemName] = $validationName;
 					}
 				}
 			}
 		}
 
-		$this->validate($request, $validation);
+		$this->validate($request, $validation, array(), $validationNames);
 
 		$patient = Patient::findOrFail($patient_id);
 		$professional = Professional::where('user_id', Auth::user()->id)->first();
