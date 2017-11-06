@@ -125,8 +125,8 @@ class ProfessionalController extends AdminController
 					'type' => 'select',
 					'title' => 'Habilitado',
 					'options' => [
-						['id' => 1, 'value' => 'Si', 'defalut' => true],
 						['id' => 0, 'value' => 'No'],
+						['id' => 1, 'value' => 'Si', 'defalut' => true],
 					],
 					'validation' => 'boolean',
 					'user_data' => true,
