@@ -1,4 +1,4 @@
-<table cellpadding="0" cellspacing="0" style="widows:185mm;font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
+<table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
 	<tr>
 		<td style="width:185mm;text-align:center;">
 			<img src="{{ public_path() }}/images/fundacionforo-logo.png" alt="Fundación Foro">
@@ -9,7 +9,7 @@
 	</tr>
 </table>
 
-<table cellpadding="0" cellspacing="0" style="widows:185mm;border-bottom:solid 1px #d9d9d9;font-size:13px;color:#333;line-height:13px;font-weight:300;text-transform:uppercase;font-family:Helvetica;">
+<table cellpadding="0" cellspacing="0" style="margin-bottom:-15px;border-bottom:solid 1px #d9d9d9;font-size:13px;color:#333;line-height:13px;font-weight:300;text-transform:uppercase;font-family:Helvetica;">
 	<tr>
 		<td style="width:15mm;padding-bottom:10px;">Id</td>
 		<td style="width:50mm;padding-bottom:10px;">Nombre</td>
@@ -21,6 +21,18 @@
 	$actualProfessional = 0;
 ?>
 @foreach($professionals as $key => $professional)
+	@if ($actualProfessional != $professional->id)
+		<table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
+			<tr>
+				<td style="padding:15px 0 0 0">
+				</td>
+				<td style="padding:15px 0 0 0">
+				</td>
+				<td style="padding:15px 0 0 0">
+				</td>
+			</tr>
+		</table>
+	@endif
 	<?php 
 		if ($actualProfessional != $professional->id) 
 		{
@@ -32,39 +44,40 @@
 		<?php 
 			$firstConsultation = true;
 		?>
-		<table cellpadding="0" cellspacing="0" style="widows:185mm;font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
-			<tr>
-				<?php if ($firstProfessional): ?>
-					<td style="vertical-align:top;width:15mm;border-top:solid 1px #d9d9d9;padding:5px 0;">
+		<?php if ($firstProfessional): ?>
+			<table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
+				<tr>
+					<td style="vertical-align:top;width:15mm;margin-top:5px;border-top:solid 1px #d9d9d9;padding:15px 0 0 0;">
 						{{ $professional->id }}
 					</td>
-					<td style="vertical-align:top;width:50mm;border-top:solid 1px #d9d9d9;padding:5px 0;">
+					<td style="vertical-align:top;width:50mm;margin-top:5px;border-top:solid 1px #d9d9d9;padding:15px 0 0 0;">
 						{{ $professional->firstname }} {{ $professional->lastname }}
 					</td>
-					<td style="vertical-align:top;width:120mm;border-top:solid 1px #d9d9d9;padding:5px 0;">
-				<?php endif ?>
-					<?php $hcDates = $professional->hcDates()
-						->select('hc_dates.*', 'patients.id')
-						->join('patients', 'patients.id', '=', 'hc_dates.patient_id')
-						->orderBy('patients.patient_firstname','ASC')
-						->where('hc_dates.created_at', '>=', $since.' 00:00:00')
-						->where('hc_dates.created_at', '<=', $to.' 23:59:59')
-						->where('type', $consultationType['id']);
-						if (in_array(Auth::user()->permissions, ['administrator']))
-							$hcDates = $hcDates->where('type', '!=', 'otros');
-						?>
-					@if ($hcDates->count())
-						<?php if ($firstProfessional): ?>
-							<td style="vertical-align:top;width:120mm;border-top:solid 1px #d9d9d9;padding:5px 0;">
-						<?php else: ?>
-							<td style="vertical-align:top;width:15mm;padding: 0 0 5px 0;">
-							</td>
-							<td style="vertical-align:top;width:50mm;padding: 0 0 5px 0;">
-							</td>
-							<td style="vertical-align:top;width:120mm;padding: 0 0 5px 0;">
-						<?php endif ?>
+					<td style="vertical-align:top;width:120mm;margin-top:5px;border-top:solid 1px #d9d9d9;padding:15px 0 0 0;">
+					</td>
+				</tr>
+			</table>
+		<?php endif ?>
+		<?php $hcDates = $professional->hcDates()
+			->select('hc_dates.*', 'patients.id')
+			->join('patients', 'patients.id', '=', 'hc_dates.patient_id')
+			->orderBy('patients.patient_firstname','ASC')
+			->where('hc_dates.created_at', '>=', $since.' 00:00:00')
+			->where('hc_dates.created_at', '<=', $to.' 23:59:59')
+			->where('type', $consultationType['id']);
+		if (in_array(Auth::user()->permissions, ['administrator']))
+			$hcDates = $hcDates->where('type', '!=', 'otros');
+		?>
+		@if ($hcDates->count())
+			<table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
+				<tr>
+					<td style="vertical-align:top;width:15mm;">
+					</td>
+					<td style="vertical-align:top;width:50mm;">
+					</td>
+					<td style="vertical-align:top;width:120mm;">
 						@if ( ! $firstConsultation)
-							<br><br>
+							<br>
 						@endif
 						<?php 
 							$actualpatient = 0;
@@ -72,7 +85,17 @@
 						?>
 						<strong>{{ $consultationType['value'] }}</strong>
 						({{ $hcDates->count() }})
-						@foreach ($hcDates->get() as $key => $hcDate)
+					</td>
+				</tr>
+			</table>
+			@foreach ($hcDates->get() as $key => $hcDate)
+				<table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
+					<tr>
+						<td style="vertical-align:top;width:15mm;">
+						</td>
+						<td style="vertical-align:top;width:50mm;">
+						</td>
+						<td style="vertical-align:top;width:120mm;">
 							@if ($actualpatient != $hcDate->patient->id)
 								<br>
 								<em>
@@ -86,21 +109,21 @@
 										if (in_array(Auth::user()->permissions, ['administrator']))
 											$hcDatesActual = $hcDatesActual->where('type', '!=', 'otros');
 										echo $hcDatesActual->count();
-		 							?>)
+										?>)
 								</em>
 								<?php $actualpatient = $hcDate->patient->id ?>
+								<br>
 							@endif
-							<br>
 							- Fecha: {{ date('d-m-Y', strtotime($hcDate->created_at)) }}
 							@if ($consultationType['id'] == 'otros' and ! empty($hcDate->type_info))
 								/ Info: {{ $hcDate->type_info }}
 							@endif
-						@endforeach
-					@endif
-				</td>
-			</tr>
-		</table>
-		<?php $firstProfessional = false; ?>
+						</td>
+					</tr>
+				</table>
+			@endforeach
+		@endif
+	<?php $firstProfessional = false; ?>
 	@endforeach
 @endforeach
 <table>

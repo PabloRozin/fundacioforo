@@ -692,6 +692,7 @@ class ProfessionalController extends AdminController
 		$data['professionals'] = $data['professionals']->get();
 
 		if ($request->pdf) {
+			
 			$view =  \View::make('pdf.professionalsReport', $data)->render();
 			
 			$pdf = new Dompdf();
