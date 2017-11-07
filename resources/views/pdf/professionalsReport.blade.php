@@ -17,32 +17,18 @@
 	</tr>
 </table>
 
-@foreach($professionals as $key => $professional)
-	<?php 
-		$firstProfessional = true 
-	?>
-	@foreach ($consultationTypes as $key => $consultationType)
-		<?php 
-			$firstConsultation = true 
-		?>
-		<table cellpadding="0" cellspacing="0" style="widows:185mm;font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
-			<tr>
-				<?php if ($firstProfessional): ?>
-					<?php $firstConsultation = false;?>
-					<td style="vertical-align:top;width:15mm;border-bottom:solid 1px #d9d9d9;padding:5px 0;">
-						{{ $professional->id }}
-					</td>
-					<td style="vertical-align:top;width:50mm;border-bottom:solid 1px #d9d9d9;padding:5px 0;">
-						{{ $professional->firstname }} {{ $professional->lastname }}
-					</td>
-					<td style="vertical-align:top;width:120mm;border-bottom:solid 1px #d9d9d9;padding:5px 0;">
-				<?php else: ?>
-					<td style="vertical-align:top;width:15mm;">
-					</td>
-					<td style="vertical-align:top;width:50mm;">
-					</td>
-					<td style="vertical-align:top;width:120mm;">
-				<?php endif ?>
+<table cellpadding="0" cellspacing="0" style="widows:185mm;font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
+	@foreach($professionals as $key => $professional)
+		<tr>
+			<td style="vertical-align:top;width:15mm;border-bottom:solid 1px #d9d9d9;padding:5px 0;">
+				{{ $professional->id }}
+			</td>
+			<td style="vertical-align:top;width:50mm;border-bottom:solid 1px #d9d9d9;padding:5px 0;">
+				{{ $professional->firstname }} {{ $professional->lastname }}
+			</td>
+			<td style="vertical-align:top;width:120mm;border-bottom:solid 1px #d9d9d9;padding:5px 0;">
+				<?php $first = true ?>
+				@foreach ($consultationTypes as $key => $consultationType)
 					<?php $hcDates = $professional->hcDates()
 						->select('hc_dates.*', 'patients.id')
 						->join('patients', 'patients.id', '=', 'hc_dates.patient_id')
@@ -54,12 +40,12 @@
 							$hcDates = $hcDates->where('type', '!=', 'otros');
 						?>
 					@if ($hcDates->count())
-						@if ( ! $firstConsultation)
+						@if ( ! $first)
 							<br><br>
 						@endif
 						<?php 
 							$actualpatient = 0;
-							$firstConsultation = false;
+							$first = false;
 						?>
 						<strong>{{ $consultationType['value'] }}</strong>
 						({{ $hcDates->count() }})
@@ -88,35 +74,29 @@
 							@endif
 						@endforeach
 					@endif
-				</td>
-				<td style="vertical-align:top;width:15mm;">
-				</td>
-				<td style="vertical-align:top;width:50mm;">
-				</td>
-				<td style="vertical-align:top;width:120mm;">
-					<?php $admisions = $professional->admissions()
-						->select('patient_admisions.*', 'professionals.id', 'professionals.user_id', 'patients.patient_firstname as patient_firstname', 'patients.patient_lastname as patient_lastname')
-						->join('professionals', 'professionals.id', '=', 'patient_admisions.professional_id')
-						->join('patients', 'patients.id', '=', 'patient_admisions.patient_id')
-						->orderBy('professionals.firstname','ASC')
-						->orderBy('patient_admisions.created_at','ASC')
-						->where('patient_admisions.created_at', '>=', $since.' 00:00:00')
-						->where('patient_admisions.created_at', '<=', $to.' 23:59:59');
-						?>
-					@if (in_array(Auth::user()->permissions, ['professional']))
-						<?php $admisions = $admisions->where('professionals.user_id', '=', Auth::user()->id); ?>
-					@endif
-					@if ($admisions->count())
-						<br><br>
-						<strong>Admisiones</strong>
-						({{ $admisions->count() }})
-						@foreach ($admisions->get() as $key => $admision)
-							<br>
-							- Fecha: {{ date('d-m-Y', strtotime($admision->created_at)) }} / Paciente: {{ $admision->patient_firstname }} {{ $admision->patient_lastname }}
-						@endforeach
-					@endif
-				</td>
-			</tr>
-		</table>
+				@endforeach
+				<?php $admisions = $professional->admissions()
+					->select('patient_admisions.*', 'professionals.id', 'professionals.user_id', 'patients.patient_firstname as patient_firstname', 'patients.patient_lastname as patient_lastname')
+					->join('professionals', 'professionals.id', '=', 'patient_admisions.professional_id')
+					->join('patients', 'patients.id', '=', 'patient_admisions.patient_id')
+					->orderBy('professionals.firstname','ASC')
+					->orderBy('patient_admisions.created_at','ASC')
+					->where('patient_admisions.created_at', '>=', $since.' 00:00:00')
+					->where('patient_admisions.created_at', '<=', $to.' 23:59:59');
+					?>
+				@if (in_array(Auth::user()->permissions, ['professional']))
+					<?php $admisions = $admisions->where('professionals.user_id', '=', Auth::user()->id); ?>
+				@endif
+				@if ($admisions->count())
+					<br><br>
+					<strong>Admisiones</strong>
+					({{ $admisions->count() }})
+					@foreach ($admisions->get() as $key => $admision)
+						<br>
+						- Fecha: {{ date('d-m-Y', strtotime($admision->created_at)) }} / Paciente: {{ $admision->patient_firstname }} {{ $admision->patient_lastname }}
+					@endforeach
+				@endif
+			</td>
+		</tr>
 	@endforeach
-@endforeach
+</table>
