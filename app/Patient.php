@@ -131,7 +131,7 @@ class Patient extends Model
 
     public function scopeDateWhere($query, $name, $operator = '=', $date)
 	{
-		$date = date('Y-m-d h:i:s', strtotime($date) - 10800);
+		$date = date('Y-m-d h:i:s', strtotime($date) + 10800);
 		
 	    $query->where($name, $operator, $date);
 	}
