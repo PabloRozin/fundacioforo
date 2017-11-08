@@ -678,8 +678,8 @@ class ProfessionalController extends AdminController
 		$data['pdf_url'] = route('professionals.report', ['professional_id' => $professional_id]) . '?pdf=true&since='.$data['since'].'&to='.$data['to'];
 
 		$data['professionals'] = Professional::whereHas('hcDates', function ($query) use ($data) {
-			$query->where('created_at', '>=', $data['since'].' 00:00:00');
-			$query->where('created_at', '<=', $data['to'].' 23:59:59');
+			$query->dateWhere('created_at', '>=', $data['since'].' 00:00:00');
+			$query->dateWhere('created_at', '<=', $data['to'].' 23:59:59');
 			if (in_array(Auth::user()->permissions, ['administrator'])) {
 				$query->where('type', '!=', 'otros');
 			}

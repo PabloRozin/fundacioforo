@@ -56,8 +56,8 @@
 											->select('hc_dates.*', 'professionals.id', 'professionals.user_id')
 											->join('professionals', 'professionals.id', '=', 'hc_dates.professional_id')
 											->orderBy('professionals.firstname','ASC')
-											->where('hc_dates.created_at', '>=', $since.' 00:00:00')
-											->where('hc_dates.created_at', '<=', $to.' 23:59:59')
+											->dateWhere('hc_dates.created_at', '>=', $since.' 00:00:00')
+											->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
 											->where('type', $consultationType['id']);
 											if (in_array(Auth::user()->permissions, ['professional']))
 												$hcDates = $hcDates->where('professionals.user_id', '=', Auth::user()->id);
@@ -82,8 +82,8 @@
 														{{ $hcDate->professional->firstname }} 
 														{{ $hcDate->professional->lastname }} 
 														(<?php $hcDatesActual = $patient->hcDates()
-															->where('hc_dates.created_at', '>=', $since.' 00:00:00')
-															->where('hc_dates.created_at', '<=', $to.' 23:59:59')
+															->dateWhere('hc_dates.created_at', '>=', $since.' 00:00:00')
+															->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
 															->where('professional_id', $hcDate->professional->id)
 															->where('type', $consultationType['id']);
 															if (in_array(Auth::user()->permissions, ['administrator']))
@@ -105,8 +105,8 @@
 										->join('professionals', 'professionals.id', '=', 'patient_admisions.professional_id')
 										->orderBy('professionals.firstname','ASC')
 										->orderBy('patient_admisions.created_at','ASC')
-										->where('patient_admisions.created_at', '>=', $since.' 00:00:00')
-										->where('patient_admisions.created_at', '<=', $to.' 23:59:59');
+										->dateWhere('patient_admisions.created_at', '>=', $since.' 00:00:00')
+										->dateWhere('patient_admisions.created_at', '<=', $to.' 23:59:59');
 		 							?>
 									@if (in_array(Auth::user()->permissions, ['professional']))
 										<?php $admisions = $admisions->where('professionals.user_id', '=', Auth::user()->id); ?>

@@ -60,8 +60,8 @@
 			->select('hc_dates.*', 'patients.id')
 			->join('patients', 'patients.id', '=', 'hc_dates.patient_id')
 			->orderBy('patients.patient_firstname','ASC')
-			->where('hc_dates.created_at', '>=', $since.' 00:00:00')
-			->where('hc_dates.created_at', '<=', $to.' 23:59:59')
+			->dateWhere('hc_dates.created_at', '>=', $since.' 00:00:00')
+			->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
 			->where('type', $consultationType['id']);
 		if (in_array(Auth::user()->permissions, ['administrator']))
 			$hcDates = $hcDates->where('type', '!=', 'otros');
@@ -96,8 +96,8 @@
 									{{ $hcDate->patient->patient_firstname }} 
 									{{ $hcDate->patient->patient_lastname }} 
 									<?php $hcDatesActual = $professional->hcDates()
-										->where('hc_dates.created_at', '>=', $since.' 00:00:00')
-										->where('hc_dates.created_at', '<=', $to.' 23:59:59')
+										->dateWhere('hc_dates.created_at', '>=', $since.' 00:00:00')
+										->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
 										->where('patient_id', $hcDate->patient->id)
 										->where('type', $consultationType['id']);
 										if (in_array(Auth::user()->permissions, ['administrator']))
@@ -127,8 +127,8 @@
 	->join('patients', 'patients.id', '=', 'patient_admisions.patient_id')
 	->orderBy('professionals.firstname','ASC')
 	->orderBy('patient_admisions.created_at','ASC')
-	->where('patient_admisions.created_at', '>=', $since.' 00:00:00')
-	->where('patient_admisions.created_at', '<=', $to.' 23:59:59');
+	->dateWhere('patient_admisions.created_at', '>=', $since.' 00:00:00')
+	->dateWhere('patient_admisions.created_at', '<=', $to.' 23:59:59');
 	?>
 @if (in_array(Auth::user()->permissions, ['professional']))
 	<?php $admisions = $admisions->where('professionals.user_id', '=', Auth::user()->id); ?>

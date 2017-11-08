@@ -1363,8 +1363,8 @@ class PatientController extends AdminController
 		$data['pdf_url'] = route('patients.report', ['patient_id' => $patient_id]) . '?pdf=true&since='.$data['since'].'&to='.$data['to'];
 
 		$data['patients'] = Patient::whereHas('hcDates', function ($query) use ($data) {
-			$query->where('hc_dates.created_at', '>=', $data['since'].' 00:00:00');
-			$query->where('hc_dates.created_at', '<=', $data['to'].' 23:59:59');
+			$query->dateWhere('hc_dates.created_at', '>=', $data['since'].' 00:00:00');
+			$query->dateWhere('hc_dates.created_at', '<=', $data['to'].' 23:59:59');
 			if (in_array(Auth::user()->permissions, ['professional'])) {
 				$query->join('professionals', 'professionals.id', '=', 'hc_dates.professional_id')
 					->where('professionals.user_id', '=', Auth::user()->id);
