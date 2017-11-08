@@ -78,7 +78,7 @@ $(document).ready(function()
 				}
 				else
 				{
-					textarea.append('<textarea required data-value="'+textarea.attr('data-value')+'" data-target="'+textarea.attr('data-target')+'" name="'+textarea.attr('data-name')+'"></textarea required>');
+					textarea.append('<input style="width:auto;position:absolute;top:-5px;left:70px;" type="text" required data-value="'+textarea.attr('data-value')+'" data-target="'+textarea.attr('data-target')+'" name="'+textarea.attr('data-name')+'" placeholder="Tipo de consulta">');
 				}
 			});
 		});

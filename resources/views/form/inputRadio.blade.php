@@ -12,7 +12,7 @@
 					@if($only_view) disabled @endif
 				> {{ $option['value'] }}
 				@if (isset($option['with_text']) and $option['with_text'])
-					<div class="radio-text" data-value="{{ $option['id'] }}" data-target=".radio-input-{{ $name }}-{{ $option['id'] }}" data-name="{{ $option['with_text'] }}"></div>
+					<span class="radio-text" data-value="{{ $option['id'] }}" data-target=".radio-input-{{ $name }}-{{ $option['id'] }}" data-name="{{ $option['with_text'] }}"></span>
 				@endif
 			</label>
 		@endforeach
