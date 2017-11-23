@@ -31,9 +31,9 @@
 				<td style="vertical-align:top;width:45mm;padding:0;">
 					@if ($first)
 						{{ date('d-m-Y', strtotime($hc_date->created_at)) }}<br>
-						@if ($hc_date->type != 'otros')
+						@if ($hc_date->type != 'otros' and isset($hc_types[$hc_date->type]))
 							<span style="font-size:13px;display: inline-block;line-height:16px;padding-right:10px">{{ $hc_types[$hc_date->type] }}</span>
-						@else
+						@elseif ($hc_date->type == 'otros')
 							<span style="font-size:13px;display: inline-block;line-height:16px;padding-right:10px">{{ $hc_date->type_info }}</span>
 						@endif
 						<?php
