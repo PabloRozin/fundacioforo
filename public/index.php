@@ -1,6 +1,7 @@
 <?php
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
+set_time_limit(600);
 
 /**
  * Laravel - A PHP Framework For Web Artisans
