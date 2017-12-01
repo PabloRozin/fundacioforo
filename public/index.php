@@ -2,6 +2,7 @@
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 set_time_limit(1800);
+ini_set('max_execution_time', 1800);
 
 /**
  * Laravel - A PHP Framework For Web Artisans
