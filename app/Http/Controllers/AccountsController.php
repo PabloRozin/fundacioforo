@@ -20,7 +20,6 @@ class AccountsController extends AdminController
 					'type' => 'inputText',
 					'title' => 'Nombre de la cuenta',
 					'validation' => 'string|max:255|unique:accounts',
-					'notSave' => true,
 					'not_updatable' => true,
 				],
 				'professionals_limit' => [
@@ -28,21 +27,18 @@ class AccountsController extends AdminController
 					'type' => 'inputText',
 					'title' => 'Límite de profesionales (0 es ilimitados)',
 					'validation' => 'integer|min:0|required',
-					'notSave' => true,
 				],
 				'patients_limit' => [
 					'css_class' => 'col-1-4',
 					'type' => 'inputText',
 					'title' => 'Límite de pacientes (0 es ilimitados)',
 					'validation' => 'integer|min:0|required',
-					'notSave' => true,
 				],
 				'administrator_limit' => [
 					'css_class' => 'col-1-4',
 					'type' => 'inputText',
 					'title' => 'Límite de usuarios administrativos (0 es ilimitados)',
 					'validation' => 'integer|min:0|required',
-					'notSave' => true,
 				],
 			],
 		],
@@ -148,10 +144,15 @@ class AccountsController extends AdminController
 
 		$account = new User;
 
-		$account->account = $request->account;
-		$account->professionals_limit = $request->professionals_limit;
-		$account->patients_limit = $request->patients_limit;
-		$account->administrator_limit = $request->administrator_limit;
+		foreach ($this->accountsData as $key => $itemGroup) {
+			foreach ($itemGroup as $key => $itemSubroup) {
+				foreach ($itemSubroup as $itemName => $item) {
+					if ( ! isset($item['notSave']) or ! $item['notSave']) {
+						$account->$itemName = $request->$itemName;
+					}
+				}
+			}
+		}
 
 		$account->save();
 
@@ -243,13 +244,19 @@ class AccountsController extends AdminController
 		
 		$account = Account::findOrFail($id);
 
-		$account->professionals_limit = $request->professionals_limit;
-		$account->patients_limit = $request->patients_limit;
-		$account->administrator_limit = $request->administrator_limit;
+		foreach ($this->accountsData as $key => $itemGroup) {
+			foreach ($itemGroup as $key => $itemSubroup) {
+				foreach ($itemSubroup as $itemName => $item) {
+					if (( ! isset($item['notSave']) or ! $item['notSave']) and (! isset($item['not_updatable']) or ! $item['not_updatable'])) {
+						$account->$itemName = $request->$itemName;
+					}
+				}
+			}
+		}
 
 		$account->save();
 
-		$user = $account->users()->where('id', $id)->where('permissions', 'admin')->first();
+		$user = $account->users()->where('permissions', 'admin')->firstOrFail();
 
 		$user->name = $request->name;
 		if ( ! empty($request->password)) {
