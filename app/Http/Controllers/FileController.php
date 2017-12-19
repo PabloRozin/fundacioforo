@@ -14,7 +14,7 @@ use File;
 use Storage;
 use Response;
 
-class FileController extends Controller
+class FileController extends AdminController
 {
 	/**
 	 * Display a listing of the resource.

@@ -7,7 +7,7 @@
 <div class="auth">
 
     <div class="logo">
-        <img src="/images/fundacionforo-logo.jpg" alt="Fundación Foro">
+        Evolución HCD
     </div>
 
     <div class="content">

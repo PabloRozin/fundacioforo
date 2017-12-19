@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class DashboardController extends AdminController
 {
     /**
      * Show the application dashboard.

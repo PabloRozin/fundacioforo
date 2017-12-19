@@ -1045,9 +1045,9 @@ class PatientController extends AdminController
 
 		if (in_array(Auth::user()->permissions, ['professional'])) {
 
-			$data['professional'] = Professional::where('user_id', Auth::user()->id)->first();
+			$data['professional'] = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
 
-			$data['patients'] = Patient::whereDoesntHave('professionals', function ($query) use ($data) {
+			$data['patients'] = $this->account->patients()->whereDoesntHave('professionals', function ($query) use ($data) {
 				$query->where('id', $data['professional']->id);
 			})->orderBy('patient_firstname', 'ASC')->where('patient_state', 1);
 
@@ -1064,7 +1064,7 @@ class PatientController extends AdminController
 				$data['back_url'] = route('patients.index');
 			}
 
-			$data['patientsHighlight'] = Patient::whereHas('professionals', function ($query) use ($data) {
+			$data['patientsHighlight'] = $this->account->patients()->whereHas('professionals', function ($query) use ($data) {
 				$query->where('id', $data['professional']->id);
 			})->orderBy('patient_firstname', 'ASC')->where('patient_state', 1);
 
@@ -1080,7 +1080,7 @@ class PatientController extends AdminController
 
 		} else {
 
-			$data['patients'] = Patient::orderBy('patient_firstname', 'ASC');
+			$data['patients'] = $this->account->patients()->orderBy('patient_firstname', 'ASC');
 
 			$filters = false;
 
@@ -1091,7 +1091,7 @@ class PatientController extends AdminController
 				}
 			}
 
-			if ( ! in_array(Auth::user()->permissions, ['superadmin'])) {
+			if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 				$data['patients'] = $data['patients']->where('patient_state', 1);
 			}
 
@@ -1112,10 +1112,18 @@ class PatientController extends AdminController
 	 */
 	public function create(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.index');
+		}
+
+		$patients_quantity = $this->account->patients()->count();
+
+		if ($this->account->patients_limit > 0 and $patients_quantity >= $this->account->patients_limit) {
+			$request->session()->flash('error', 'Llegaste a tu límite de pacientes, contactate para aumentarlo.');
+
+			return redirect()->route('dashboard');
 		}
 
 		$data = [
@@ -1137,10 +1145,18 @@ class PatientController extends AdminController
 	 */
 	public function store(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.index');
+		}
+
+		$patients_quantity = $this->account->patients()->count();
+
+		if ($this->account->patients_limit > 0 and $patients_quantity >= $this->account->patients_limit) {
+			$request->session()->flash('error', 'Llegaste a tu límite de pacientes, contactate para aumentarlo.');
+
+			return redirect()->route('dashboard');
 		}
 
 		$validation = [];
@@ -1193,10 +1209,10 @@ class PatientController extends AdminController
 	 */
 	public function show(Request $request, $id)
 	{
-		if (in_array(Auth::user()->permissions, ['superadmin'])) {
-			$patient = Patient::findOrFail($id);
+		if (in_array(Auth::user()->permissions, ['admin'])) {
+			$patient = $this->account->patients()->findOrFail($id);
 		} else {
-			$patient = Patient::where('patient_state', 1)->where('id', $id)->firstOrFail();
+			$patient = $this->account->patients()->where('patient_state', 1)->where('id', $id)->firstOrFail();
 		}
 
 		$data = [
@@ -1227,13 +1243,13 @@ class PatientController extends AdminController
 	 */
 	public function edit(Request $request, $id)
 	{
-		if (in_array(Auth::user()->permissions, ['superadmin'])) {
-			$patient = Patient::findOrFail($id);
+		if (in_array(Auth::user()->permissions, ['admin'])) {
+			$patient = $this->account->patients()->findOrFail($id);
 		} else {
-			$patient = Patient::where('patient_state', 1)->where('id', $id)->firstOrFail();
+			$patient = $this->account->patients()->where('patient_state', 1)->where('id', $id)->firstOrFail();
 		}
 
-		if ( ! in_array(Auth::user()->permissions, ['superadmin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.show', ['patient_id' => $patient->id]);
@@ -1267,9 +1283,9 @@ class PatientController extends AdminController
 	 */
 	public function update(Request $request, $id)
 	{
-		$patient = Patient::findOrFail($id);
+		$patient = $this->account->patients()->findOrFail($id);
 		
-		if ( ! in_array(Auth::user()->permissions, ['superadmin', 'professional', 'admisor'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional', 'admisor'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.show', ['patient_id' => $patient->id]);
@@ -1326,7 +1342,7 @@ class PatientController extends AdminController
 	 */
 	public function report(Request $request, $patient_id = false)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['administrator', 'superadmin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.index');
@@ -1362,7 +1378,7 @@ class PatientController extends AdminController
 
 		$data['pdf_url'] = route('patients.report', ['patient_id' => $patient_id]) . '?pdf=true&since='.$data['since'].'&to='.$data['to'];
 
-		$data['patients'] = Patient::whereHas('hcDates', function ($query) use ($data) {
+		$data['patients'] = $this->account->patients()->whereHas('hcDates', function ($query) use ($data) {
 			$query->dateWhere('hc_dates.created_at', '>=', $data['since'].' 00:00:00');
 			$query->dateWhere('hc_dates.created_at', '<=', $data['to'].' 23:59:59');
 			if (in_array(Auth::user()->permissions, ['professional'])) {
@@ -1405,7 +1421,7 @@ class PatientController extends AdminController
 	 */
 	public function index_admissions(Request $request, $patient_id)
 	{
-		$data['patient'] = Patient::findOrFail($patient_id);
+		$data['patient'] = $this->account->patients()->findOrFail($patient_id);
 
 		$data['admissions'] = $data['patient']->admissions()->orderBy('created_at', 'DESC')->paginate(20);
 
@@ -1419,13 +1435,13 @@ class PatientController extends AdminController
 	 */
 	public function create_admissions(Request $request, $patient_id)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.admissions.show', ['patient_id' => $patient_id]);
 		}
 
-		$patient = Patient::findOrFail($patient_id);
+		$patient = $this->account->patients()->findOrFail($patient_id);
 
 		$data = [
 			'items' => $this->patientAdmitionData,
@@ -1446,15 +1462,15 @@ class PatientController extends AdminController
 	 */
 	public function store_admissions(Request $request, $patient_id)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.admissions.show', ['patient_id' => $patient_id]);
 		}
 
-		$patient = Patient::findOrFail($patient_id);
+		$patient = $this->account->patients()->findOrFail($patient_id);
 		
-		$professional = Professional::where('user_id', Auth::user()->id)->first();
+		$professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
 
 		$patientAdmision = new PatientAdmision;
 
@@ -1509,9 +1525,9 @@ class PatientController extends AdminController
 	 */
 	public function show_admissions(Request $request, $patient_id, $admision_id)
 	{
-		$patient = Patient::findOrFail($patient_id);
+		$patient = $this->account->patients()->findOrFail($patient_id);
 
-		$patientAdmision = PatientAdmision::where('id', $admision_id)->where('patient_id', $patient_id)->first();
+		$patientAdmision = $this->account->patientAdmisions()->where('id', $admision_id)->where('patient_id', $patient_id)->first();
 
 		$data = [
 			'items' => $this->patientAdmitionData,
@@ -1541,8 +1557,8 @@ class PatientController extends AdminController
 	 */
 	public function index_hc(Request $request, $patient_id)
 	{
-		$data['patient'] = Patient::findOrFail($patient_id);
-		$data['hc_dates'] = HCDate::where('patient_id', $patient_id)->orderBy('created_at', 'DESC');
+		$data['patient'] = $this->account->patients()->findOrFail($patient_id);
+		$data['hc_dates'] = $this->account->hcDates()->where('patient_id', $patient_id)->orderBy('created_at', 'DESC');
 
 		if ($request->pdf) {
 			$data['hc_dates'] = $data['hc_dates']->get();
@@ -1578,7 +1594,7 @@ class PatientController extends AdminController
 			return $pdf->stream('hc_'.$data['patient']->patient_firstname.'_'.$data['patient']->patient_lastname.'_'.date('d-m-Y').'.pdf');
 
 		} else {
-			$data['hc_dates'] = $data['hc_dates']->paginate(20);
+			$data['hc_dates'] = $data['hc_dates']->paginate(5);
 
 			return view('hc', $data);
 		}
@@ -1598,7 +1614,7 @@ class PatientController extends AdminController
 			return redirect()->route('patients.hc', ['patient_id' => $patient_id]);
 		}
 
-		$patient = Patient::findOrFail($patient_id);
+		$patient = $this->account->patients()->findOrFail($patient_id);
 
 		$data = [
 			'items' => $this->patientHCData,
@@ -1649,13 +1665,14 @@ class PatientController extends AdminController
 
 		$this->validate($request, $validation, array(), $validationNames);
 
-		$patient = Patient::findOrFail($patient_id);
-		$professional = Professional::where('user_id', Auth::user()->id)->first();
+		$patient = $this->account->patients()->findOrFail($patient_id);
+		$professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
 
 		$hc_date = new HCDate;
 
 		$hc_date->patient_id = $patient_id;
 		$hc_date->professional_id = $professional->id;
+		$hc_date->account_id = $this->account->id;
 
 		foreach ($this->patientHCData as $key => $itemGroup) {
 			foreach ($itemGroup as $key => $itemSubroup) {
@@ -1715,8 +1732,8 @@ class PatientController extends AdminController
 			return redirect()->route('patients.hc', ['patient_id' => $patient_id]);
 		}
 
-		$patient = Patient::findOrFail($patient_id);
-		$professional = Professional::where('user_id', Auth::user()->id)->first();
+		$patient = $this->account->patients()->findOrFail($patient_id);
+		$professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
 		$patient->professionals()->attach($professional->id);
 
 		$request->session()->flash('success', 'Se asignó correctamente el paciente.');
@@ -1738,8 +1755,8 @@ class PatientController extends AdminController
 			return redirect()->route('patients.hc', ['patient_id' => $patient_id]);
 		}
 
-		$patient = Patient::findOrFail($patient_id);
-		$professional = Professional::where('user_id', Auth::user()->id)->first();
+		$patient = $this->account->patients()->findOrFail($patient_id);
+		$professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
 
 		$patient->professionals()->detach($professional->id);
 

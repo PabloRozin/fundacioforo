@@ -24,6 +24,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+    * Get the account that owns the user.
+    */
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
+
     public function getCreatedAtAttribute($value)
     {
         $date = date('Y-m-d h:i:s', strtotime($value) - 10800);

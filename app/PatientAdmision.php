@@ -79,6 +79,14 @@ class PatientAdmision extends Model
 	protected $hidden = [];
 
 	/**
+	* Get the account that owns the admision.
+	*/
+	public function account()
+	{
+		return $this->belongsTo('App\Account');
+	}
+
+	/**
 	* Get the patient that owns the admision.
 	*/
 	public function patient()

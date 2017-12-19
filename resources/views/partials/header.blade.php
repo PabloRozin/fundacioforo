@@ -17,9 +17,14 @@
 				<li>
 					<a href="{{ route('professionals.index') }}">Profesionales</a>
 				</li>
-				@if (in_array(Auth::user()->permissions, ['superadmin']))
+				@if (in_array(Auth::user()->permissions, ['admin']))
 					<li>
 						<a href="{{ route('administrators.index') }}">Administradores</a>
+					</li>
+				@endif
+				@if (in_array(Auth::user()->permissions, ['superadmin']))
+					<li>
+						<a href="{{ route('accounts.index') }}">Cuentas</a>
 					</li>
 				@endif
 				<li class="user">

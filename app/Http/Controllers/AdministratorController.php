@@ -9,7 +9,7 @@ use App\User;
 use Auth;
 use Hash;
 
-class AdministratorController extends Controller
+class AdministratorController extends AdminController
 {
 	private $administratorData = [
 		'Datos de usuario' => [
@@ -46,13 +46,13 @@ class AdministratorController extends Controller
 	 */
 	public function index(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');
 		}
 
-		$data['administrators'] = User::orderBy('name', 'ASC')->where('permissions', 'administrator')->paginate(20);
+		$data['administrators'] = $this->account->users()->orderBy('name', 'ASC')->where('permissions', 'administrator')->paginate(20);
 
 		return view('administrators', $data);
 	}
@@ -64,8 +64,16 @@ class AdministratorController extends Controller
 	 */
 	public function create(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+			return redirect()->route('dashboard');
+		}
+
+		$administrator_quantity = $this->account->administrator()->count();
+
+		if ($this->account->administrator_limit > 0 and $administrator_quantity >= $this->account->administrator_limit) {
+			$request->session()->flash('error', 'Llegaste a tu límite de usuarios administrativos, contactate para aumentarlo.');
 
 			return redirect()->route('dashboard');
 		}
@@ -89,7 +97,7 @@ class AdministratorController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');
@@ -117,10 +125,11 @@ class AdministratorController extends Controller
 		$user->email = $request->email;
 		$user->password = Hash::make($request->password);
 		$user->permissions = 'administrator';
+		$user->account_id = $this->account->id;
 
 		$user->save();
 
-		$request->session()->flash('success', 'El usuario administrador fue creado con éxito.');
+		$request->session()->flash('success', 'El usuario administrativo fue creado con éxito.');
 
 		return redirect()->route('administrators.index');
 	}
@@ -133,13 +142,13 @@ class AdministratorController extends Controller
 	 */
 	public function edit(Request $request, $id)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');
 		}
 		
-		$administrator = User::where('id', $id)->where('permissions', 'administrator')->first();
+		$administrator = $this->account->users()->where('id', $id)->where('permissions', 'administrator')->first();
 
 		$data = [
 			'items' => $this->administratorData,
@@ -174,13 +183,13 @@ class AdministratorController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');
 		}
 		
-		$administrator = User::where('id', $id)->where('permissions', 'administrator')->first();
+		$administrator = $this->account->users()->where('id', $id)->where('permissions', 'administrator')->first();
 
 		$validation = [];
 
@@ -196,7 +205,7 @@ class AdministratorController extends Controller
 
 		$this->validate($request, $validation);
 
-		$user = User::findOrFail($professional->user_id);
+		$user = $this->account->users()->findOrFail($professional->user_id);
 
 		$user->name = $request->name;
 		if ( ! empty($request->password)) {

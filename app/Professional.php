@@ -64,6 +64,14 @@ class Professional extends Model
 	protected $hidden = [];
 
 	/**
+	* Get the account that owns the professional.
+	*/
+	public function account()
+	{
+		return $this->belongsTo('App\Account');
+	}
+
+	/**
      * Get the admision record associated with the patient.
      */
     public function admissions()

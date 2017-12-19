@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth'], function ()
 	Route::resource('professionals', 'ProfessionalController');
 
 	Route::resource('administrators', 'AdministratorController');
+
+	Route::resource('accounts', 'AccountsController');
 	
 	Route::post('/file', 'FileController@store')->name('file.store');
 });

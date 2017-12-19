@@ -30,6 +30,14 @@ class HCDate extends Model
 	protected $hidden = [];
 
 	/**
+	* Get the account that owns the hc.
+	*/
+	public function account()
+	{
+		return $this->belongsTo('App\Account');
+	}
+
+	/**
 	 * Get the patient that owns the hc.
 	 */
 	public function patient()
