@@ -193,7 +193,7 @@ class AccountsController extends AdminController
 			'back_url' => route('accounts.index'),
 			'form_url' => route('accounts.update', ['id' => $id]),
 			'form_method' => 'PUT',
-			'title' => 'Cuenta "' . $account['name'] . '"',
+			'title' => 'Cuenta "' . $account['accountName'] . '"',
 		];
 
 		foreach ($data['items'] as $key => &$itemGroup) {
