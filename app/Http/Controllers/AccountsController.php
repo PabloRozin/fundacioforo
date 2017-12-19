@@ -186,7 +186,7 @@ class AccountsController extends AdminController
 		
 		$account = Account::findOrFail($id);
 
-		$user = $account->users()->where('permissions', 'superadmin')->firstOrFail();
+		$user = $account->users()->where('permissions', 'admin')->firstOrFail();
 
 		$data = [
 			'items' => $this->accountsData,
@@ -249,7 +249,7 @@ class AccountsController extends AdminController
 
 		$account->save();
 
-		$user = $account->users()->where('id', $id)->where('permissions', 'superadmin')->first();
+		$user = $account->users()->where('id', $id)->where('permissions', 'admin')->first();
 
 		$user->name = $request->name;
 		if ( ! empty($request->password)) {
