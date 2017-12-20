@@ -102,7 +102,7 @@ class AccountsController extends AdminController
 		}
 
 		$data = [
-			'items' => $this->accountData,
+			'items' => $this->accountsData,
 			'back_url' => route('accounts.index'),
 			'form_url' => route('accounts.store'),
 			'form_method' => 'POST',
