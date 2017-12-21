@@ -15,6 +15,8 @@ class AdminController extends Controller
 
 		if ($this->account->state === 0) {
 			Auth::logout();
+
+			return redirect()->route('dashboard');
 		}
 	}
 
