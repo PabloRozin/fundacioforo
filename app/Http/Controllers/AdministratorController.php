@@ -70,7 +70,7 @@ class AdministratorController extends AdminController
 			return redirect()->route('dashboard');
 		}
 
-		$administrator_quantity = $this->account->administrator()->count();
+		$administrator_quantity = $this->account->administrators()->count();
 
 		if ($this->account->administrator_limit > 0 and $administrator_quantity >= $this->account->administrator_limit) {
 			$request->session()->flash('error', 'Llegaste a tu límite de usuarios administrativos, contactate para aumentarlo.');
