@@ -29,10 +29,10 @@ class AccountsController extends AdminController
 					'type' => 'select',
 					'title' => 'Estado',
 					'options' => [
-						['id' => 1, 'value' => 'Habilitado'],
 						['id' => 0, 'value' => 'Deshabilitado'],
+						['id' => 1, 'value' => 'Habilitado', 'defalut' => true],
 					],
-					'validation' => 'in:1,0',
+					'validation' => 'boolean',
 				],
 				'accountName' => [
 					'css_class' => 'col',
