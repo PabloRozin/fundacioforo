@@ -33,6 +33,7 @@ class AccountsController extends AdminController
 						['id' => 1, 'value' => 'Habilitado', 'defalut' => true],
 					],
 					'validation' => 'boolean',
+					'not_updatable' => true,
 				],
 				'accountName' => [
 					'css_class' => 'col',
@@ -161,7 +162,7 @@ class AccountsController extends AdminController
 
 		$this->validate($request, $validation);
 
-		$account = new User;
+		$account = new Account;
 
 		foreach ($this->accountsData as $key => $itemGroup) {
 			foreach ($itemGroup as $key => $itemSubroup) {
