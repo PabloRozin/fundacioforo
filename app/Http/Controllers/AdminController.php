@@ -12,6 +12,10 @@ class AdminController extends Controller
 
 	function __construct() {
 		$this->account = Account::where('id', Auth::user()->account_id)->firstOrFail();
+
+		if ($this->account->state === 0) {
+			Auth::logout();
+		}
 	}
 
 	function adminIndex() {
