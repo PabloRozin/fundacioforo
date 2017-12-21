@@ -1194,6 +1194,8 @@ class PatientController extends AdminController
 			}
 		}
 
+		$patient->id = $this->account->id;
+
 		$patient->save();
 
 		$request->session()->flash('success', 'El paciente fue creado con éxito.');
@@ -1509,6 +1511,8 @@ class PatientController extends AdminController
 				}
 			}
 		}
+		
+		$patientAdmision->id = $this->account->id;
 
 		$patientAdmision->save();
 

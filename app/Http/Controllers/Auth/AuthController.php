@@ -105,7 +105,11 @@ class AuthController extends Controller
 
         $credentials = $this->getCredentials($request);
 
-        if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+        $user = User::where('email', '=', $request->email)->firstOrFail();
+
+        $account = Account::findOrFail($user->account_id);
+
+        if ($account->state === 1 and Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
             return $this->handleUserWasAuthenticated($request, $throttles);
         }
 

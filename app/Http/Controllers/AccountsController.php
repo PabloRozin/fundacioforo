@@ -9,12 +9,31 @@ use App\User;
 use App\Account;
 use Auth;
 use Hash;
+use Storage;
+use File;
 
 class AccountsController extends AdminController
 {
 	private $accountsData = [
 		'Datos de la cuenta' => [
 			'' => [
+				/*
+				'logo' => [
+					'css_class' => 'col-1-4',
+					'type' => 'inputFile',
+					'title' => 'Logo',
+				],
+				*/
+				'state' => [
+					'css_class' => 'col-1-6',
+					'type' => 'select',
+					'title' => 'Estado',
+					'options' => [
+						['id' => 1, 'value' => 'Habilitado'],
+						['id' => 0, 'value' => 'Deshabilitado'],
+					],
+					'validation' => 'in:hombre,mujer,transexual',
+				],
 				'accountName' => [
 					'css_class' => 'col',
 					'type' => 'inputText',
@@ -128,7 +147,7 @@ class AccountsController extends AdminController
 		
 		$validation = [];
 
-		foreach ($this->administratorData as $key => $itemGroup) {
+		foreach ($this->accountsData as $key => $itemGroup) {
 			foreach ($itemGroup as $key => $itemSubroup) {
 				foreach ($itemSubroup as $itemName => $item) {
 					if ( ! empty($item['validation'])) {
@@ -147,8 +166,18 @@ class AccountsController extends AdminController
 		foreach ($this->accountsData as $key => $itemGroup) {
 			foreach ($itemGroup as $key => $itemSubroup) {
 				foreach ($itemSubroup as $itemName => $item) {
-					if ( ! isset($item['notSave']) or ! $item['notSave']) {
-						$account->$itemName = $request->$itemName;
+					if ($item['type'] == 'inputFile') {
+						if ($request->file($itemName)) {
+							$file = $request->file($itemName);
+							$name = time().'-'.$file->getClientOriginalName();
+							$path = "hc/$name";
+							Storage::put($path, File::get($file->getRealPath()));
+							$hc_date->$itemName = $path;
+						}
+					} else {
+						if ( ! isset($item['notSave']) or ! $item['notSave']) {
+							$account->$itemName = $request->$itemName;
+						}
 					}
 				}
 			}
@@ -247,8 +276,18 @@ class AccountsController extends AdminController
 		foreach ($this->accountsData as $key => $itemGroup) {
 			foreach ($itemGroup as $key => $itemSubroup) {
 				foreach ($itemSubroup as $itemName => $item) {
-					if (( ! isset($item['notSave']) or ! $item['notSave']) and (! isset($item['not_updatable']) or ! $item['not_updatable'])) {
-						$account->$itemName = $request->$itemName;
+					if ($item['type'] == 'inputFile') {
+						if ($request->file($itemName)) {
+							$file = $request->file($itemName);
+							$name = time().'-'.$file->getClientOriginalName();
+							$path = "hc/$name";
+							Storage::put($path, File::get($file->getRealPath()));
+							$hc_date->$itemName = $path;
+						}
+					} else {
+						if (( ! isset($item['notSave']) or ! $item['notSave']) and (! isset($item['not_updatable']) or ! $item['not_updatable'])) {
+							$account->$itemName = $request->$itemName;
+						}
 					}
 				}
 			}

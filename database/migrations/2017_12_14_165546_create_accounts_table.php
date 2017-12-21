@@ -15,6 +15,7 @@ class CreateAccountsTable extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->char('accountName', 255)->unique();
+            $table->boolean('state');
             $table->integer('professionals_limit');
             $table->integer('patients_limit');
             $table->integer('administrator_limit');
