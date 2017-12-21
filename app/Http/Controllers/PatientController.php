@@ -1194,7 +1194,7 @@ class PatientController extends AdminController
 			}
 		}
 
-		$patient->id = $this->account->id;
+		$patient->account_id = $this->account->id;
 
 		$patient->save();
 
@@ -1511,7 +1511,7 @@ class PatientController extends AdminController
 				}
 			}
 		}
-		
+
 		$patientAdmision->id = $this->account->id;
 
 		$patientAdmision->save();
