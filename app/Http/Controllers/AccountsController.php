@@ -32,7 +32,7 @@ class AccountsController extends AdminController
 						['id' => 1, 'value' => 'Habilitado'],
 						['id' => 0, 'value' => 'Deshabilitado'],
 					],
-					'validation' => 'in:hombre,mujer,transexual',
+					'validation' => 'in:1,0',
 				],
 				'accountName' => [
 					'css_class' => 'col',
