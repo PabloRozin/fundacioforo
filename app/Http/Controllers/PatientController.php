@@ -1474,7 +1474,7 @@ class PatientController extends AdminController
 		
 		$professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
 
-		$patients = new PatientAdmision;
+		$patientAdmision = new PatientAdmision;
 
 		$patientAdmision->professional_id = $professional->id;
 
