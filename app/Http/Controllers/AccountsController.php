@@ -17,13 +17,11 @@ class AccountsController extends AdminController
 	private $accountsData = [
 		'Datos de la cuenta' => [
 			'' => [
-				/*
 				'logo' => [
-					'css_class' => 'col-1-4',
+					'css_class' => 'col',
 					'type' => 'inputFile',
 					'title' => 'Logo',
 				],
-				*/
 				'state' => [
 					'css_class' => 'col-1-6',
 					'type' => 'select',
@@ -281,9 +279,9 @@ class AccountsController extends AdminController
 						if ($request->file($itemName)) {
 							$file = $request->file($itemName);
 							$name = time().'-'.$file->getClientOriginalName();
-							$path = "hc/$name";
+							$path = "accounts/$name";
 							Storage::put($path, File::get($file->getRealPath()));
-							$hc_date->$itemName = $path;
+							$account->$itemName = $path;
 						}
 					} else {
 						if (( ! isset($item['notSave']) or ! $item['notSave']) and (! isset($item['not_updatable']) or ! $item['not_updatable'])) {
