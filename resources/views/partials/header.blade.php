@@ -4,8 +4,8 @@
 		
 		<h1 class="logo">
 			<a href="{{ route('patients.index') }}">
-				<img class="big" src="{{ asset('/files'.Auth::user()->account->logo) }}" alt="Fundacion Foro">
-				<img class="small" src="{{ asset('/files'.Auth::user()->account->logo) }}" alt="Fundacion Foro">
+				<img class="big" src="{{ asset('/files'.Auth::user()->account->logo) }}" alt="Evolución HCD">
+				<img class="small" src="{{ asset('/files'.Auth::user()->account->logo) }}" alt="Evolución HCD">
 			</a>
 		</h1>
 
