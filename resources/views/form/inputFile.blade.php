@@ -2,6 +2,10 @@
 	@if ($title)
 		<label for="{{ $name }}">{{ $title }}</label>
 	@endif
+	@if(isset($value))
+		<img src="{{ asset('/files'.$value) }}" alt="">
+	@endif
+	<br>
 	<input 
 		type="file"
 		name="{{ $name }}"

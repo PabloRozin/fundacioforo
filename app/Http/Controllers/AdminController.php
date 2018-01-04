@@ -9,6 +9,7 @@ use Auth;
 class AdminController extends Controller
 {
 	public $account;
+	public $data;
 
 	function __construct() {
 		$this->account = Account::where('id', Auth::user()->account_id)->firstOrFail();

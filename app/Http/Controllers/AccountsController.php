@@ -279,7 +279,7 @@ class AccountsController extends AdminController
 						if ($request->file($itemName)) {
 							$file = $request->file($itemName);
 							$name = time().'-'.$file->getClientOriginalName();
-							$path = "accounts/$name";
+							$path = "/account_files/$name";
 							Storage::put($path, File::get($file->getRealPath()));
 							$account->$itemName = $path;
 						}
