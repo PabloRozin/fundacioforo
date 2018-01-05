@@ -320,7 +320,7 @@ class ProfessionalController extends AdminController
 	 */
 	public function index(Request $request)
 	{
-		$this->data['filters'] = [
+		$data['filters'] = [
 			'id' => [
 				'type' => 'where',	
 				'value' => $request->input('id'),
@@ -357,20 +357,20 @@ class ProfessionalController extends AdminController
 			],
 		];
 
-		$this->data['professionals'] = $this->account->professionals()->orderBy('firstname', 'ASC');
+		$data['professionals'] = $this->account->professionals()->orderBy('firstname', 'ASC');
 
 		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
-			$this->data['professionals'] = $this->data['professionals']->where('state', 1);
+			$data['professionals'] = $data['professionals']->where('state', 1);
 		}
 
 		$filters = false;
 		
-		foreach ($this->data['filters'] as $itemName => $filter) {
+		foreach ($data['filters'] as $itemName => $filter) {
 			if ( ! empty($filter['value'])) {
 				if ( ! isset($filter['nested'])) {
-					$this->data['professionals'] = $this->data['professionals']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
+					$data['professionals'] = $data['professionals']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
 				} else {
-					$this->data['professionals'] = $this->data['professionals']->{$filter['type']}(function($query) use ($filter) {
+					$data['professionals'] = $data['professionals']->{$filter['type']}(function($query) use ($filter) {
 						foreach($filter['nested'] as $nestedName) {
 							$query->{$filter['nested_type']}($nestedName, 'like', '%'.$filter['value'].'%');
 						}
@@ -381,12 +381,12 @@ class ProfessionalController extends AdminController
 		}
 
 		if ($filters) {
-			$this->data['back_url'] = route('professionals.index');
+			$data['back_url'] = route('professionals.index');
 		}
 
-		$this->data['professionals'] = $this->data['professionals']->paginate(20);
+		$data['professionals'] = $data['professionals']->paginate(20);
 
-		return view('professionals', $this->data);
+		return view('professionals', $data);
 	}
 
 	/**
@@ -410,7 +410,7 @@ class ProfessionalController extends AdminController
 			return redirect()->route('dashboard');
 		}
 
-		$this->data = [
+		$data = [
 			'items' => $this->professionalData,
 			'back_url' => route('professionals.index'),
 			'form_url' => route('professionals.store'),
@@ -418,7 +418,7 @@ class ProfessionalController extends AdminController
 			'title' => 'Crear nuevo profesional',
 		];
 
-		return view('form', $this->data);
+		return view('form', $data);
 	}
 
 	/**
@@ -515,7 +515,7 @@ class ProfessionalController extends AdminController
 			$professional = $this->account->professionals()->where('state', 1)->where('id', $id)->firstOrFail();
 		}
 
-		$this->data = [
+		$data = [
 			'items' => $this->professionalData,
 			'back_url' => route('professionals.index'),
 			'form_url' => route('professionals.update', ['id' => $id]),
@@ -524,7 +524,7 @@ class ProfessionalController extends AdminController
 			'only_view' => true,
 		];
 
-		foreach ($this->data['items'] as $key => &$itemGroup) {
+		foreach ($data['items'] as $key => &$itemGroup) {
 			foreach ($itemGroup as $key => &$itemSubroup) {
 				foreach ($itemSubroup as $itemName => &$item) {
 					$item['value'] = $professional->$itemName;
@@ -532,7 +532,7 @@ class ProfessionalController extends AdminController
 			}
 		}
 
-		return view('form', $this->data);
+		return view('form', $data);
 	}
 
 	/**
@@ -557,7 +557,7 @@ class ProfessionalController extends AdminController
 			return redirect()->route('professionals.show', ['professional_id' => $professional->id]);
 		}
 
-		$this->data = [
+		$data = [
 			'items' => $this->professionalData,
 			'back_url' => route('professionals.index'),
 			'form_url' => route('professionals.update', ['id' => $id]),
@@ -566,7 +566,7 @@ class ProfessionalController extends AdminController
 			'edit' => true
 		];
 
-		foreach ($this->data['items'] as $key => &$itemGroup) {
+		foreach ($data['items'] as $key => &$itemGroup) {
 			foreach ($itemGroup as $key => &$itemSubroup) {
 				foreach ($itemSubroup as $itemName => &$item) {
 					$item['value'] = $professional->$itemName;
@@ -574,7 +574,7 @@ class ProfessionalController extends AdminController
 			}
 		}
 
-		return view('form', $this->data);
+		return view('form', $data);
 	}
 
 	/**
@@ -677,7 +677,7 @@ class ProfessionalController extends AdminController
 
 		$this->validate($request, $validation, array(), $validationNames);
 
-		$this->data = [
+		$data = [
 			'back_url' => route('professionals.index'),
 			'professional_id' => ($request->professional_id) ? $request->professional_id : false,
 			'since' => (strtotime($request->since) < strtotime($request->to)) ? $request->since : $request->to,
@@ -693,24 +693,24 @@ class ProfessionalController extends AdminController
 			],
 		];
 
-		$this->data['pdf_url'] = route('professionals.report', ['professional_id' => $professional_id]) . '?pdf=true&since='.$this->data['since'].'&to='.$this->data['to'];
+		$data['pdf_url'] = route('professionals.report', ['professional_id' => $professional_id]) . '?pdf=true&since='.$data['since'].'&to='.$data['to'];
 
-		$this->data['professionals'] = $this->account->professionals()->whereHas('hcDates', function ($query) use ($this->data) {
-			$query->dateWhere('created_at', '>=', $this->data['since'].' 00:00:00');
-			$query->dateWhere('created_at', '<=', $this->data['to'].' 23:59:59');
+		$data['professionals'] = $this->account->professionals()->whereHas('hcDates', function ($query) use ($data) {
+			$query->dateWhere('created_at', '>=', $data['since'].' 00:00:00');
+			$query->dateWhere('created_at', '<=', $data['to'].' 23:59:59');
 			if (in_array(Auth::user()->permissions, ['administrator'])) {
 				$query->where('type', '!=', 'otros');
 			}
 		})->orderBy('firstname', 'ASC');
 
-		if ($this->data['professional_id']) {
-			$this->data['professionals'] = $this->data['professionals']->where('id', $this->data['professional_id']);
+		if ($data['professional_id']) {
+			$data['professionals'] = $data['professionals']->where('id', $data['professional_id']);
 		}
 
-		$this->data['professionals'] = $this->data['professionals']->get();
+		$data['professionals'] = $data['professionals']->get();
 
 		if ($request->pdf) {
-			$view = \View::make('pdf.professionalsReport', $this->data)->render();
+			$view = \View::make('pdf.professionalsReport', $data)->render();
 			
 			$pdf = new Dompdf();
 
@@ -720,9 +720,9 @@ class ProfessionalController extends AdminController
 			$canvas = $pdf->get_canvas();
 			$canvas->page_text(15, 15, '{PAGE_NUM} de {PAGE_COUNT}', null, 10, array(0, 0, 0));
 
-			return $pdf->stream('reporte_professionales_'.$this->data['since'].'_'.$this->data['to'].'.pdf');
+			return $pdf->stream('reporte_professionales_'.$data['since'].'_'.$data['to'].'.pdf');
 		}
 
-		return view('professionalsReport', $this->data);
+		return view('professionalsReport', $data);
 	}
 }
