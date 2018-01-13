@@ -169,9 +169,9 @@ class AccountsController extends AdminController
 						if ($request->file($itemName)) {
 							$file = $request->file($itemName);
 							$name = time().'-'.$file->getClientOriginalName();
-							$path = "hc/$name";
+							$path = "account_files/$name";
 							Storage::put($path, File::get($file->getRealPath()));
-							$hc_date->$itemName = $path;
+							$account->$itemName = "/files/$path";
 						}
 					} else {
 						if ( ! isset($item['notSave']) or ! $item['notSave']) {
@@ -279,9 +279,9 @@ class AccountsController extends AdminController
 						if ($request->file($itemName)) {
 							$file = $request->file($itemName);
 							$name = time().'-'.$file->getClientOriginalName();
-							$path = "/account_files/$name";
+							$path = "account_files/$name";
 							Storage::put($path, File::get($file->getRealPath()));
-							$account->$itemName = $path;
+							$account->$itemName = "/files/$path";
 						}
 					} else {
 						if (( ! isset($item['notSave']) or ! $item['notSave']) and (! isset($item['not_updatable']) or ! $item['not_updatable'])) {

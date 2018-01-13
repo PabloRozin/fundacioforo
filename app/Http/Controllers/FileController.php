@@ -29,7 +29,7 @@ class FileController extends AdminController
 
 		$file = $request->file('file');
 		$name = $file->getClientOriginalName();
-		$path = "$name";
+		$path = "/hc/$name";
 		Storage::put($path, File::get($file->getRealPath()));
 
 		return Response::json('success', 200);

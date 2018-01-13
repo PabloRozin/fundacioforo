@@ -120,33 +120,19 @@
 		@endif
 		<?php $firstProfessional = false; ?>
 	@endforeach
-@endforeach
-<?php $admisions = $professional->admissions()
-	->select('patient_admisions.*', 'professionals.id', 'professionals.user_id', 'patients.patient_firstname as patient_firstname', 'patients.patient_lastname as patient_lastname')
-	->join('professionals', 'professionals.id', '=', 'patient_admisions.professional_id')
-	->join('patients', 'patients.id', '=', 'patient_admisions.patient_id')
-	->orderBy('professionals.firstname','ASC')
-	->orderBy('patient_admisions.created_at','ASC')
-	->dateWhere('patient_admisions.created_at', '>=', $since.' 00:00:00')
-	->dateWhere('patient_admisions.created_at', '<=', $to.' 23:59:59');
+	<?php $admisions = $professional->admissions()
+			->select('patient_admisions.*', 'professionals.id', 'professionals.user_id', 'patients.patient_firstname as patient_firstname', 'patients.patient_lastname as patient_lastname')
+			->join('professionals', 'professionals.id', '=', 'patient_admisions.professional_id')
+			->join('patients', 'patients.id', '=', 'patient_admisions.patient_id')
+			->orderBy('professionals.firstname','ASC')
+			->orderBy('patient_admisions.created_at','ASC')
+			->dateWhere('patient_admisions.created_at', '>=', $since.' 00:00:00')
+			->dateWhere('patient_admisions.created_at', '<=', $to.' 23:59:59');
 	?>
-@if (in_array(Auth::user()->permissions, ['professional']))
-	<?php $admisions = $admisions->where('professionals.user_id', '=', Auth::user()->id); ?>
-@endif
-@if ($admisions->count())
-	<table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
-		<tr>
-			<td style="vertical-align:top;width:15mm;padding:0 0 5px 0;">
-			</td>
-			<td style="vertical-align:top;width:50mm;padding:0 0 5px 0;">
-			</td>
-			<td style="vertical-align:top;width:120mm;padding:0 0 5px 0;">
-				<strong>Admisiones</strong>
-				({{ $admisions->count() }})
-			</td>
-		</tr>
-	</table>
-	@foreach ($admisions->get() as $key => $admision)
+	@if (in_array(Auth::user()->permissions, ['professional']))
+		<?php $admisions = $admisions->where('professionals.user_id', '=', Auth::user()->id); ?>
+	@endif
+	@if ($admisions->count())
 		<table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
 			<tr>
 				<td style="vertical-align:top;width:15mm;padding:0 0 5px 0;">
@@ -154,11 +140,25 @@
 				<td style="vertical-align:top;width:50mm;padding:0 0 5px 0;">
 				</td>
 				<td style="vertical-align:top;width:120mm;padding:0 0 5px 0;">
-					<div>
-						- Fecha: {{ date('d-m-Y', strtotime($admision->created_at)) }} / Paciente: {{ $admision->patient_firstname }} {{ $admision->patient_lastname }}
-					</div>
+					<strong>Admisiones</strong>
+					({{ $admisions->count() }})
 				</td>
 			</tr>
 		</table>
-	@endforeach
-@endif
+		@foreach ($admisions->get() as $key => $admision)
+			<table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
+				<tr>
+					<td style="vertical-align:top;width:15mm;padding:0 0 5px 0;">
+					</td>
+					<td style="vertical-align:top;width:50mm;padding:0 0 5px 0;">
+					</td>
+					<td style="vertical-align:top;width:120mm;padding:0 0 5px 0;">
+						<div>
+							- Fecha: {{ date('d-m-Y', strtotime($admision->created_at)) }} / Paciente: {{ $admision->patient_firstname }} {{ $admision->patient_lastname }}
+						</div>
+					</td>
+				</tr>
+			</table>
+		@endforeach
+	@endif
+@endforeach

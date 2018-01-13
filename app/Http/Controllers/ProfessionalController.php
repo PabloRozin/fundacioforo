@@ -701,6 +701,9 @@ class ProfessionalController extends AdminController
 			if (in_array(Auth::user()->permissions, ['administrator'])) {
 				$query->where('type', '!=', 'otros');
 			}
+		})->orWhereHas('admissions', function ($query) use ($data) {
+			$query->dateWhere('created_at', '>=', $data['since'].' 00:00:00');
+			$query->dateWhere('created_at', '<=', $data['to'].' 23:59:59');
 		})->orderBy('firstname', 'ASC');
 
 		if ($data['professional_id']) {

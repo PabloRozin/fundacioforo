@@ -3,7 +3,7 @@
 		<label for="{{ $name }}">{{ $title }}</label>
 	@endif
 	@if(isset($value))
-		<img src="{{ asset('/files'.$value) }}" alt="">
+		<img src="{{ $value }}" alt="">
 	@endif
 	<br>
 	<input 

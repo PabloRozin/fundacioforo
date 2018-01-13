@@ -79,7 +79,7 @@
 										@foreach(explode(',', $hc_date['files']) as $file)
 											<div class="hc-item-data hc-file hidden" style="padding:0 10px 0 0">
 												<div class="p">
-													<a target="_blank" href="{{ asset($file) }}">
+													<a target="_blank" href="{{ $file }}">
 														Ver Archivo
 													</a>
 												</div>
