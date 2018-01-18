@@ -679,7 +679,7 @@ class ProfessionalController extends AdminController
 
 		$data = [
 			'back_url' => route('professionals.index'),
-			'professional_id' => ($request->professional_id) ? $request->professional_id : false,
+			'professional_id' => ($professional_id) ? $professional_id : false,
 			'since' => (strtotime($request->since) < strtotime($request->to)) ? $request->since : $request->to,
 			'to' => (strtotime($request->since) < strtotime($request->to)) ? $request->to : $request->since,
 			'consultationTypes' => [
@@ -695,15 +695,17 @@ class ProfessionalController extends AdminController
 
 		$data['pdf_url'] = route('professionals.report', ['professional_id' => $professional_id]) . '?pdf=true&since='.$data['since'].'&to='.$data['to'];
 
-		$data['professionals'] = $this->account->professionals()->whereHas('hcDates', function ($query) use ($data) {
-			$query->dateWhere('created_at', '>=', $data['since'].' 00:00:00');
-			$query->dateWhere('created_at', '<=', $data['to'].' 23:59:59');
-			if (in_array(Auth::user()->permissions, ['administrator'])) {
-				$query->where('type', '!=', 'otros');
-			}
-		})->orWhereHas('admissions', function ($query) use ($data) {
-			$query->dateWhere('created_at', '>=', $data['since'].' 00:00:00');
-			$query->dateWhere('created_at', '<=', $data['to'].' 23:59:59');
+		$data['professionals'] = $this->account->professionals()->where(function($query) use ($data) {
+			$query->whereHas('hcDates', function ($query) use ($data) {
+				$query->dateWhere('created_at', '>=', $data['since'].' 00:00:00');
+				$query->dateWhere('created_at', '<=', $data['to'].' 23:59:59');
+				if (in_array(Auth::user()->permissions, ['administrator'])) {
+					$query->where('type', '!=', 'otros');
+				}
+			})->orWhereHas('admissions', function ($query) use ($data) {
+				$query->dateWhere('created_at', '>=', $data['since'].' 00:00:00');
+				$query->dateWhere('created_at', '<=', $data['to'].' 23:59:59');
+			});
 		})->orderBy('firstname', 'ASC');
 
 		if ($data['professional_id']) {
@@ -711,6 +713,7 @@ class ProfessionalController extends AdminController
 		}
 
 		$data['professionals'] = $data['professionals']->get();
+
 
 		if ($request->pdf) {
 			$view = \View::make('pdf.professionalsReport', $data)->render();
