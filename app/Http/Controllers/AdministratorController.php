@@ -25,7 +25,7 @@ class AdministratorController extends AdminController
 					'css_class' => 'col-1-4',
 					'type' => 'inputEmail',
 					'title' => 'Email',
-					'validation' => 'string|max:250|required|unique:users',
+					'validation' => 'string|max:250|required',
 					'notSave' => true,
 				],
 				'password' => [
