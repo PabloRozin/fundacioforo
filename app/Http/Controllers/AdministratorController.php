@@ -205,7 +205,7 @@ class AdministratorController extends AdminController
 
 		$this->validate($request, $validation);
 
-		$user = $this->account->users()->findOrFail($professional->user_id);
+		$user = $this->account->users()->findOrFail($administrator->user_id);
 
 		$user->name = $request->name;
 		if ( ! empty($request->password)) {
@@ -214,7 +214,7 @@ class AdministratorController extends AdminController
 
 		$user->save();
 
-		$professional->save();
+		$administrator->save();
 
 		$request->session()->flash('success', 'Se editaron con éxito los datos.');
 
