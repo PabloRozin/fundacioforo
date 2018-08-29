@@ -320,10 +320,6 @@ class ProfessionalController extends AdminController
 	 */
 	public function index(Request $request)
 	{
-		echo '<!--';
-		var_dump($this->account);
-		echo '-->';
-
 		$data['filters'] = [
 			'id' => [
 				'type' => 'where',	
@@ -407,6 +403,9 @@ class ProfessionalController extends AdminController
 		}
 
 		$professionals_quantity = $this->account->professionals()->count();
+
+		echo $professionals_quantity;
+		exit;
 
 		if ($this->account->professionals_limit > 0 and $professionals_quantity <= $this->account->professionals_limit) {
 			$request->session()->flash('error', 'Llegaste a tu límite de profesionales, contactate para aumentarlo.');
