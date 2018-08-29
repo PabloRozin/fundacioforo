@@ -402,7 +402,7 @@ class ProfessionalController extends AdminController
 			return redirect()->route('dashboard');
 		}
 
-		if ($professionals_quantity === 0 or $professionals_quantity > $this->account->professionals_limit) {
+		if ($professionals_quantity == 0 or $professionals_quantity > $this->account->professionals_limit) {
 			$request->session()->flash('error', 'Llegaste a tu límite de profesionales, contactate para aumentarlo.');
 
 			return redirect()->route('dashboard');
