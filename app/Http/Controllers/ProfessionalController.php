@@ -320,6 +320,10 @@ class ProfessionalController extends AdminController
 	 */
 	public function index(Request $request)
 	{
+		echo '<!--';
+		var_dump($this->account);
+		echo '-->';
+
 		$data['filters'] = [
 			'id' => [
 				'type' => 'where',	
