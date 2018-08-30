@@ -33,7 +33,7 @@ class Authenticate
         }
 
         if ($account->accepted_conditions === 0 and $request->getPathInfo() != '/accept-conditions') {
-            return redirect()->route('accounts.accept_conditions');
+            return redirect()->route('accept_conditions');
         }
 
         return $next($request);
