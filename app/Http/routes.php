@@ -16,6 +16,57 @@ Route::auth();
 // Admin
 Route::group(['middleware' => 'auth'], function ()
 {
+
+	Route::get('/accept-conditions', function() {
+
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
+			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+			return redirect()->route('dashboard');
+		}
+
+		$data = [
+			'items' => [
+				'Acepto los Términos y condiciones de la aplicación web "Evolución Historia Clínica Digital"' => [
+					'' => [
+						'terms_and_conditions' => [
+							'css_class' => 'col',
+							'type' => 'showText',
+							'title' => '',
+							'content' => 'plainHtml.terms_and_conditions',
+						],
+					],
+				],
+			],
+			'back_url' => route('dashboard'),
+			'form_url' => route('accept_conditions'),
+			'form_method' => 'POST',
+			'title' => 'Términos y condiciones',
+			'button_text' => 'Aceptar'
+		];
+
+		return view('form', $data);
+
+	})->name('accept_conditions');
+
+	Route::post('/accept-conditions', function() {
+
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
+			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+			return redirect()->route('dashboard');
+		}
+
+		$account = App\Account::where('id', Auth::user()->account_id)->firstOrFail();
+		$account->accepted_conditions = 1;
+		$account->save();
+
+		Request::session()->flash('success', 'Los términos y condiciones fueron aceptados con éxito.');
+
+		return redirect()->route('dashboard');
+
+	})->name('accept_conditions');
+
 	Route::get('/', 'PatientController@index')->name('dashboard');
 
 	Route::get('/patients/report/{patient_id?}', 'PatientController@report')->name('patients.report');

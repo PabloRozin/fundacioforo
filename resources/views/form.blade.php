@@ -51,17 +51,21 @@
 								@if ( ! isset($item['not_show_to']) or  ! in_array(Auth::user()->permissions, $item['not_show_to']))
 									
 									--><div class="col {{ $item['css_class'] }}">
-										@include('form.'.$item['type'], [
-											'title' => (isset($item['title'])) ? $item['title'] : null,
-											'name' => $item_name, 
-											'options' => (isset($item['options'])) ? $item['options'] : null, 
-											'value' => (isset($item['value'])) ? $item['value'] : null,
-											'min' => (isset($item['min'])) ? $item['min'] : '1900-01-01',
-											'max' => (isset($item['max'])) ? $item['max'] : date('Y-m-d'),
-											'only_view' => (isset($only_view) and $only_view) ? true : false,
-											'not_updatable' => (isset($edit) and $edit and isset($item['not_updatable']) and $item['not_updatable']) ? true : false,
-											'config' => (isset($item['config'])) ? $item['config'] : []
-										])
+										@if ($item['type'] == 'showText')
+											@include($item['content'])
+										@else
+											@include('form.'.$item['type'], [
+												'title' => (isset($item['title'])) ? $item['title'] : null,
+												'name' => $item_name, 
+												'options' => (isset($item['options'])) ? $item['options'] : null, 
+												'value' => (isset($item['value'])) ? $item['value'] : null,
+												'min' => (isset($item['min'])) ? $item['min'] : '1900-01-01',
+												'max' => (isset($item['max'])) ? $item['max'] : date('Y-m-d'),
+												'only_view' => (isset($only_view) and $only_view) ? true : false,
+												'not_updatable' => (isset($edit) and $edit and isset($item['not_updatable']) and $item['not_updatable']) ? true : false,
+												'config' => (isset($item['config'])) ? $item['config'] : []
+											])
+										@endif
 									</div><!--
 
 								@endif
@@ -79,7 +83,13 @@
 			<div class="hc-form-buttons">
 				@if ( ! isset($only_view) or ! $only_view)
 					<div class="hc-form-button">
-						<button type="submit" class="btn">Guardar</button>
+						<button type="submit" class="btn">
+							@if (isset($button_text))
+								{{ $button_text }}
+							@else
+								Guardar
+							@endif
+						</button>
 					</div>
 				@endif
 				<div class="hc-form-button">

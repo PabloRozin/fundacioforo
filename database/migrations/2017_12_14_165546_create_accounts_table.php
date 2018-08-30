@@ -16,6 +16,7 @@ class CreateAccountsTable extends Migration
             $table->increments('id');
             $table->char('accountName', 255)->unique();
             $table->boolean('state');
+            $table->boolean('accepted_conditions');
             $table->integer('professionals_limit');
             $table->integer('patients_limit');
             $table->integer('administrator_limit');

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\Account;
 
 class Authenticate
 {
@@ -23,6 +24,16 @@ class Authenticate
             } else {
                 return redirect()->guest('login');
             }
+        }
+
+        $account = Account::where('id', Auth::user()->account_id)->firstOrFail();
+
+        if ($account->state === 0) {
+            Auth::logout();
+        }
+
+        if ($account->accepted_conditions === 0 and $request->getPathInfo() != '/accept-conditions') {
+            return redirect()->route('accounts.accept_conditions');
         }
 
         return $next($request);

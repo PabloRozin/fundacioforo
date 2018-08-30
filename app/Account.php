@@ -15,7 +15,9 @@ class Account extends Model
 		'id',
 		'professionals_limit',
 		'patients_limit',
-		'logo',
+        'logo',
+        'state',
+		'accepted_conditions',
 	];
 
 	/**

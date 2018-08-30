@@ -16,8 +16,10 @@ class AdminController extends Controller
 
 		if ($this->account->state === 0) {
 			Auth::logout();
+		}
 
-			return redirect()->route('dashboard');
+		if ($this->account->accepted_conditions === 0) {
+			redirect()->route('accept_conditions');
 		}
 	}
 
