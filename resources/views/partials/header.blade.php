@@ -4,8 +4,13 @@
 		
 		<h1 class="logo">
 			<a href="{{ route('patients.index') }}">
-				<img class="big" src="{{ Auth::user()->account->logo }}" alt="Evolución HCD">
-				<img class="small" src="{{ Auth::user()->account->logo }}" alt="Evolución HCD">
+				@if (Auth::user()->account->logo)
+					<img class="big" src="{{ Auth::user()->account->logo }}" alt="Evolución HCD">
+					<img class="small" src="{{ Auth::user()->account->logo }}" alt="Evolución HCD">
+				@else
+					<img class="big" src="/images/evolucion-hcd-logo-interno.jpg" alt="Evolución HCD">
+					<img class="small" src="/images/evolucion-hcd-logo-interno.jpg" alt="Evolución HCD">
+				@endif
 			</a>
 		</h1>
 

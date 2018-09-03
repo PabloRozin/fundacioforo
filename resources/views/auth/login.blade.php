@@ -6,8 +6,8 @@
 
 <div class="auth">
 
-    <div class="logo">
-        Evolución HCD
+    <div class="logo content">
+        <img style="width: 100%;height:auto;margin-bottom:30px;" src="/images/evolucion-hcd-logo.jpg" alt="Evolución HCD">
     </div>
 
     <div class="content">
