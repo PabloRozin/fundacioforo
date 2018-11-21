@@ -59,9 +59,9 @@
 											->dateWhere('hc_dates.created_at', '>=', $since.' 00:00:00')
 											->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
 											->where('type', $consultationType['id']);
-											if (in_array(Auth::user()->permissions, ['superadmin','professional']))
+											if (in_array(Auth::user()->permissions, ['professional']))
 												$hcDates = $hcDates->where('professionals.user_id', '=', Auth::user()->id);
-											if (in_array(Auth::user()->permissions, ['superadmin','administrator']))
+											if (in_array(Auth::user()->permissions, ['administrator']))
 												$hcDates = $hcDates->where('type', '!=', 'otros');
 			 							?>
 										@if ($hcDates->count())
@@ -75,7 +75,7 @@
 											<strong>{{ $consultationType['value'] }}</strong>
 											({{ $hcDates->count() }})
 											@foreach ($hcDates->get() as $key => $hcDate)
-												@if ( ! in_array(Auth::user()->permissions, ['superadmin','professional']) and $actualProfessional != $hcDate->professional->id)
+												@if ( ! in_array(Auth::user()->permissions, ['professional']) and $actualProfessional != $hcDate->professional->id)
 													<?php $actualProfessional = $hcDate->professional->id; ?>
 													<br>
 													<a href="{{ route('professionals.edit', ['patient_id' => $hcDate->professional->id]) }}">
@@ -86,7 +86,7 @@
 															->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
 															->where('professional_id', $hcDate->professional->id)
 															->where('type', $consultationType['id']);
-															if (in_array(Auth::user()->permissions, ['superadmin','administrator']))
+															if (in_array(Auth::user()->permissions, ['administrator']))
 																$hcDatesActual = $hcDatesActual->where('type', '!=', 'otros');
 															echo $hcDatesActual->count();
 							 							?>)
@@ -108,7 +108,7 @@
 										->dateWhere('patient_admisions.created_at', '>=', $since.' 00:00:00')
 										->dateWhere('patient_admisions.created_at', '<=', $to.' 23:59:59');
 		 							?>
-									@if (in_array(Auth::user()->permissions, ['superadmin','professional']))
+									@if (in_array(Auth::user()->permissions, ['professional']))
 										<?php $admisions = $admisions->where('professionals.user_id', '=', Auth::user()->id); ?>
 									@endif
 									@if ($admisions->count())

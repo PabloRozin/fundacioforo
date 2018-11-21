@@ -46,7 +46,7 @@ class AdministratorController extends AdminController
 	 */
 	public function index(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');
@@ -64,7 +64,7 @@ class AdministratorController extends AdminController
 	 */
 	public function create(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');
@@ -97,7 +97,7 @@ class AdministratorController extends AdminController
 	 */
 	public function store(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');
@@ -142,7 +142,7 @@ class AdministratorController extends AdminController
 	 */
 	public function edit(Request $request, $id)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');
@@ -183,7 +183,7 @@ class AdministratorController extends AdminController
 	 */
 	public function update(Request $request, $id)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');

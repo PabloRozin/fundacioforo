@@ -1043,7 +1043,7 @@ class PatientController extends AdminController
 			],
 		];
 
-		if (in_array(Auth::user()->permissions, ['superadmin','professional'])) {
+		if (in_array(Auth::user()->permissions, ['professional'])) {
 
 			$data['professional'] = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
 
@@ -1091,7 +1091,7 @@ class PatientController extends AdminController
 				}
 			}
 
-			if ( ! in_array(Auth::user()->permissions, ['superadmin','admin'])) {
+			if ( ! in_array(Auth::user()->permissions, ['admin'])) {
 				$data['patients'] = $data['patients']->where('patient_state', 1);
 			}
 
@@ -1112,7 +1112,7 @@ class PatientController extends AdminController
 	 */
 	public function create(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.index');
@@ -1145,7 +1145,7 @@ class PatientController extends AdminController
 	 */
 	public function store(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.index');
@@ -1211,7 +1211,7 @@ class PatientController extends AdminController
 	 */
 	public function show(Request $request, $id)
 	{
-		if (in_array(Auth::user()->permissions, ['superadmin','admin'])) {
+		if (in_array(Auth::user()->permissions, ['admin'])) {
 			$patient = $this->account->patients()->findOrFail($id);
 		} else {
 			$patient = $this->account->patients()->where('patient_state', 1)->where('id', $id)->firstOrFail();
@@ -1245,13 +1245,13 @@ class PatientController extends AdminController
 	 */
 	public function edit(Request $request, $id)
 	{
-		if (in_array(Auth::user()->permissions, ['superadmin','admin'])) {
+		if (in_array(Auth::user()->permissions, ['admin'])) {
 			$patient = $this->account->patients()->findOrFail($id);
 		} else {
 			$patient = $this->account->patients()->where('patient_state', 1)->where('id', $id)->firstOrFail();
 		}
 
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.show', ['patient_id' => $patient->id]);
@@ -1287,7 +1287,7 @@ class PatientController extends AdminController
 	{
 		$patient = $this->account->patients()->findOrFail($id);
 		
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin', 'professional', 'admisor'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional', 'admisor'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.show', ['patient_id' => $patient->id]);
@@ -1344,7 +1344,7 @@ class PatientController extends AdminController
 	 */
 	public function report(Request $request, $patient_id = false)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','administrator', 'admin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.index');
@@ -1383,11 +1383,11 @@ class PatientController extends AdminController
 		$data['patients'] = $this->account->patients()->whereHas('hcDates', function ($query) use ($data) {
 			$query->dateWhere('hc_dates.created_at', '>=', $data['since'].' 00:00:00');
 			$query->dateWhere('hc_dates.created_at', '<=', $data['to'].' 23:59:59');
-			if (in_array(Auth::user()->permissions, ['superadmin','professional'])) {
+			if (in_array(Auth::user()->permissions, ['professional'])) {
 				$query->join('professionals', 'professionals.id', '=', 'hc_dates.professional_id')
 					->where('professionals.user_id', '=', Auth::user()->id);
 			}
-			if (in_array(Auth::user()->permissions, ['superadmin','administrator'])) {
+			if (in_array(Auth::user()->permissions, ['administrator'])) {
 				$query->where('type', '!=', 'otros');
 			}
 		})->orderBy('patient_firstname', 'ASC');
@@ -1437,7 +1437,7 @@ class PatientController extends AdminController
 	 */
 	public function create_admissions(Request $request, $patient_id)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.admissions.show', ['patient_id' => $patient_id]);
@@ -1464,7 +1464,7 @@ class PatientController extends AdminController
 	 */
 	public function store_admissions(Request $request, $patient_id)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin', 'professional'])) {
+		if ( ! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.admissions.show', ['patient_id' => $patient_id]);
@@ -1612,7 +1612,7 @@ class PatientController extends AdminController
 	 */
 	public function create_hc(Request $request, $patient_id)
 	{
-		if ( ! (in_array(Auth::user()->permissions, ['superadmin','professional']))) {
+		if ( ! (in_array(Auth::user()->permissions, ['professional']))) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.hc', ['patient_id' => $patient_id]);
@@ -1639,7 +1639,7 @@ class PatientController extends AdminController
 	 */
 	public function store_hc(Request $request, $patient_id)
 	{
-		if ( ! (in_array(Auth::user()->permissions, ['superadmin','professional']))) {
+		if ( ! (in_array(Auth::user()->permissions, ['professional']))) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.hc', ['patient_id' => $patient_id]);
@@ -1730,7 +1730,7 @@ class PatientController extends AdminController
 	 */
 	public function assignProfessional(Request $request, $patient_id)
 	{
-		if ( ! (in_array(Auth::user()->permissions, ['superadmin','professional']))) {
+		if ( ! (in_array(Auth::user()->permissions, ['professional']))) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.hc', ['patient_id' => $patient_id]);
@@ -1753,7 +1753,7 @@ class PatientController extends AdminController
 	 */
 	public function unAssignProfessional(Request $request, $patient_id)
 	{
-		if ( ! (in_array(Auth::user()->permissions, ['superadmin','professional']))) {
+		if ( ! (in_array(Auth::user()->permissions, ['professional']))) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('patients.hc', ['patient_id' => $patient_id]);

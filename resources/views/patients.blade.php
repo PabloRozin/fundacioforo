@@ -46,7 +46,7 @@
 						<input type="email" name="patient_email" placeholder="Email">
 					</div>
 					
-					@if (in_array(Auth::user()->permissions, ['superadmin','admin']))
+					@if (in_array(Auth::user()->permissions, ['admin']))
 						<div class="item">
 							<select name="patient_state">
 								<option value="">Habilitado</option>
@@ -64,7 +64,7 @@
 
 			</div>
 			
-			@if (in_array(Auth::user()->permissions, ['superadmin','administrator', 'admin', 'professional']))
+			@if (in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional']))
 				<div class="popup-report popup-body">
 
 					<div class="hc-title">Reporte general de pacientes</div>
@@ -123,12 +123,12 @@
 		<div class="hc-title">Listado de pacientes</div>
 
 		<div class="hc-buttons">
-			@if (in_array(Auth::user()->permissions, ['superadmin','admin', 'professional']))
+			@if (in_array(Auth::user()->permissions, ['admin', 'professional']))
 				<div class="hc-button">
 					<a href="{{ route('patients.create') }}" class="btn">Agregar</a>
 				</div>
 			@endif
-			@if (in_array(Auth::user()->permissions, ['superadmin','admin', 'professional', 'administrator']))
+			@if (in_array(Auth::user()->permissions, ['admin', 'professional', 'administrator']))
 				<div class="hc-button">
 					<button class="btn btn-secondary act-report">Reporte</a>
 				</div>
@@ -151,7 +151,7 @@
 
 			<div class="hc-item hc-item-title">
 				<div class="hc-item-cont">
-					<div class="hc-item-data-cont {{ (in_array(Auth::user()->permissions, ['superadmin','professional'])) ? 'patient' : '' }}"><!--
+					<div class="hc-item-data-cont {{ (in_array(Auth::user()->permissions, ['professional'])) ? 'patient' : '' }}"><!--
 						--><div class="hc-item-data id">
 							<div class="t">Id</div>
 						</div><!--
@@ -175,8 +175,8 @@
 				@foreach($patientsHighlight as $key => $patient)
 					<div class="hc-item">
 						<div class="hc-item-cont">
-							<div class="hc-item-data-cont {{ (in_array(Auth::user()->permissions, ['superadmin','professional'])) ? 'patient' : '' }}"><!--
-								@if (in_array(Auth::user()->permissions, ['superadmin','professional']))	
+							<div class="hc-item-data-cont {{ (in_array(Auth::user()->permissions, ['professional'])) ? 'patient' : '' }}"><!--
+								@if (in_array(Auth::user()->permissions, ['professional']))	
 									@if ( ! $patient->professionals()->where('id', $professional->id)->first())
 										--><a class="star" href="{{ route('patients.assignProfessional', ['patient_id' => $patient->id]) }}">
 											<span class="lnr lnr-star-empty"></span>
@@ -218,7 +218,7 @@
 								<li>
 									<a href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Datos</a>
 								</li>
-								@if (in_array(Auth::user()->permissions, ['superadmin','administrator', 'admin', 'professional']))
+								@if (in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional']))
 									<li>
 										<span class="act-report-one" data-id="{{ $patient['id'] }}" data-name="{{ $patient['patient_firstname'] }} {{ $patient['patient_lastname'] }}">Reporte</span>
 									</li>
@@ -235,8 +235,8 @@
 			@foreach($patients as $key => $patient)
 				<div class="hc-item">
 					<div class="hc-item-cont">
-						<div class="hc-item-data-cont {{ (in_array(Auth::user()->permissions, ['superadmin','professional'])) ? 'patient' : '' }}"><!--
-							@if (in_array(Auth::user()->permissions, ['superadmin','professional']))	
+						<div class="hc-item-data-cont {{ (in_array(Auth::user()->permissions, ['professional'])) ? 'patient' : '' }}"><!--
+							@if (in_array(Auth::user()->permissions, ['professional']))	
 								@if ( ! $patient->professionals()->where('id', $professional->id)->first())
 									--><a class="star" href="{{ route('patients.assignProfessional', ['patient_id' => $patient->id]) }}">
 										<span class="lnr lnr-star-empty"></span>
@@ -272,7 +272,7 @@
 							<li>
 								<a href="{{ route('patients.hc', ['patient_id' => $patient['id']]) }}">HC</a>
 							</li>
-							@if (in_array(Auth::user()->permissions, ['superadmin','admin', 'professional']))
+							@if (in_array(Auth::user()->permissions, ['admin', 'professional']))
 								<li>
 									<a href="{{ route('patients.admissions.index', ['patient_id' => $patient['id']]) }}">Admisión</a>
 								</li>
@@ -284,7 +284,7 @@
 									<a href="{{ route('patients.show', ['id' => $patient['id']]) }}">Datos</a>
 								</li>
 							@endif
-							@if (in_array(Auth::user()->permissions, ['superadmin','administrator', 'admin', 'professional']))
+							@if (in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional']))
 								<li>
 									<span class="act-report-one" data-id="{{ $patient['id'] }}" data-name="{{ $patient['patient_firstname'] }} {{ $patient['patient_lastname'] }}">Reporte</span>
 								</li>

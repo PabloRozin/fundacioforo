@@ -65,7 +65,7 @@
 
 			</div>
 			
-			@if (in_array(Auth::user()->permissions, ['superadmin','administrator', 'admin', 'professional']))
+			@if (in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional']))
 				<div class="popup-report popup-body">
 
 					<div class="hc-title">Reporte general de profesionales</div>
@@ -124,12 +124,12 @@
 		<div class="hc-title">Listado de profesionales</div>
 
 		<div class="hc-buttons">
-			@if (in_array(Auth::user()->permissions, ['superadmin','admin']))
+			@if (in_array(Auth::user()->permissions, ['admin']))
 				<div class="hc-button">
 					<a href="{{ route('professionals.create') }}" class="btn">Agregar</a>
 				</div>
 			@endif
-			@if (in_array(Auth::user()->permissions, ['superadmin','administrator', 'admin']))
+			@if (in_array(Auth::user()->permissions, ['administrator', 'admin']))
 				<div class="hc-button">
 					<button class="btn btn-secondary act-report">Reporte</a>
 				</div>
@@ -202,13 +202,13 @@
 						--></div>
 						<ul class="hc-item-options">
 							<li>
-								@if ((in_array(Auth::user()->permissions, ['superadmin','professional']) and $professional->user_id == Auth::user()->id) or in_array(Auth::user()->permissions, ['superadmin','admin']))
+								@if ((in_array(Auth::user()->permissions, ['professional']) and $professional->user_id == Auth::user()->id) or in_array(Auth::user()->permissions, ['admin']))
 									<a href="{{ route('professionals.edit', ['id' => $professional['id']]) }}">Datos</a>
 								@else
 									<a href="{{ route('professionals.show', ['id' => $professional['id']]) }}">Datos</a>
 								@endif
 							</li>
-							@if (in_array(Auth::user()->permissions, ['superadmin','administrator', 'admin']))
+							@if (in_array(Auth::user()->permissions, ['administrator', 'admin']))
 								<li>
 									<span class="act-report-one" data-id="{{ $professional['id'] }}" data-name="{{ $professional['firstname'] }} {{ $professional['lastname'] }}">Reporte</span>
 								</li>

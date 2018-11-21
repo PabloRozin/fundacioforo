@@ -22,19 +22,19 @@
 				<li>
 					<a href="{{ route('professionals.index') }}">Profesionales</a>
 				</li>
-				@if (in_array(Auth::user()->permissions, ['superadmin','admin']))
+				@if (in_array(Auth::user()->permissions, ['admin']))
 					<li>
 						<a href="{{ route('administrators.index') }}">Administradores</a>
 					</li>
 				@endif
-				@if (in_array(Auth::user()->permissions, ['superadmin','superadmin']))
+				@if (in_array(Auth::user()->permissions, ['superadmin']))
 					<li>
 						<a href="{{ route('accounts.index') }}">Cuentas</a>
 					</li>
 				@endif
 				<li class="user">
 					<span>Bienvenido 
-						@if (in_array(Auth::user()->permissions, ['superadmin','professional']))
+						@if (in_array(Auth::user()->permissions, ['professional']))
 							<a class="name" href="{{ route('professionals.edit', ['id' => App\Professional::where('user_id', Auth::user()->id)->first()->id]) }}">{{ Auth::user()->name }}</a>
 						@else
 							<strong>{{ Auth::user()->name }}</strong>
