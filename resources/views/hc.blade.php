@@ -9,7 +9,7 @@
 		<div class="hc-title">Historia Clínica de "{{ $patient->patient_firstname }} {{ $patient->patient_lastname }}"</div>
 
 		<div class="hc-buttons">
-			@if (in_array(Auth::user()->permissions, ['professional']))
+			@if (in_array(Auth::user()->permissions, ['superadmin','professional']))
 				<div class="hc-button">
 					<a href="{{ route('patients.hc.create', ['patient_id' => $patient->id]) }}" class="btn">Agregar</a>
 				</div>
@@ -40,7 +40,7 @@
 						--><div class="hc-item-data hc-professional">
 							<div class="t">Profesional</div>
 						</div><!--
-						@if (in_array(Auth::user()->permissions, ['admin', 'professional']))
+						@if (in_array(Auth::user()->permissions, ['superadmin','admin', 'professional']))
 							--><div class="hc-item-data hc-detail hidden">
 								<div class="t">Evolución</div>
 							</div><!--
@@ -71,7 +71,7 @@
 								<div class="t">Profesional</div>
 								<div class="p">{{ $hc_date->professional->firstname }} {{ $hc_date->professional->lastname }} ({{ $hc_date->professional->registration_number }})</div>
 							</div><!--
-							@if (in_array(Auth::user()->permissions, ['admin', 'professional']))
+							@if (in_array(Auth::user()->permissions, ['superadmin','admin', 'professional']))
 								--><div class="hc-item-data hc-detail hidden">
 									<div class="t">Evolución</div>
 									<div class="p">{!! nl2br(strip_tags(html_entity_decode($hc_date->detail), '<br>')) !!}</div>

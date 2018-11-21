@@ -59,7 +59,7 @@
 											->dateWhere('hc_dates.created_at', '>=', $since.' 00:00:00')
 											->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
 											->where('type', $consultationType['id']);
-											if (in_array(Auth::user()->permissions, ['administrator']))
+											if (in_array(Auth::user()->permissions, ['superadmin','administrator']))
 												$hcDates = $hcDates->where('type', '!=', 'otros');
 											?>
 										@if ($hcDates->count())
@@ -83,7 +83,7 @@
 															->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
 															->where('patient_id', $hcDate->patient->id)
 															->where('type', $consultationType['id']);
-															if (in_array(Auth::user()->permissions, ['administrator']))
+															if (in_array(Auth::user()->permissions, ['superadmin','administrator']))
 																$hcDatesActual = $hcDatesActual->where('type', '!=', 'otros');
 															echo $hcDatesActual->count();
 							 							?>)
@@ -107,7 +107,7 @@
 										->dateWhere('patient_admisions.created_at', '>=', $since.' 00:00:00')
 										->dateWhere('patient_admisions.created_at', '<=', $to.' 23:59:59');
 		 							?>
-									@if (in_array(Auth::user()->permissions, ['professional']))
+									@if (in_array(Auth::user()->permissions, ['superadmin','professional']))
 										<?php $admisions = $admisions->where('professionals.user_id', '=', Auth::user()->id); ?>
 									@endif
 									@if ($admisions->count())
