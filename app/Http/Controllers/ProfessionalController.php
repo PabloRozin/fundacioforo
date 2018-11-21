@@ -359,7 +359,7 @@ class ProfessionalController extends AdminController
 
 		$data['professionals'] = $this->account->professionals()->orderBy('firstname', 'ASC');
 
-		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin'])) {
 			$data['professionals'] = $data['professionals']->where('state', 1);
 		}
 
@@ -396,7 +396,7 @@ class ProfessionalController extends AdminController
 	 */
 	public function create(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');
@@ -429,7 +429,7 @@ class ProfessionalController extends AdminController
 	 */
 	public function store(Request $request)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['admin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('dashboard');
@@ -509,7 +509,7 @@ class ProfessionalController extends AdminController
 	 */
 	public function show(Request $request, $id)
 	{
-		if (in_array(Auth::user()->permissions, ['admin'])) {
+		if (in_array(Auth::user()->permissions, ['superadmin','admin'])) {
 			$professional = $this->account->professionals()->findOrFail($id);
 		} else {
 			$professional = $this->account->professionals()->where('state', 1)->where('id', $id)->firstOrFail();
@@ -543,13 +543,13 @@ class ProfessionalController extends AdminController
 	 */
 	public function edit(Request $request, $id)
 	{
-		if (in_array(Auth::user()->permissions, ['admin'])) {
+		if (in_array(Auth::user()->permissions, ['superadmin','admin'])) {
 			$professional = $this->account->professionals()->findOrFail($id);
 		} else {
 			$professional = $this->account->professionals()->where('state', 1)->where('id', $id)->firstOrFail();
 		}
 
-		if ( ! in_array(Auth::user()->permissions, ['admin']) and 
+		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin']) and 
 			( ! in_array(Auth::user()->permissions, ['professional']) or $professional->user_id != Auth::user()->id)
 		) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
@@ -588,7 +588,7 @@ class ProfessionalController extends AdminController
 	{
 		$professional = $this->account->professionals()->findOrFail($id);
 
-		if ( ! in_array(Auth::user()->permissions, ['admin']) and 
+		if ( ! in_array(Auth::user()->permissions, ['superadmin','admin']) and 
 			( ! in_array(Auth::user()->permissions, ['professional']) or $professional->user_id != Auth::user()->id)
 		) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
@@ -611,7 +611,7 @@ class ProfessionalController extends AdminController
 						$validationName = $item['title'];
 					}
 					$validationNames[$itemName] = $validationName;
-					if ( ! in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data'])) {
+					if ( ! in_array(Auth::user()->permissions, ['superadmin','professional']) or ! isset($item['user_data'])) {
 						if ( ! empty($item['validation']) and ( ! isset($item['not_updatable']) or ! $item['not_updatable'])) {
 							if ( ! isset($item['not_show_to']) or  ! in_array(Auth::user()->permissions, $item['not_show_to'])) {
 								$validation[$itemName] = $item['validation'];
@@ -659,7 +659,7 @@ class ProfessionalController extends AdminController
 	 */
 	public function report(Request $request, $professional_id = false)
 	{
-		if ( ! in_array(Auth::user()->permissions, ['administrator', 'admin'])) {
+		if ( ! in_array(Auth::user()->permissions, ['superadmin','administrator', 'admin'])) {
 			$request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
 			return redirect()->route('professionals.index');
@@ -699,7 +699,7 @@ class ProfessionalController extends AdminController
 			$query->whereHas('hcDates', function ($query) use ($data) {
 				$query->dateWhere('created_at', '>=', $data['since'].' 00:00:00');
 				$query->dateWhere('created_at', '<=', $data['to'].' 23:59:59');
-				if (in_array(Auth::user()->permissions, ['administrator'])) {
+				if (in_array(Auth::user()->permissions, ['superadmin','administrator'])) {
 					$query->where('type', '!=', 'otros');
 				}
 			})->orWhereHas('admissions', function ($query) use ($data) {
