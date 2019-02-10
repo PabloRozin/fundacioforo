@@ -46,7 +46,7 @@ $(document).ready(function()
 				return d.getTime()+'-'+slugify(file.name.split('.')[0])+'.'+file.name.split('.')[1];
 			},
 			accept: function(file, done) {
-				$('.dropzone-items-'+name).append('<input type="hidden" name="dropzone_'+name+'[]" value="/files/hc/'+file.upload.filename+'">');
+				$('.dropzone-items-'+name).append('<input type="hidden" name="dropzone_'+name+'[]" value="https://s3.us-east-2.amazonaws.com/hcdigital/hc/'+file.upload.filename+'">');
 				console.log(file);
 				done();
 			},

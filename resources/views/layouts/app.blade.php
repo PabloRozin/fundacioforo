@@ -56,7 +56,7 @@
 	<script src="{{ asset('/js/jquery.min.js') }}"></script>
 	<script src="{{ asset('/js/jquery.noty.packaged.min.js') }}"></script>
 	<script src="{{ asset('/js/dropzone/dropzone.min.js') }}?2"></script>
-	<script src="{{ asset('/js/web.js') }}?2"></script>
+	<script src="{{ asset('/js/web.js') }}?3"></script>
 		
 	@if (session()->has('success'))
 		<script>
