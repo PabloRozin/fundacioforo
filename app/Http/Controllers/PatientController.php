@@ -1174,7 +1174,11 @@ class PatientController extends AdminController
 						$validationName = $item['title'];
 					}
 					if ( ! empty($item['validation'])) {
-						$validation[$itemName] = $item['validation'];
+						if (isset($item['is_unique']) and $item['is_unique']) {
+							$validation[$itemName] = $item['validation'].',NULL,NULL,account_id,'.$this->account->id;
+						} else {
+							$validation[$itemName] = $item['validation'];
+						}
 
 						$validationNames[$itemName] = $validationName;
 					}
@@ -1309,7 +1313,7 @@ class PatientController extends AdminController
 					}
 					if ( ! empty($item['validation'])) {
 						if (isset($item['is_unique']) and $item['is_unique']) {
-							$validation[$itemName] = $item['validation'].','.$patient->id;
+							$validation[$itemName] = $item['validation'].','.$patient->id.',NULL,account_id,'.$this->account->id;
 						} else {
 							$validation[$itemName] = $item['validation'];
 						}
