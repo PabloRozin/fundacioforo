@@ -1313,7 +1313,7 @@ class PatientController extends AdminController
 					}
 					if ( ! empty($item['validation'])) {
 						if (isset($item['is_unique']) and $item['is_unique']) {
-							$validation[$itemName] = $item['validation'].','.$patient->id.',NULL,account_id,'.$this->account->id;
+							$validation[$itemName] = $item['validation'].','.$patient->id.',id,account_id,'.$this->account->id;
 						} else {
 							$validation[$itemName] = $item['validation'];
 						}
