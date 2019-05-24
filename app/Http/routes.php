@@ -68,6 +68,8 @@ Route::group(['middleware' => 'auth'], function ()
 	})->name('accept_conditions');
 
 	Route::get('/', 'PatientController@index')->name('dashboard');
+	
+	// -------------------------------
 
 	Route::get('/patients/report/{patient_id?}', 'PatientController@report')->name('patients.report');
 
@@ -85,13 +87,27 @@ Route::group(['middleware' => 'auth'], function ()
 	Route::get('/patients/{patient_id}/assignProfessional', 'PatientController@assignProfessional')->name('patients.assignProfessional');
 	Route::get('/patients/{patient_id}/unAssignProfessional', 'PatientController@unAssignProfessional')->name('patients.unAssignProfessional');
 
-	Route::get('/professionals/report/{professional_id?}', 'ProfessionalController@report')->name('professionals.report');
+	// -------------------------------
 	
+	Route::get('/professionals/report/{professional_id?}', 'ProfessionalController@report')->name('professionals.report');
+
 	Route::resource('professionals', 'ProfessionalController');
+	
+	// -------------------------------
 
 	Route::resource('administrators', 'AdministratorController');
+	
+	// -------------------------------
 
 	Route::resource('accounts', 'AccountsController');
+	
+	// -------------------------------
+
+	Route::resource('appointments', 'AppointmentController');
+
+	Route::get('/appointments/create/{patient_id?}', 'AppointmentController@create')->name('appointment.create');
+	
+	// -------------------------------
 	
 	Route::post('/file', 'FileController@store')->name('file.store');
 });

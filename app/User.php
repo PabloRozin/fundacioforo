@@ -45,4 +45,28 @@ class User extends Authenticatable
 
         return $date;
     }
+
+    /**
+     * The admisions that belong to the account.
+     */
+    public function professional()
+    {
+        return $this->hasOne('App\Professional');
+    }
+
+    /**
+     * The admisions that belong to the account.
+     */
+    public function patient()
+    {
+        return $this->hasOne('App\Patient');
+    }
+
+    /**
+     * The admisions that belong to the account.
+     */
+    public function appointment()
+    {
+        return $this->hasOne('App\Appointment');
+    }
 }

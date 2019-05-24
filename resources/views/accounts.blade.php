@@ -6,7 +6,7 @@
 	
 	<div class="center">
 		
-		<div class="hc-title">Listado de CueNTAS</div>
+		<div class="hc-title">Listado de Cuentas</div>
 
 		<div class="hc-buttons">
 			<div class="hc-button">

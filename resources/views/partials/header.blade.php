@@ -32,6 +32,11 @@
 						<a href="{{ route('accounts.index') }}">Cuentas</a>
 					</li>
 				@endif
+				@if (in_array(Auth::user()->permissions, ['professional']))
+					<li>
+						<a href="{{ route('appointments.index') }}">Agenda</a>
+					</li>
+				@endif
 				<li class="user">
 					<span>Bienvenido 
 						@if (in_array(Auth::user()->permissions, ['professional']))

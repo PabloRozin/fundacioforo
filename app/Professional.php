@@ -87,6 +87,15 @@ class Professional extends Model
         return $this->belongsToMany('App\Patients');
     }
 
+
+    /**
+     * The patients that belong to the professional.
+     */
+    public function appointments()
+    {
+        return $this->belongsToMany('App\Appointment');
+    }
+
     /**
      * Get the hc for the blog professional.
      */
@@ -114,5 +123,13 @@ class Professional extends Model
 		$date = date('Y-m-d h:i:s', strtotime($date) + 10800);
 		
 	    $query->where($name, $operator, $date);
+	}
+
+	/**
+	* Get the professional that owns the admision.
+	*/
+	public function user()
+	{
+		return $this->belongsTo('App\User');
 	}
 }

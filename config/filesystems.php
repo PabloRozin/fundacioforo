@@ -56,10 +56,10 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => 'AKIAIDXHYZ756MJ4A4SA',
-            'secret' => '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',
-            'region' => 'us-east-2',
-            'bucket' => 'hcdigital',
+            'key' => env('AWS_S3_KEY'),
+            'secret' => env('AWS_S3_SECRET'),
+            'region' => env('AWS_S3_REGION'),
+            'bucket' => env('AWS_S3_BUCKET'),
         ],
 
     ],

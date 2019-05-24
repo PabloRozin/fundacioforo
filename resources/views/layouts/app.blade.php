@@ -32,6 +32,8 @@
 
 	<!-- Styles -->
 	<link href="{{ asset('/js/dropzone/dropzone.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('/js/fullcalendar/core/main.css') }}" rel="stylesheet">
+	<link href="{{ asset('/js/fullcalendar/daygrid/main.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/web.css') }}?1" rel="stylesheet">
 
 	<!-- Fonts -->
@@ -56,6 +58,9 @@
 	<script src="{{ asset('/js/jquery.min.js') }}"></script>
 	<script src="{{ asset('/js/jquery.noty.packaged.min.js') }}"></script>
 	<script src="{{ asset('/js/dropzone/dropzone.min.js') }}?2"></script>
+	<script src="{{ asset('/js/fullcalendar/core/main.js') }}?2"></script>
+	<script src="{{ asset('/js/fullcalendar/core/locales/es.js') }}?2"></script>
+	<script src="{{ asset('/js/fullcalendar/daygrid/main.js') }}?2"></script>
 	<script src="{{ asset('/js/web.js') }}?3"></script>
 		
 	@if (session()->has('success'))
