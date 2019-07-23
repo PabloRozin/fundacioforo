@@ -1043,6 +1043,10 @@ class PatientController extends AdminController
         ];
 
         foreach (Patient::where('id', '>', 894)->get() as $patientkey => $patient) {
+            foreach (Professional::all() as $professionalkey => $professional) {
+                $patient->asignedProfessionals()->detach($professional->id);
+                $patient->asignedProfessionals()->attach($professional->id);
+            }
         }
 
         if (in_array(Auth::user()->permissions, ['professional'])) {
