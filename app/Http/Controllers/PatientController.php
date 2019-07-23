@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Patient;
 use App\PatientAdmision;
 use App\HCDate;
-use App\Professional;
 use Auth;
 use File;
 use Storage;
@@ -1159,7 +1158,7 @@ class PatientController extends AdminController
                 'css_class' => 'col',
                 'type' => 'multipleSelect',
                 'title' => 'Profesionales Asignados',
-                'options' => Professional::orderBy('firstname', 'ASC')->orderBy('lastname', 'ASC')->get(),
+                'options' => $this->account->professionals()->orderBy('firstname', 'ASC')->orderBy('lastname', 'ASC')->get(),
             ];
         }
 
@@ -1201,7 +1200,7 @@ class PatientController extends AdminController
                 'css_class' => 'col',
                 'type' => 'multipleSelect',
                 'title' => 'Profesionales Asignados',
-                'options' => Professional::all(),
+                'options' => $this->account->professionals,
             ];
         }
 
@@ -1249,7 +1248,7 @@ class PatientController extends AdminController
                 'css_class' => 'col',
                 'type' => 'multipleSelect',
                 'title' => 'Profesionales Asignados',
-                'options' => Professional::all(),
+                'options' => $this->account->professionals,
             ];
             if ($request->multiselect_professionals) {
                 $professionals = $request->multiselect_professionals;
@@ -1257,7 +1256,7 @@ class PatientController extends AdminController
                     $patient->asignedProfessionals()->attach($professional_id);
                 }
             } else {
-                foreach (Professional::all() as $key => $professional) {
+                foreach ($this->account->professionals as $key => $professional) {
                     $patient->asignedProfessionals()->attach($professional->id);
                 }
             }
@@ -1357,7 +1356,7 @@ class PatientController extends AdminController
                 'css_class' => 'col',
                 'type' => 'multipleSelect',
                 'title' => 'Profesionales Asignados',
-                'options' => Professional::orderBy('firstname', 'ASC')->orderBy('lastname', 'ASC')->get(),
+                'options' => $this->account->professionals()->orderBy('firstname', 'ASC')->orderBy('lastname', 'ASC')->get(),
                 'values' => $patient->asignedProfessionals->pluck('id')->toArray(),
             ];
         }
@@ -1452,7 +1451,7 @@ class PatientController extends AdminController
                 'css_class' => 'col',
                 'type' => 'multipleSelect',
                 'title' => 'Profesionales Asignados',
-                'options' => Professional::all(),
+                'options' => $this->account->professionals,
             ];
             if ($request->multiselect_professionals) {
                 $professionals = $request->multiselect_professionals;
@@ -1460,7 +1459,7 @@ class PatientController extends AdminController
                     $patient->asignedProfessionals()->attach($professional_id);
                 }
             } else {
-                foreach (Professional::all() as $key => $professional) {
+                foreach ($this->account->professionals as $key => $professional) {
                     $patient->asignedProfessionals()->attach($professional->id);
                 }
             }
