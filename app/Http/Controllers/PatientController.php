@@ -1042,13 +1042,6 @@ class PatientController extends AdminController
             ],
         ];
 
-        foreach (Patient::where('id', '>', 2789)->get() as $patientkey => $patient) {
-            foreach (Professional::all() as $professionalkey => $professional) {
-                $patient->asignedProfessionals()->detach($professional->id);
-                $patient->asignedProfessionals()->attach($professional->id);
-            }
-        }
-
         if (in_array(Auth::user()->permissions, ['professional'])) {
             $data['professional'] = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
 
