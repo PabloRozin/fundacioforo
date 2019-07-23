@@ -13,7 +13,12 @@ class CreatePatientProfessionalTable extends Migration
     public function up()
     {
         Schema::create('patient_professional', function (Blueprint $table) {
-
+            $table->integer('patient_id');
+            $table->integer('professional_id');
+            $table->timestamps();
+            $table->primary(['patient_id', 'professional_id']);
+        });
+        Schema::create('asigned_patient_professional', function (Blueprint $table) {
             $table->integer('patient_id');
             $table->integer('professional_id');
             $table->timestamps();
@@ -28,6 +33,7 @@ class CreatePatientProfessionalTable extends Migration
      */
     public function down()
     {
+        Schema::drop('asigned_patient_professional');
         Schema::drop('patient_professional');
     }
 }

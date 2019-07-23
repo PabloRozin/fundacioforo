@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="popup full_size">
-	
+
 	<div class="popup-content vertical_align">
 
 		<div class="popup-cont">
@@ -11,41 +11,41 @@
 			<div class="popup-close">
 				<span class="lnr lnr-cross"></span>
 			</div>
-			
+
 			<div class="popup-search popup-body">
 
 				<div class="hc-title">Buscador de pacientes</div>
 
 				<form class="form" action="{{ route('patients.index') }}" method="GET">
-					
+
 					<div class="item">
 						<input class="focus" type="text" name="system_id" placeholder="ID">
 					</div>
-					
+
 					<div class="item">
 						<input type="text" name="patient_document_number" placeholder="Nº de documento">
 					</div>
-					
+
 					<div class="item">
 						<input type="text" name="patient_firstname" placeholder="Nombre">
 					</div>
-					
+
 					<div class="item">
 						<input type="text" name="patient_lastname" placeholder="Apellido">
 					</div>
-					
+
 					<div class="item">
 						<input type="text" name="patient_phone" placeholder="Teléfono">
 					</div>
-					
+
 					<div class="item">
 						<input type="text" name="patient_cellphone" placeholder="Celular">
 					</div>
-					
+
 					<div class="item">
 						<input type="email" name="patient_email" placeholder="Email">
 					</div>
-					
+
 					@if (in_array(Auth::user()->permissions, ['admin']))
 						<div class="item">
 							<select name="patient_state">
@@ -63,18 +63,18 @@
 				</form>
 
 			</div>
-			
+
 			@if (in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional']))
 				<div class="popup-report popup-body">
 
 					<div class="hc-title">Reporte general de pacientes</div>
 
 					<form class="form" action="{{ route('patients.report') }}" method="GET">
-						
+
 						<div class="item">
 							<input class="focus" type="date" name="since" placeholder="Fecha desde" min="1979-12-31" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
 						</div>
-						
+
 						<div class="item">
 							<input type="date" name="to" placeholder="Fecha hasta" min="1979-12-31" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
 						</div>
@@ -86,17 +86,17 @@
 					</form>
 
 				</div>
-				
+
 				<div class="popup-report-one popup-body">
 
 					<div class="hc-title">Reporte de paciente <span class="report-data-name"></span></div>
 
 					<form class="form" action="{{ route('patients.report') }}" method="GET">
-						
+
 						<div class="item">
 							<input class="focus" type="date" name="since" placeholder="Fecha desde" min="1979-12-31" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
 						</div>
-						
+
 						<div class="item">
 							<input type="date" name="to" placeholder="Fecha hasta" min="1979-12-31" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
 						</div>
@@ -117,9 +117,9 @@
 </div>
 
 <div class="hc-list">
-	
+
 	<div class="center">
-		
+
 		<div class="hc-title">Listado de pacientes</div>
 
 		<div class="hc-buttons">
@@ -170,13 +170,13 @@
 					--></div>
 				</div>
 			</div>
-			
+
 			@if (isset($patientsHighlight))
 				@foreach($patientsHighlight as $key => $patient)
 					<div class="hc-item">
 						<div class="hc-item-cont">
 							<div class="hc-item-data-cont {{ (in_array(Auth::user()->permissions, ['professional'])) ? 'patient' : '' }}"><!--
-								@if (in_array(Auth::user()->permissions, ['professional']))	
+								@if (in_array(Auth::user()->permissions, ['professional']))
 									@if ( ! $patient->professionals()->where('id', $professional->id)->first())
 										--><a class="star" href="{{ route('patients.assignProfessional', ['patient_id' => $patient->id]) }}">
 											<span class="lnr lnr-star-empty"></span>
@@ -236,7 +236,7 @@
 				<div class="hc-item">
 					<div class="hc-item-cont">
 						<div class="hc-item-data-cont {{ (in_array(Auth::user()->permissions, ['professional'])) ? 'patient' : '' }}"><!--
-							@if (in_array(Auth::user()->permissions, ['professional']))	
+							@if (in_array(Auth::user()->permissions, ['professional']))
 								@if ( ! $patient->professionals()->where('id', $professional->id)->first())
 									--><a class="star" href="{{ route('patients.assignProfessional', ['patient_id' => $patient->id]) }}">
 										<span class="lnr lnr-star-empty"></span>

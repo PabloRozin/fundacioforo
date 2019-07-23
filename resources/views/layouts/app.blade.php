@@ -34,6 +34,7 @@
 	<link href="{{ asset('/js/dropzone/dropzone.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('/js/fullcalendar/core/main.css') }}" rel="stylesheet">
 	<link href="{{ asset('/js/fullcalendar/daygrid/main.css') }}" rel="stylesheet">
+	<link href="{{ asset('/js/fullcalendar/timegrid/main.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/web.css') }}?1" rel="stylesheet">
 
 	<!-- Fonts -->
@@ -51,7 +52,7 @@
 	@yield('content')
 
 	</div>
-	
+
 	@include('partials.footer', [])
 
 	<!-- Scripts -->
@@ -61,14 +62,15 @@
 	<script src="{{ asset('/js/fullcalendar/core/main.js') }}?2"></script>
 	<script src="{{ asset('/js/fullcalendar/core/locales/es.js') }}?2"></script>
 	<script src="{{ asset('/js/fullcalendar/daygrid/main.js') }}?2"></script>
+	<script src="{{ asset('/js/fullcalendar/timegrid/main.js') }}?2"></script>
 	<script src="{{ asset('/js/web.js') }}?3"></script>
-		
+
 	@if (session()->has('success'))
 		<script>
 			$(document).ready(function() { send_msj('success', '{{ session()->get('success') }}') });
 		</script>
 	@endif
-	
+
 	@if (session()->has('error'))
 		<script>
 			$(document).ready(function() { send_msj('error', '{{ session()->get('error') }}') });

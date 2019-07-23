@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="hc-form">
-	
+
 	<div class="center">
 
 		@if ($errors->any())
@@ -31,11 +31,11 @@
 			<div class="hc-form-title">{{ $title }}</div>
 
 			@foreach ($items as $group_name => $group_items)
-				
+
 				<div class="hc-form-subtitle">{{ $group_name }}</div>
 
 				@foreach ($group_items as $subgroup_name => $subgroup_items)
-				
+
 					@if ( ! empty($subgroup_name) and $subgroup_name != 'table')
 						<div class="hc-form-subtitle-2">{{ $subgroup_name }}</div>
 					@else
@@ -45,20 +45,21 @@
 					<div class="row {{ ($subgroup_name == 'table') ? 'table' : ''}}"><!--
 
 						@foreach ($subgroup_items as $item_name => $item)
-							
+
 							@if ( ! in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data']))
 
 								@if ( ! isset($item['not_show_to']) or  ! in_array(Auth::user()->permissions, $item['not_show_to']))
-									
+
 									--><div class="col {{ $item['css_class'] }}">
 										@if ($item['type'] == 'showText')
 											@include($item['content'])
 										@else
 											@include('form.'.$item['type'], [
 												'title' => (isset($item['title'])) ? $item['title'] : null,
-												'name' => $item_name, 
-												'options' => (isset($item['options'])) ? $item['options'] : null, 
+												'name' => $item_name,
+												'options' => (isset($item['options'])) ? $item['options'] : null,
 												'value' => (isset($item['value'])) ? $item['value'] : null,
+												'values' => (isset($item['values'])) ? $item['values'] : null,
 												'min' => (isset($item['min'])) ? $item['min'] : '1900-01-01',
 												'max' => (isset($item['max'])) ? $item['max'] : date('Y-m-d'),
 												'only_view' => (isset($only_view) and $only_view) ? true : false,
@@ -69,7 +70,7 @@
 									</div><!--
 
 								@endif
-							
+
 							@endif
 
 						@endforeach

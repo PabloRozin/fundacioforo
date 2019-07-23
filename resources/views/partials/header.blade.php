@@ -1,7 +1,7 @@
 <header id="header">
-	
+
 	<div class="center">
-		
+
 		<h1 class="logo">
 			<a href="{{ route('patients.index') }}">
 				@if (Auth::user()->account->logo)
@@ -33,12 +33,12 @@
 					</li>
 				@endif
 				@if (in_array(Auth::user()->permissions, ['professional']))
-					<li>
+					<!--<li>
 						<a href="{{ route('appointments.index') }}">Agenda</a>
-					</li>
+					</li>-->
 				@endif
 				<li class="user">
-					<span>Bienvenido 
+					<span>Bienvenido
 						@if (in_array(Auth::user()->permissions, ['professional']))
 							<a class="name" href="{{ route('professionals.edit', ['id' => App\Professional::where('user_id', Auth::user()->id)->first()->id]) }}">{{ Auth::user()->name }}</a>
 						@else
