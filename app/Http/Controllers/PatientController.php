@@ -1243,6 +1243,10 @@ class PatientController extends AdminController
             }
         }
 
+        $patient->account_id = $this->account->id;
+
+        $patient->save();
+
         if (in_array(Auth::user()->permissions, ['admin'])) {
             $this->patientData['Profesionales Asignados']['']['professionals'] = [
                 'css_class' => 'col',
@@ -1261,10 +1265,6 @@ class PatientController extends AdminController
                 }
             }
         }
-
-        $patient->account_id = $this->account->id;
-
-        $patient->save();
 
         $request->session()->flash('success', 'El paciente fue creado con éxito.');
 
