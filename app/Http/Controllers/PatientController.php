@@ -1266,6 +1266,8 @@ class PatientController extends AdminController
             }
         }
 
+        $patient->save();
+
         $request->session()->flash('success', 'El paciente fue creado con éxito.');
 
         return redirect()->route('patients.index');
