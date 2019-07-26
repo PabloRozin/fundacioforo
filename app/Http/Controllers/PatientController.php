@@ -1195,15 +1195,6 @@ class PatientController extends AdminController
             return redirect()->route('dashboard');
         }
 
-        if (in_array(Auth::user()->permissions, ['admin'])) {
-            $this->patientData['Profesionales Asignados']['']['professionals'] = [
-                'css_class' => 'col',
-                'type' => 'multipleSelect',
-                'title' => 'Profesionales Asignados',
-                'options' => $this->account->professionals(),
-            ];
-        }
-
         $validation = [];
 
         foreach ($this->patientData as $key => $itemGroup) {
