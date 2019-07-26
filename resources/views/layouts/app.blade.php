@@ -63,7 +63,7 @@
 	<script src="{{ asset('/js/fullcalendar/core/locales/es.js') }}?2"></script>
 	<script src="{{ asset('/js/fullcalendar/daygrid/main.js') }}?2"></script>
 	<script src="{{ asset('/js/fullcalendar/timegrid/main.js') }}?2"></script>
-	<script src="{{ asset('/js/web.js') }}?3"></script>
+	<script src="{{ asset('/js/web.js') }}?4"></script>
 
 	@if (session()->has('success'))
 		<script>

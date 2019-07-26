@@ -13,7 +13,6 @@ class CreatePatientsTable extends Migration
     public function up()
     {
         Schema::create('patients', function (Blueprint $table) {
-
             $table->increments('id');
             $table->string('system_id');
             $table->timestamps();
@@ -87,6 +86,7 @@ class CreatePatientsTable extends Migration
             $table->string('doctor_phone_1')->nullable();
             $table->string('doctor_phone_2')->nullable();
             $table->string('doctor_phone_3')->nullable();
+            $table->boolean('professional_state')->nullable();
         });
     }
 
