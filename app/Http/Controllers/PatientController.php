@@ -1167,7 +1167,7 @@ class PatientController extends AdminController
             $this->patientData['Profesionales Asignados']['']['professionals'] = [
                 'css_class' => 'col',
                 'type' => 'multipleSelect',
-                'options' => $this->account->professionals()->orderBy('firstname', 'ASC')->orderBy('lastname', 'ASC')->get(),
+                'options' => $this->account->professionals()->where('state', 1)->orderBy('firstname', 'ASC')->orderBy('lastname', 'ASC')->get(),
             ];
         }
 
@@ -1250,7 +1250,7 @@ class PatientController extends AdminController
         $this->patientData['Profesionales Asignados']['']['professionals'] = [
             'css_class' => 'col',
             'type' => 'multipleSelect',
-            'options' => $this->account->professionals(),
+            'options' => $this->account->professionals()->where('state', 1)->get(),
         ];
 
         if (in_array(Auth::user()->permissions, ['admin']) and $request->multiselect_professionals) {
@@ -1260,7 +1260,7 @@ class PatientController extends AdminController
             }
             $patient->professional_state = $request->professional_state;
         } else {
-            foreach ($this->account->professionals() as $key => $professional) {
+            foreach ($this->account->professionals()->where('state', 1)->get() as $key => $professional) {
                 $patient->asignedProfessionals()->attach($professional->id);
             }
             $patient->professional_state = 0;
@@ -1367,7 +1367,7 @@ class PatientController extends AdminController
             $this->patientData['Profesionales Asignados']['']['professionals'] = [
                 'css_class' => 'col',
                 'type' => 'multipleSelect',
-                'options' => $this->account->professionals()->orderBy('firstname', 'ASC')->orderBy('lastname', 'ASC')->get(),
+                'options' => $this->account->professionals()->where('state', 1)->orderBy('firstname', 'ASC')->orderBy('lastname', 'ASC')->get(),
                 'values' => $patient->asignedProfessionals->pluck('id')->toArray(),
             ];
         }
@@ -1464,7 +1464,7 @@ class PatientController extends AdminController
             }
             $patient->professional_state = $request->professional_state;
         } else {
-            foreach ($this->account->professionals() as $key => $professional) {
+            foreach ($this->account->professionals()->where('state', 1)->get() as $key => $professional) {
                 $patient->asignedProfessionals()->attach($professional->id);
             }
             $patient->professional_state = 0;
