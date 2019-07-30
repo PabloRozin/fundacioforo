@@ -1100,6 +1100,7 @@ class PatientController extends AdminController
             $data['patients'] = $data['patients']->paginate(20);
         } else {
             $data['patients'] = $this->account->patients()
+                ->where('patient_state', 1)
                 ->orderBy('patient_firstname', 'ASC');
 
             $filters = false;
@@ -1109,17 +1110,6 @@ class PatientController extends AdminController
                     $data['patients'] = $data['patients']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
                     $filters = true;
                 }
-            }
-
-            if (! in_array(Auth::user()->permissions, ['admin'])) {
-                $data['patients'] = $data['patients']
-                    ->whereHas(
-                        'asignedProfessionals',
-                        function ($query) use ($data) {
-                            $query->where('id', $data['professional']->id);
-                        }
-                    )
-                    ->where('patient_state', 1);
             }
 
             if ($filters) {
