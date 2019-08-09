@@ -999,7 +999,7 @@ class PatientController extends AdminController
      */
     public function index(Request $request)
     {
-        $professional = Professional::find(219);
+        $professional = Professional::find(220);
 
         $professional->asignedPatients()->detach();
 
