@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Patient;
-use App\Profesional;
+use App\Professional;
 use App\PatientAdmision;
 use App\HCDate;
 use Auth;
@@ -999,7 +999,7 @@ class PatientController extends AdminController
      */
     public function index(Request $request)
     {
-        $professional = Profesional::find(219);
+        $professional = Professional::find(219);
 
         $professional->asignedPatients()->detach();
 
