@@ -84,7 +84,7 @@ class Professional extends Model
      */
     public function patients()
     {
-        return $this->belongsToMany('App\Patients');
+        return $this->belongsToMany('App\Patient');
     }
 
     /**
@@ -92,7 +92,7 @@ class Professional extends Model
      */
     public function asignedPatients()
     {
-        return $this->belongsToMany('App\Patients', 'asigned_patient_professional');
+        return $this->belongsToMany('App\Patient', 'asigned_patient_professional');
     }
 
     /**

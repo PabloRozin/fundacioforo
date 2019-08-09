@@ -495,7 +495,7 @@ class ProfessionalController extends AdminController
 
         $professional->save();
 
-        foreach ($this->account->patients() as $key => $patient) {
+        foreach ($this->account->patients as $key => $patient) {
             if (! $patient->professional_state) {
                 $professional->asignedPatients()->attach($patient->id);
             }
