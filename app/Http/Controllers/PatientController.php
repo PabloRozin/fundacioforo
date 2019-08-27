@@ -1048,6 +1048,8 @@ class PatientController extends AdminController
 
         if (in_array(Auth::user()->permissions, ['professional'])) {
             $data['professional'] = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
+            echo '<pre>';
+            var_dump($data['professional']);
 
             $data['patients'] = $this->account->patients()
                 ->whereHas(
