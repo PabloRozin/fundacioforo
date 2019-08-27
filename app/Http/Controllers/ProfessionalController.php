@@ -696,6 +696,11 @@ class ProfessionalController extends AdminController
                 ['id' => 'E.F.A.', 'value' => 'Entrevista familiar y allegados'],
                 ['id' => 'E.P.', 'value' => 'Entrevista Psiquiátrica'],
                 ['id' => 'I.C.', 'value' => 'Interconsulta'],
+                ['id' => 'T.P.', 'value' => 'Terapia de Pareja'],
+                ['id' => 'T.F.S.', 'value' => 'Taller de Fobia Social'],
+                ['id' => 'T.M.', 'value' => 'Taller Multifamiliar'],
+                ['id' => 'O.F.A.', 'value' => 'Orientación a Familiares y/o Allegados'],
+                ['id' => 'T.E.P.T.', 'value' => 'Terapia de Exposición Post Traumática'],
                 ['id' => 'otros', 'value' => 'Otros', 'with_text' => 'type_info'],
             ],
         ];
