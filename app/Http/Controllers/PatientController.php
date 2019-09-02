@@ -975,7 +975,7 @@ class PatientController extends AdminController
                         ['id' => 'T.E.P.T.', 'value' => 'Terapia de Exposición Post Traumática'],
                         ['id' => 'otros', 'value' => 'Otros', 'with_text' => 'type_info'],
                     ],
-                    'validation' => 'in:E.I.,G.H.,G.H.F.A.,E.F.A.,E.P.,I.C.,otros|required',
+                    'validation' => 'in:E.I.,G.H.,G.H.F.A.,E.F.A.,E.P.,I.C.,T.P.,T.F.S.,T.M.,O.F.A.,T.E.P.T.,otros|required',
                 ],
             ]
         ],
