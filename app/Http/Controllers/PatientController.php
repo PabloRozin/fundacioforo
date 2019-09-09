@@ -1395,6 +1395,8 @@ class PatientController extends AdminController
      */
     public function update(Request $request, $id)
     {
+        $data['professional'] = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
+
         if (! in_array(Auth::user()->permissions, ['admin'])) {
             $patient = $this->account->patients()
                 ->wherehas(
