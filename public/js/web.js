@@ -54,23 +54,27 @@ $(document).ready(function()
 		var token = $(this).attr('data-token');
 		var name = $(this).attr('data-name');
 		var path = $(this).attr('data-path');
+		if ( ! $(this).hasClass('dropzoned'))
+		{
+			$(this).addClass('dropzoned')
 
-		$(this).dropzone({
-			url: action,
-			params: {
-				'_token': token,
-			},
-			renameFile: function(file) {
-				var d = new Date();
-				return d.getTime()+'-'+slugify(file.name.split('.')[0])+'.'+file.name.split('.')[1];
-			},
-			accept: function(file, done) {
-				$('.dropzone-items-'+name).append('<input type="hidden" name="dropzone_'+name+'[]" value="https://s3.us-east-2.amazonaws.com/hcdigital/hc/'+file.upload.filename+'">');
-				console.log(file);
-				done();
-			},
-			dictDefaultMessage: 'Arrastrar archivos aquí.'
-		});
+			$(this).dropzone({
+				url: action,
+				params: {
+					'_token': token,
+				},
+				renameFile: function(file) {
+					var d = new Date();
+					return d.getTime()+'-'+slugify(file.name.split('.')[0])+'.'+file.name.split('.')[1];
+				},
+				accept: function(file, done) {
+					$('.dropzone-items-'+name).append('<input type="hidden" name="dropzone_'+name+'[]" value="https://s3.us-east-2.amazonaws.com/hcdigital/hc/'+file.upload.filename+'">');
+					console.log(file);
+					done();
+				},
+				dictDefaultMessage: 'Arrastrar archivos aquí.'
+			});
+		}
 	});
 
 	$('.radio-text').each(function()
