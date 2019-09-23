@@ -19,7 +19,9 @@ class FileController extends AdminController
     {
         $validation = ['file' => 'file|max:3000'];
 
-        $this->validate($request, $validation);
+        if ($this->validate($request, $validation)) {
+            return Response::json('error', 300);
+        }
 
         $file = $request->file('file');
         $name = $file->getClientOriginalName();
