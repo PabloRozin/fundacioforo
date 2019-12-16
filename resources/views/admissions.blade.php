@@ -3,19 +3,20 @@
 @section('content')
 
 <div class="hc-list">
-	
+
 	<div class="center">
-		
+
 		<div class="hc-title">Admisiones del paciente {{ $patient->patient_firstname }} {{ $patient->patient_lastname }}</div>
 
 		<div class="hc-buttons">
-			<div class="hc-button">
-				<a href="{{ route('patients.admissions.create', ['patient_id' => $patient->id]) }}" class="btn">Agregar</a>
-			</div>
+			@if (in_array(Auth::user()->permissions, ['professional']))
+				<div class="hc-button">
+					<a href="{{ route('patients.admissions.create', ['patient_id' => $patient->id]) }}" class="btn">Agregar</a>
+				</div>
+			@endif
 			<div class="hc-button">
 				<a href="{{ route('patients.index') }}" class="btn btn-secondary">Volver</a>
 			</div>
-
 			<div class="hc-button-right">
 				@include('partials.pagination', ['items' => $admissions, 'route' => route('patients.admissions.index', ['patient_id' => $patient->id])])
 			</div>
@@ -35,7 +36,7 @@
 					--></div>
 				</div>
 			</div>
-			
+
 			@foreach($admissions as $key => $admission)
 				<div class="hc-item">
 					<div class="hc-item-cont">
