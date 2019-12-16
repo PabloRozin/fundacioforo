@@ -1103,6 +1103,25 @@ class PatientController extends AdminController
             $data['patientsHighlight'] = $data['patientsHighlight']->get();
 
             $data['patients'] = $data['patients']->paginate(20);
+        } elseif (in_array(Auth::user()->permissions, ['admin'])) {
+            $data['patients'] = $this->account->patients()
+                ->orderBy('patient_firstname', 'ASC');
+
+            $filters = false;
+
+            foreach ($data['filters'] as $itemName => $filter) {
+                if (! empty($filter['value'])) {
+                    $data['patients'] = $data['patients']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
+                    $filters = true;
+                }
+            }
+
+            if ($filters) {
+                $data['back_url'] = route('patients.index');
+            }
+
+            $data['patients'] = $data['patients']->paginate(20);
+        }
         } else {
             $data['patients'] = $this->account->patients()
                 ->where('patient_state', 1)
