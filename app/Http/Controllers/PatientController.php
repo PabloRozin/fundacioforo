@@ -1835,7 +1835,7 @@ class PatientController extends AdminController
                             $name = time().'-'.$file->getClientOriginalName();
                             $path = "hc/$name";
                             Storage::put($path, File::get($file->getRealPath()));
-                            $hc_date->$itemName = $path;
+                            $hc_date->$itemName = 'https://s3.us-east-2.amazonaws.com/hcdigital/'.$path;
                         }
                     } elseif ($item['type'] == 'dropzone') {
                         $files = $request->{'dropzone_'.$itemName};

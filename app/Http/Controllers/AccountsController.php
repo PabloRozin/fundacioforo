@@ -170,7 +170,7 @@ class AccountsController extends AdminController
                             $name = time().'-'.$file->getClientOriginalName();
                             $path = "account_files/$name";
                             Storage::put($path, File::get($file->getRealPath()));
-                            $account->$itemName = "/files/$path";
+                            $account->$itemName = "https://s3.us-east-2.amazonaws.com/hcdigital/$path";
                         }
                     } else {
                         if (! isset($item['notSave']) or ! $item['notSave']) {
