@@ -212,9 +212,11 @@
 								<li>
 									<a href="{{ route('patients.hc', ['patient_id' => $patient['id']]) }}">HC</a>
 								</li>
-								<li>
-									<a href="{{ route('patients.admissions.index', ['patient_id' => $patient['id']]) }}">Admisión</a>
-								</li>
+								@if (in_array(Auth::user()->permissions, ['professional']))
+									<li>
+										<a href="{{ route('patients.admissions.index', ['patient_id' => $patient['id']]) }}">Admisión</a>
+									</li>
+								@endif
 								<li>
 									<a href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Datos</a>
 								</li>

@@ -1582,7 +1582,7 @@ class PatientController extends AdminController
      */
     public function create_admissions(Request $request, $patient_id)
     {
-        if (! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
+        if (! in_array(Auth::user()->permissions, ['professional'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.admissions.show', ['patient_id' => $patient_id]);
@@ -1609,7 +1609,7 @@ class PatientController extends AdminController
      */
     public function store_admissions(Request $request, $patient_id)
     {
-        if (! in_array(Auth::user()->permissions, ['admin', 'professional'])) {
+        if (! in_array(Auth::user()->permissions, ['professional'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.admissions.show', ['patient_id' => $patient_id]);
