@@ -1121,7 +1121,6 @@ class PatientController extends AdminController
             }
 
             $data['patients'] = $data['patients']->paginate(20);
-        }
         } else {
             $data['patients'] = $this->account->patients()
                 ->where('patient_state', 1)
