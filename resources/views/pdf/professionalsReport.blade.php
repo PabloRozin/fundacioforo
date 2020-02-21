@@ -1,7 +1,9 @@
 <table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
 	<tr>
 		<td style="width:185mm;text-align:center;">
-			<div style="padding-bottom:30px;"><img src="{{ public_path() }}/images/fundacionforo-logo.png" alt="Fundación Foro"></div>
+			<div style="padding-bottom:30px;">
+	            <img src="{{ Auth::user()->account->logo }}">
+	        </div>
 			<div><strong>Reporte de profesionales del {{ date('d-m-Y', strtotime($since)) }} al {{ date('d-m-Y', strtotime($to)) }}</strong></div>
 		</td>
 	</tr>
@@ -15,8 +17,8 @@
 	</tr>
 </table>
 
-<?php 
-	$actualProfessional = 0;
+<?php
+    $actualProfessional = 0;
 ?>
 @foreach($professionals as $key => $professional)
 	@if ($actualProfessional != $professional->id)
@@ -31,17 +33,16 @@
 			</tr>
 		</table>
 	@endif
-	<?php 
-		if ($actualProfessional != $professional->id) 
-		{
-			$firstProfessional = true;
-		}
-		$actualProfessional = $professional->id;
-	?>
+	<?php
+        if ($actualProfessional != $professional->id) {
+            $firstProfessional = true;
+        }
+        $actualProfessional = $professional->id;
+    ?>
 	@foreach ($consultationTypes as $key => $consultationType)
-		<?php 
-			$firstConsultation = true;
-		?>
+		<?php
+            $firstConsultation = true;
+        ?>
 		<?php if ($firstProfessional): ?>
 			<table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
 				<tr>
@@ -57,15 +58,16 @@
 			</table>
 		<?php endif ?>
 		<?php $hcDates = $professional->hcDates()
-			->select('hc_dates.*', 'patients.id')
-			->join('patients', 'patients.id', '=', 'hc_dates.patient_id')
-			->orderBy('patients.patient_firstname','ASC')
-			->dateWhere('hc_dates.created_at', '>=', $since.' 00:00:00')
-			->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
-			->where('type', $consultationType['id']);
-		if (in_array(Auth::user()->permissions, ['administrator']))
-			$hcDates = $hcDates->where('type', '!=', 'otros');
-		?>
+            ->select('hc_dates.*', 'patients.id')
+            ->join('patients', 'patients.id', '=', 'hc_dates.patient_id')
+            ->orderBy('patients.patient_firstname', 'ASC')
+            ->dateWhere('hc_dates.created_at', '>=', $since.' 00:00:00')
+            ->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
+            ->where('type', $consultationType['id']);
+        if (in_array(Auth::user()->permissions, ['administrator'])) {
+            $hcDates = $hcDates->where('type', '!=', 'otros');
+        }
+        ?>
 		@if ($hcDates->count())
 			<table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
 				<tr>
@@ -74,10 +76,10 @@
 					<td style="vertical-align:top;width:50mm;">
 					</td>
 					<td style="vertical-align:top;width:120mm;">
-						<?php 
-							$actualpatient = 0;
-							$firstConsultation = false;
-						?>
+						<?php
+                            $actualpatient = 0;
+                            $firstConsultation = false;
+                        ?>
 						<strong>{{ $consultationType['value'] }}</strong>
 						({{ $hcDates->count() }})
 					</td>
@@ -93,16 +95,17 @@
 						<td style="vertical-align:top;width:120mm;">
 							@if ($actualpatient != $hcDate->patient->id)
 								<em>
-									{{ $hcDate->patient->patient_firstname }} 
-									{{ $hcDate->patient->patient_lastname }} 
+									{{ $hcDate->patient->patient_firstname }}
+									{{ $hcDate->patient->patient_lastname }}
 									<?php $hcDatesActual = $professional->hcDates()
-										->dateWhere('hc_dates.created_at', '>=', $since.' 00:00:00')
-										->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
-										->where('patient_id', $hcDate->patient->id)
-										->where('type', $consultationType['id']);
-										if (in_array(Auth::user()->permissions, ['administrator']))
-											$hcDatesActual = $hcDatesActual->where('type', '!=', 'otros');
-									?>
+                                        ->dateWhere('hc_dates.created_at', '>=', $since.' 00:00:00')
+                                        ->dateWhere('hc_dates.created_at', '<=', $to.' 23:59:59')
+                                        ->where('patient_id', $hcDate->patient->id)
+                                        ->where('type', $consultationType['id']);
+                                        if (in_array(Auth::user()->permissions, ['administrator'])) {
+                                            $hcDatesActual = $hcDatesActual->where('type', '!=', 'otros');
+                                        }
+                                    ?>
 									({{ $hcDatesActual->count() }})
 								</em>
 								<?php $actualpatient = $hcDate->patient->id ?>
@@ -121,14 +124,14 @@
 		<?php $firstProfessional = false; ?>
 	@endforeach
 	<?php $admisions = $professional->admissions()
-			->select('patient_admisions.*', 'professionals.id', 'professionals.user_id', 'patients.patient_firstname as patient_firstname', 'patients.patient_lastname as patient_lastname')
-			->join('professionals', 'professionals.id', '=', 'patient_admisions.professional_id')
-			->join('patients', 'patients.id', '=', 'patient_admisions.patient_id')
-			->orderBy('professionals.firstname','ASC')
-			->orderBy('patient_admisions.created_at','ASC')
-			->dateWhere('patient_admisions.created_at', '>=', $since.' 00:00:00')
-			->dateWhere('patient_admisions.created_at', '<=', $to.' 23:59:59');
-	?>
+            ->select('patient_admisions.*', 'professionals.id', 'professionals.user_id', 'patients.patient_firstname as patient_firstname', 'patients.patient_lastname as patient_lastname')
+            ->join('professionals', 'professionals.id', '=', 'patient_admisions.professional_id')
+            ->join('patients', 'patients.id', '=', 'patient_admisions.patient_id')
+            ->orderBy('professionals.firstname', 'ASC')
+            ->orderBy('patient_admisions.created_at', 'ASC')
+            ->dateWhere('patient_admisions.created_at', '>=', $since.' 00:00:00')
+            ->dateWhere('patient_admisions.created_at', '<=', $to.' 23:59:59');
+    ?>
 	@if (in_array(Auth::user()->permissions, ['professional']))
 		<?php $admisions = $admisions->where('professionals.user_id', '=', Auth::user()->id); ?>
 	@endif
