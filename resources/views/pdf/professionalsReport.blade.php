@@ -1,9 +1,9 @@
 <table cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
 	<tr>
 		<td style="width:185mm;text-align:center;">
-			<div style="padding-bottom:30px;">
+			<!--<div style="padding-bottom:30px;">
 	            <img src="{{ Auth::user()->account->logo }}">
-	        </div>
+	        </div>-->
 			<div><strong>Reporte de profesionales del {{ date('d-m-Y', strtotime($since)) }} al {{ date('d-m-Y', strtotime($to)) }}</strong></div>
 		</td>
 	</tr>
