@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Patient;
 use App\PatientAdmission;
 use App\HCDate;
-use DB;
 use Auth;
 use File;
 use Storage;
@@ -1560,9 +1559,9 @@ class PatientController extends AdminController
             $hcDates = $hcDates->where('patient_id', $data['patient_id']);
         }
 
-        $hcDates = $hcDates->get();
+        dd($hcDates->toSql());
 
-        dd(DB::getQueryLog());
+        $hcDates = $hcDates->get();
 
         foreach ($hcDates as $key => $hcDate) {
             $data['hcDates']['patients'][$hcDate->patient_id]['data'] = $hcDate->patient;
