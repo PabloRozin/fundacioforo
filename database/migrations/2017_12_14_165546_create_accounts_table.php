@@ -62,7 +62,7 @@ class CreateAccountsTable extends Migration
             $table->dropColumn('account_id');
         });
 
-        Schema::table('patient_admisions', function ($table) {
+        Schema::table('patient_admissions', function ($table) {
             $table->dropColumn('account_id');
         });
 
