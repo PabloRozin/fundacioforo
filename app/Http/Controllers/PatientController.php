@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Patient;
-use App\PatientAdmision;
+use App\PatientAdmission;
 use App\HCDate;
 use Auth;
 use File;
@@ -536,7 +536,7 @@ class PatientController extends AdminController
         ],
     ];
 
-    private $patientAdmitionData = [
+    private $patientAdmissionData = [
         'Motivo de la consulta' => [
             '' => [
                 'background_reason' => [
@@ -1518,62 +1518,75 @@ class PatientController extends AdminController
 
         $this->validate($request, $validation, [], $validationNames);
 
+        $consultationTypes = [
+            'E.I.' => 'Entrevista Individual pacientes',
+            'G.H.' => 'Grupo de entrenamiento en habilidades',
+            'G.H.F.A.' => 'Grupo de entrenamiento en habilidades a familiares y allegados',
+            'E.F.A.' => 'Entrevista familiar y allegados',
+            'E.P.' => 'Entrevista Psiquiátrica',
+            'I.C.' => 'Interconsulta',
+            'T.P.' => 'Terapia de Pareja',
+            'T.F.S.' => 'Taller de Fobia Social',
+            'T.M.' => 'Taller Multifamiliar',
+            'O.F.A.' => 'Orientación a Familiares y/o Allegados',
+            'T.E.P.T.' => 'Terapia de Exposición Post Traumática',
+            'otros' => 'Otros',
+        ];
+
+        $since = (strtotime($request->since) < strtotime($request->to)) ? $request->since : $request->to;
+        $to = (strtotime($request->since) < strtotime($request->to)) ? $request->to : $request->since;
+
         $data = [
             'back_url' => route('patients.index'),
             'patient_id' => ($request->patient_id) ? $request->patient_id : false,
-            'since' => (strtotime($request->since) < strtotime($request->to)) ? $request->since : $request->to,
-            'to' => (strtotime($request->since) < strtotime($request->to)) ? $request->to : $request->since,
-            'consultationTypes' => [
-                ['id' => 'E.I.', 'value' => 'Entrevista Individual pacientes'],
-                ['id' => 'G.H.', 'value' => 'Grupo de entrenamiento en habilidades'],
-                ['id' => 'G.H.F.A.', 'value' => 'Grupo de entrenamiento en habilidades a familiares y allegados'],
-                ['id' => 'E.F.A.', 'value' => 'Entrevista familiar y allegados'],
-                ['id' => 'E.P.', 'value' => 'Entrevista Psiquiátrica'],
-                ['id' => 'I.C.', 'value' => 'Interconsulta'],
-                ['id' => 'T.P.', 'value' => 'Terapia de Pareja'],
-                ['id' => 'T.F.S.', 'value' => 'Taller de Fobia Social'],
-                ['id' => 'T.M.', 'value' => 'Taller Multifamiliar'],
-                ['id' => 'O.F.A.', 'value' => 'Orientación a Familiares y/o Allegados'],
-                ['id' => 'T.E.P.T.', 'value' => 'Terapia de Exposición Post Traumática'],
-                ['id' => 'otros', 'value' => 'Otros', 'with_text' => 'type_info'],
-            ],
+            'since' => $since,
+            'to' => $to,
+            'consultationTypes' => $consultationTypes,
+            'pdf' => $request->pdf
         ];
 
         $data['pdf_url'] = route('patients.report', ['patient_id' => $patient_id]) . '?pdf=true&since='.$data['since'].'&to='.$data['to'];
 
-        $data['patients'] = $this->account->patients()->whereHas(
-            'hcDates',
-            function ($query) use ($data) {
-                $query->dateWhere('hc_dates.created_at', '>=', $data['since'].' 00:00:00');
-                $query->dateWhere('hc_dates.created_at', '<=', $data['to'].' 23:59:59');
-                if (in_array(Auth::user()->permissions, ['professional'])) {
-                    $query->join('professionals', 'professionals.id', '=', 'hc_dates.professional_id')
-                        ->where('professionals.user_id', '=', Auth::user()->id);
-                }
-                if (in_array(Auth::user()->permissions, ['administrator'])) {
-                    $query->where('type', '!=', 'otros');
-                }
-            }
-        )->orderBy('patient_firstname', 'ASC');
+        $hcDates = $this->account->hcDates()
+            ->where('created_at', '>=', $since.' 00:00:00')
+            ->where('created_at', '<=', $to.' 23:59:59')
+            ->orderBy('patient_id', 'ASC')
+            ->orderBy('type', 'ASC')
+            ->orderBy('professional_id', 'ASC')
+            ->orderBy('created_at', 'ASC');
 
         if ($data['patient_id']) {
-            $data['patients'] = $data['patients']->where('id', $data['patient_id']);
+            $hcDates = $hcDates->where('patient_id', $data['patient_id']);
         }
 
-        $data['patients'] = $data['patients']->get();
+        $hcDates = $hcDates->get();
 
-        if ($request->pdf) {
-            $view =  \View::make('pdf.patientsReport', $data)->render();
+        foreach ($hcDates as $key => $hcDate) {
+            $data['hcDates']['patients'][$hcDate->patient_id]['data'] = $hcDate->patient;
+            $data['hcDates']['patients'][$hcDate->patient_id]['professionalData'] = $hcDate->professional;
+            $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['professionals'][$hcDate->professional_id]['dates'][] = $hcDate;
+            $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'] = (! isset($data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'])) ? 1 : $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'] + 1;
+        }
 
-            $pdf = new Dompdf();
+        $admissions = $this->account->patientAdmisions()
+            ->orderBy('patient_id', 'ASC')
+            ->orderBy('professional_id', 'ASC')
+            ->orderBy('created_at', 'ASC')
+            ->dateWhere('created_at', '>=', $since.' 00:00:00')
+            ->dateWhere('created_at', '<=', $to.' 23:59:59');
 
-            $pdf->loadHTML($view);
-            $pdf->setPaper('A4');
-            $pdf->render();
-            $canvas = $pdf->get_canvas();
-            $canvas->page_text(15, 15, '{PAGE_NUM} de {PAGE_COUNT}', null, 10, [0, 0, 0]);
+        if ($data['patient_id']) {
+            $admissions = $admissions->where('patient_id', $data['patient_id']);
+        }
 
-            return $pdf->stream('reporte_pacientes_'.$data['since'].'_'.$data['to'].'.`pdf');
+        $admissions = $admissions->get();
+
+        foreach ($admissions as $key => $admission) {
+            if (! isset($data['hcDates']['patients'][$admission->patient_id])) {
+                $data['hcDates']['patients'][$admission->patient_id]['data'] = $this->account->patients()->find($admission->patient_id);
+                $data['hcDates']['patients'][$admission->patient_id]['consultationTypes'] = [];
+            }
+            $data['hcDates']['patients'][$admission->patient_id]['admissions'][] = $admission;
         }
 
         return view('patientsReport', $data);
@@ -1609,7 +1622,7 @@ class PatientController extends AdminController
         $patient = $this->account->patients()->findOrFail($patient_id);
 
         $data = [
-            'items' => $this->patientAdmitionData,
+            'items' => $this->patientAdmissionData,
             'back_url' => route('patients.admissions.index', ['patient_id' => $patient_id]),
             'form_url' => route('patients.admissions.store', ['patient_id' => $patient_id]),
             'form_method' => 'POST',
@@ -1637,13 +1650,13 @@ class PatientController extends AdminController
 
         $professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
 
-        $patientAdmision = new PatientAdmision;
+        $patientAdmission = new PatientAdmission;
 
-        $patientAdmision->professional_id = $professional->id;
+        $patientAdmission->professional_id = $professional->id;
 
         $validation = [];
 
-        foreach ($this->patientAdmitionData as $key => $itemGroup) {
+        foreach ($this->patientAdmissionData as $key => $itemGroup) {
             if (! empty($key)) {
                 $validationName = $key;
             }
@@ -1665,19 +1678,19 @@ class PatientController extends AdminController
 
         $this->validate($request, $validation, [], $validationNames);
 
-        $patientAdmision->patient_id = $patient_id;
+        $patientAdmission->patient_id = $patient_id;
 
-        foreach ($this->patientAdmitionData as $key => $itemGroup) {
+        foreach ($this->patientAdmissionData as $key => $itemGroup) {
             foreach ($itemGroup as $key => $itemSubroup) {
                 foreach ($itemSubroup as $itemName => $item) {
-                    $patientAdmision->$itemName = $request->$itemName;
+                    $patientAdmission->$itemName = $request->$itemName;
                 }
             }
         }
 
-        $patientAdmision->account_id = $this->account->id;
+        $patientAdmission->account_id = $this->account->id;
 
-        $patientAdmision->save();
+        $patientAdmission->save();
 
         $request->session()->flash('success', 'Se editaron con éxito los datos de admisión del paciente.');
 
@@ -1690,14 +1703,14 @@ class PatientController extends AdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show_admissions(Request $request, $patient_id, $admision_id)
+    public function show_admissions(Request $request, $patient_id, $admission_id)
     {
         $patient = $this->account->patients()->findOrFail($patient_id);
 
-        $patientAdmision = $this->account->patientAdmisions()->where('id', $admision_id)->where('patient_id', $patient_id)->first();
+        $patientAdmission = $this->account->patientAdmissions()->where('id', $admission_id)->where('patient_id', $patient_id)->first();
 
         $data = [
-            'items' => $this->patientAdmitionData,
+            'items' => $this->patientAdmissionData,
             'back_url' => route('patients.admissions.index', ['patient_id' => $patient_id]),
             'form_method' => 'PUT',
             'title' => 'Admisión del paciente "' . $patient['patient_firstname'] . ' ' . $patient['patient_lastname'] . '"',
@@ -1707,7 +1720,149 @@ class PatientController extends AdminController
         foreach ($data['items'] as $key => &$itemGroup) {
             foreach ($itemGroup as $key => &$itemSubroup) {
                 foreach ($itemSubroup as $itemName => &$item) {
-                    $item['value'] = $patientAdmision->$itemName;
+                    $item['value'] = $patientAdmission->$itemName;
+                }
+            }
+        }
+
+        return view('form', $data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index_prescriptions(Request $request, $patient_id)
+    {
+        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id]);
+        }
+
+        $data['patient'] = $this->account->patients()->findOrFail($patient_id);
+
+        $data['prescriptions'] = $data['patient']->prescriptions()->orderBy('created_at', 'DESC')->paginate(20);
+
+        return view('patientPrescriptions', $data);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create_prescriptions(Request $request, $patient_id)
+    {
+        if (! in_array(Auth::user()->permissions, ['professional'])) {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id]);
+        }
+
+        $patient = $this->account->patients()->findOrFail($patient_id);
+
+        $data = [
+            'items' => $this->prescriptionData,
+            'back_url' => route('patients.prescriptions.index', ['patient_id' => $patient_id]),
+            'form_url' => route('patients.prescriptions.store', ['patient_id' => $patient_id]),
+            'form_method' => 'POST',
+            'title' => 'Crear nueva receta para el paciente ' . $patient->patient_firstname . ' ' . $patient->patient_lastname,
+        ];
+
+        return view('form', $data);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store_prescriptions(Request $request, $patient_id)
+    {
+        if (! in_array(Auth::user()->permissions, ['professional'])) {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id]);
+        }
+
+        $patient = $this->account->patients()->findOrFail($patient_id);
+
+        $professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
+
+        $prescription = new Prescription;
+
+        $prescription->professional_id = $professional->id;
+
+        $validation = [];
+
+        foreach ($this->prescriptionData as $key => $itemGroup) {
+            if (! empty($key)) {
+                $validationName = $key;
+            }
+            foreach ($itemGroup as $key => $itemSubroup) {
+                if (! empty($key)) {
+                    $validationName = $key;
+                }
+                foreach ($itemSubroup as $itemName => $item) {
+                    if (! empty($item['title'])) {
+                        $validationName = $item['title'];
+                    }
+                    if (! empty($item['validation'])) {
+                        $validation[$itemName] = $item['validation'];
+                        $validationNames[$itemName] = $validationName;
+                    }
+                }
+            }
+        }
+
+        $this->validate($request, $validation, [], $validationNames);
+
+        $prescription->patient_id = $patient_id;
+
+        foreach ($this->prescriptionData as $key => $itemGroup) {
+            foreach ($itemGroup as $key => $itemSubroup) {
+                foreach ($itemSubroup as $itemName => $item) {
+                    $patientPrescription->$itemName = $request->$itemName;
+                }
+            }
+        }
+
+        $prescription->account_id = $this->account->id;
+
+        $prescription->save();
+
+        $request->session()->flash('success', 'Se editaron con éxito los datos de admisión del paciente.');
+
+        return redirect()->route('patients.prescriptions.index', ['patient_id' => $patient_id]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_prescriptions(Request $request, $patient_id, $prescription_id)
+    {
+        $patient = $this->account->patients()->findOrFail($patient_id);
+
+        $prescription = $this->account->prescriptions()->where('id', $prescription_id)->where('patient_id', $patient_id)->first();
+
+        $data = [
+            'items' => $this->prescriptionData,
+            'back_url' => route('patients.prescriptions.index', ['patient_id' => $patient_id]),
+            'form_method' => 'PUT',
+            'title' => 'Admisión del paciente "' . $patient['patient_firstname'] . ' ' . $patient['patient_lastname'] . '"',
+            'only_view' => true,
+        ];
+
+        foreach ($data['items'] as $key => &$itemGroup) {
+            foreach ($itemGroup as $key => &$itemSubroup) {
+                foreach ($itemSubroup as $itemName => &$item) {
+                    $item['value'] = $patientPrescription->$itemName;
                 }
             }
         }

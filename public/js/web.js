@@ -8,6 +8,12 @@ $(document).ready(function()
 	carrito();
 	magnific_popup();
 
+	$('.send-to-print').bind('click', function() {
+		$('body').addClass('pdfprint');
+	    window.print();
+	    $('body').removeClass('pdfprint');
+	});
+
 	$('.toggle-multiselect').each(function()
 	{
 		$(this).bind('click', function()

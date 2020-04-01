@@ -41,7 +41,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700" rel="stylesheet">
 
 </head>
-<body id="@yield('sectionName')">
+<body id="@yield('sectionName')" class="{{ (isset($pdf) and $pdf) ? 'pdfprint' : '' }}">
 
 	@if (Auth::user())
 		@include('partials.header', [])
@@ -63,7 +63,7 @@
 	<script src="{{ asset('/js/fullcalendar/core/locales/es.js') }}?2"></script>
 	<script src="{{ asset('/js/fullcalendar/daygrid/main.js') }}?2"></script>
 	<script src="{{ asset('/js/fullcalendar/timegrid/main.js') }}?2"></script>
-	<script src="{{ asset('/js/web.js') }}?4"></script>
+	<script src="{{ asset('/js/web.js') }}?5"></script>
 
 	@if (session()->has('success'))
 		<script>

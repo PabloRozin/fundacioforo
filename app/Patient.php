@@ -100,11 +100,19 @@ class Patient extends Model
     }
 
     /**
-     * Get the admision record associated with the patient.
+     * Get the admission record associated with the patient.
      */
     public function admissions()
     {
-        return $this->hasMany('App\PatientAdmision');
+        return $this->hasMany('App\PatientAdmission');
+    }
+
+    /**
+     * Get the admission record associated with the patient.
+     */
+    public function prescriptions()
+    {
+        return $this->hasMany('App\Prescriptions');
     }
 
     /**

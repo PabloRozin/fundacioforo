@@ -76,7 +76,15 @@ class Professional extends Model
      */
     public function admissions()
     {
-        return $this->hasMany('App\PatientAdmision');
+        return $this->hasMany('App\PatientAdmission');
+    }
+
+    /**
+     * Get the admision record associated with the patient.
+     */
+    public function prescriptions()
+    {
+        return $this->hasMany('App\Prescriptions');
     }
 
     /**
@@ -133,7 +141,7 @@ class Professional extends Model
     }
 
     /**
-    * Get the professional that owns the admision.
+    * Get the professional user.
     */
     public function user()
     {

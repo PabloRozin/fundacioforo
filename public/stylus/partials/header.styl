@@ -1,24 +1,60 @@
-.scrolled
-	
+.pdfprint
+	padding-top 30px !important
+
 	#header
-		
+		position: static !important
+		padding-bottom 20px !important
+
+		.act-menu
+		.act-search
+		.menu
+			display none !important
+
+		.center
+			height 90px !important
+
+		.logo
+			padding 5px 0 !important
+			position: absolute !important
+			left 50% !important
+			margin-left -45px !important
+			transition padding .5s !important
+			width 90px !important
+
+			a
+				width: 90px !important
+				display: block !important
+
+			img
+				display: block !important
+				height: 90px !important
+				width: auto !important
+				transition height .5s !important
+
+				&.big
+					display none !important
+
+.scrolled
+
+	#header
+
 		@media screen and (min-width: width-break)
-		
+
 			.logo
 				padding 15px 0
-				
+
 				a
-					
+
 					img
 						height 60px
-						
+
 			.menu
 				left 90px
-				
+
 				ul
-					
+
 					li
-						
+
 						a
 						span
 							line-height 90px !important
@@ -30,14 +66,14 @@
 	right 0
 	z-index: 1000
 	background: color-verde
-	
+
 	@media screen and (min-width: width-break)
 		background white
 
 	.center
 		position: relative;
 		height 60px
-		
+
 		@media screen and (min-width: width-break)
 			height auto
 
@@ -47,7 +83,7 @@
 		left 50%
 		margin-left -25px
 		transition padding .5s
-		
+
 		@media screen and (min-width: width-break)
 			padding 30px 0
 			position relative
@@ -66,16 +102,16 @@
 			height: 50px
 			width: auto
 			transition height .5s
-				
+
 			&.big
 				display none
 
 			@media screen and (min-width: width-break)
 				height: 120px
-			
+
 				&.small
 					display none
-					
+
 				&.big
 					display block
 
@@ -107,44 +143,44 @@
 				@media screen and (min-width: width-break)
 					float: left
 					border 0
-					
+
 				&.user
 					position relative
 					border-top solid 1px white
-					
+
 					@media screen and (min-width: width-break)
 						position: absolute
 						right 0
 						top 0
-						
+
 					.name
 						color white
 						font-weight 500
-						
+
 						&:hover
 							color color-verde
-						
+
 						@media screen and (min-width: width-break)
 							color color-verde
-							
+
 							&:hover
 								color color-verde-oscuro
-							
+
 					span
 						montserratFont(13px, 45px, white, 300)
 						padding 0 0 0 15px
 						display block
 						transition line-height .5s
-						
+
 						@media screen and (min-width: width-break)
 							montserratFont(16px, 180px, color-gris-texto, 300)
 							display inline-block
-					
+
 					.logout
 						position: absolute
 						top 0
 						right 0
-						
+
 						@media screen and (min-width: width-break)
 							position: relative
 							display inline-block
@@ -180,13 +216,13 @@
 		text-align: center
 		cursor: pointer
 		color white
-		
+
 		&.open
 			background color-verde-oscuro
-		
+
 		@media screen and (min-width: width-break)
 			display none
-		
+
 	.act-search
 		position absolute
 		top 0
@@ -196,6 +232,6 @@
 		text-align: center
 		cursor: pointer
 		color white
-		
+
 		@media screen and (min-width: width-break)
 			display none

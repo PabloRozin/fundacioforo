@@ -7,25 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model
 {
     /**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-		'id',
-		'professionals_limit',
-		'patients_limit',
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'id',
+        'professionals_limit',
+        'patients_limit',
         'logo',
         'state',
-		'accepted_conditions',
-	];
+        'accepted_conditions',
+    ];
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = [];
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [];
 
     /**
      * The users that belong to the account.
@@ -60,31 +60,39 @@ class Account extends Model
     }
 
     /**
-     * The admisions that belong to the account.
+     * The admissions that belong to the account.
      */
     public function patientAdmisions()
     {
-        return $this->hasMany('App\PatientAdmision');
+        return $this->hasMany('App\PatientAdmission');
     }
 
-	public function getCreatedAtAttribute($value)
+    /**
+     * The admissions that belong to the account.
+     */
+    public function prescriptions()
     {
-    	$date = date('Y-m-d h:i:s', strtotime($value) - 10800);
+        return $this->hasMany('App\Prescriptions');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        $date = date('Y-m-d h:i:s', strtotime($value) - 10800);
 
         return $date;
     }
 
-	public function getUpdatedAtAttribute($value)
+    public function getUpdatedAtAttribute($value)
     {
-    	$date = date('Y-m-d h:i:s', strtotime($value) - 10800);
+        $date = date('Y-m-d h:i:s', strtotime($value) - 10800);
 
         return $date;
     }
 
     public function scopeDateWhere($query, $name, $operator = '=', $date)
-	{
-		$date = date('Y-m-d h:i:s', strtotime($date) + 10800);
-		
-	    $query->where($name, $operator, $date);
-	}
+    {
+        $date = date('Y-m-d h:i:s', strtotime($date) + 10800);
+
+        $query->where($name, $operator, $date);
+    }
 }
