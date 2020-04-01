@@ -1561,14 +1561,14 @@ class PatientController extends AdminController
 
         $hcDates = $hcDates->get();
 
+        dd($hcDates);
+
         foreach ($hcDates as $key => $hcDate) {
             $data['hcDates']['patients'][$hcDate->patient_id]['data'] = $hcDate->patient;
             $data['hcDates']['patients'][$hcDate->patient_id]['professionalData'] = $hcDate->professional;
             $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['professionals'][$hcDate->professional_id]['dates'][] = $hcDate;
             $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'] = (! isset($data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'])) ? 1 : $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'] + 1;
         }
-
-        dd($hcDates);
 
         $admissions = $this->account->patientAdmissions()
             ->orderBy('patient_id', 'ASC')
