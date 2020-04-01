@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Patient;
 use App\PatientAdmission;
 use App\HCDate;
+use DB;
 use Auth;
 use File;
 use Storage;
