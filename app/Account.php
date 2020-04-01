@@ -62,7 +62,7 @@ class Account extends Model
     /**
      * The admissions that belong to the account.
      */
-    public function patientAdmisions()
+    public function patientAdmissions()
     {
         return $this->hasMany('App\PatientAdmission');
     }

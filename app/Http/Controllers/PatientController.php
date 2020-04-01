@@ -1568,7 +1568,7 @@ class PatientController extends AdminController
             $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'] = (! isset($data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'])) ? 1 : $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'] + 1;
         }
 
-        $admissions = $this->account->patientAdmisions()
+        $admissions = $this->account->patientAdmissions()
             ->orderBy('patient_id', 'ASC')
             ->orderBy('professional_id', 'ASC')
             ->orderBy('created_at', 'ASC')

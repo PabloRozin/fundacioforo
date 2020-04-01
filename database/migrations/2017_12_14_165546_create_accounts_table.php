@@ -24,28 +24,23 @@ class CreateAccountsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('users', function($table)
-        {
+        Schema::table('users', function ($table) {
             $table->integer('account_id');
         });
 
-        Schema::table('patients', function($table)
-        {
+        Schema::table('patients', function ($table) {
             $table->integer('account_id');
         });
 
-        Schema::table('patient_admisions', function($table)
-        {
+        Schema::table('patient_admissions', function ($table) {
             $table->integer('account_id');
         });
 
-        Schema::table('professionals', function($table)
-        {
+        Schema::table('professionals', function ($table) {
             $table->integer('account_id');
         });
 
-        Schema::table('hc_dates', function($table)
-        {
+        Schema::table('hc_dates', function ($table) {
             $table->integer('account_id');
         });
     }
@@ -59,28 +54,23 @@ class CreateAccountsTable extends Migration
     {
         Schema::drop('accounts');
 
-        Schema::table('users', function($table)
-        {
+        Schema::table('users', function ($table) {
             $table->dropColumn('account_id');
         });
 
-        Schema::table('patients', function($table)
-        {
+        Schema::table('patients', function ($table) {
             $table->dropColumn('account_id');
         });
 
-        Schema::table('patient_admisions', function($table)
-        {
-            $table->dropColumn('account_id');
-        });
-        
-        Schema::table('professionals', function($table)
-        {
+        Schema::table('patient_admisions', function ($table) {
             $table->dropColumn('account_id');
         });
 
-        Schema::table('hc_dates', function($table)
-        {
+        Schema::table('professionals', function ($table) {
+            $table->dropColumn('account_id');
+        });
+
+        Schema::table('hc_dates', function ($table) {
             $table->dropColumn('account_id');
         });
     }

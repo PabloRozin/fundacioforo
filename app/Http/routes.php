@@ -80,12 +80,12 @@ Route::group(
         Route::get('/patients/{patient_id}/admissions', 'PatientController@index_admissions')->name('patients.admissions.index');
         Route::get('/patients/{patient_id}/admissions/create', 'PatientController@create_admissions')->name('patients.admissions.create');
         Route::post('/patients/{patient_id}/admissions', 'PatientController@store_admissions')->name('patients.admissions.store');
-        Route::get('/patients/{patient_id}/admissions/{admision_id?}', 'PatientController@show_admissions')->name('patients.admissions.show');
+        Route::get('/patients/{patient_id}/admissions/{admission_id?}', 'PatientController@show_admissions')->name('patients.admissions.show');
 
         Route::get('/patients/{patient_id}/prescriptions', 'PatientController@index_prescriptions')->name('patients.prescriptions.index');
         Route::get('/patients/{patient_id}/prescriptions/create', 'PatientController@create_prescriptions')->name('patients.prescriptions.create');
         Route::post('/patients/{patient_id}/prescriptions', 'PatientController@store_prescriptions')->name('patients.prescriptions.store');
-        Route::get('/patients/{patient_id}/prescriptions/{admision_id?}', 'PatientController@show_prescriptions')->name('patients.prescriptions.show');
+        Route::get('/patients/{patient_id}/prescriptions/{prescription_id?}', 'PatientController@show_prescriptions')->name('patients.prescriptions.show');
 
         Route::get('/patients/{patient_id}/hc', 'PatientController@index_hc')->name('patients.hc');
         Route::get('/patients/{patient_id}/hc/create', 'PatientController@create_hc')->name('patients.hc.create');

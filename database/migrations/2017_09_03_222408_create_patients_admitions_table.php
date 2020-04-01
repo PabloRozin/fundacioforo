@@ -12,8 +12,7 @@ class CreatePatientsAdmitionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('patient_admisions', function (Blueprint $table) {
-
+        Schema::create('patient_admissions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('professional_id');
             $table->integer('patient_id')->nullable();
