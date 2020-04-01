@@ -1559,8 +1559,6 @@ class PatientController extends AdminController
             $hcDates = $hcDates->where('patient_id', $data['patient_id']);
         }
 
-        dd($hcDates->toSql());
-
         $hcDates = $hcDates->get();
 
         foreach ($hcDates as $key => $hcDate) {
