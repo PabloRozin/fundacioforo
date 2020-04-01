@@ -35,7 +35,7 @@
 	<link href="{{ asset('/js/fullcalendar/core/main.css') }}" rel="stylesheet">
 	<link href="{{ asset('/js/fullcalendar/daygrid/main.css') }}" rel="stylesheet">
 	<link href="{{ asset('/js/fullcalendar/timegrid/main.css') }}" rel="stylesheet">
-	<link href="{{ asset('/css/web.css') }}?1" rel="stylesheet">
+	<link href="{{ asset('/css/web.css') }}?{{ time() }}" rel="stylesheet">
 
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700" rel="stylesheet">
@@ -63,7 +63,7 @@
 	<script src="{{ asset('/js/fullcalendar/core/locales/es.js') }}?2"></script>
 	<script src="{{ asset('/js/fullcalendar/daygrid/main.js') }}?2"></script>
 	<script src="{{ asset('/js/fullcalendar/timegrid/main.js') }}?2"></script>
-	<script src="{{ asset('/js/web.js') }}?5"></script>
+	<script src="{{ asset('/js/web.js') }}?{{ time() }}"></script>
 
 	@if (session()->has('success'))
 		<script>
