@@ -1561,7 +1561,7 @@ class PatientController extends AdminController
 
         $hcDates = $hcDates->get();
 
-        dd($hcDates);
+        dd(DB::getQueryLog());
 
         foreach ($hcDates as $key => $hcDate) {
             $data['hcDates']['patients'][$hcDate->patient_id]['data'] = $hcDate->patient;
