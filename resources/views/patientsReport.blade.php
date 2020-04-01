@@ -55,9 +55,9 @@
                                             <strong>{{ $consultationTypes[$typeId] }}</strong> ({{ $type['count'] }})
                                             <br>
                                             @foreach ($type['professionals'] as $professionalId => $professional)
-                                                <a href="{{ route('professionals.edit', ['patient_id' => $professionalId]) }}">
-                                                    {{ $patient['professionalData']->firstname }}
-                                                    {{ $patient['professionalData']->lastname }}
+                                                <a href="{{ route('professionals.edit', ['professional_id' => $professional['data']->id]) }}">
+                                                    {{ $professional['data']->firstname }}
+                                                    {{ $professional['data']->lastname }}
                                                 </a> ({{ count($professional['dates']) }})
                                                 <br>
                                                 @foreach ($professional['dates'] as $hcDate)

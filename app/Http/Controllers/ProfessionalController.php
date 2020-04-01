@@ -9,7 +9,6 @@ use App\User;
 use Auth;
 use Hash;
 use Storage;
-use Dompdf\Dompdf;
 
 class ProfessionalController extends AdminController
 {
@@ -684,61 +683,73 @@ class ProfessionalController extends AdminController
 
         $this->validate($request, $validation, [], $validationNames);
 
+        $consultationTypes = [
+            'E.I.' => 'Entrevista Individual pacientes',
+            'G.H.' => 'Grupo de entrenamiento en habilidades',
+            'G.H.F.A.' => 'Grupo de entrenamiento en habilidades a familiares y allegados',
+            'E.F.A.' => 'Entrevista familiar y allegados',
+            'E.P.' => 'Entrevista Psiquiátrica',
+            'I.C.' => 'Interconsulta',
+            'T.P.' => 'Terapia de Pareja',
+            'T.F.S.' => 'Taller de Fobia Social',
+            'T.M.' => 'Taller Multifamiliar',
+            'O.F.A.' => 'Orientación a Familiares y/o Allegados',
+            'T.E.P.T.' => 'Terapia de Exposición Post Traumática',
+            'otros' => 'Otros',
+        ];
+
+        $since = (strtotime($request->since) < strtotime($request->to)) ? $request->since : $request->to;
+        $to = (strtotime($request->since) < strtotime($request->to)) ? $request->to : $request->since;
+
         $data = [
             'back_url' => route('professionals.index'),
             'professional_id' => ($professional_id) ? $professional_id : false,
-            'since' => (strtotime($request->since) < strtotime($request->to)) ? $request->since : $request->to,
-            'to' => (strtotime($request->since) < strtotime($request->to)) ? $request->to : $request->since,
-            'consultationTypes' => [
-                ['id' => 'E.I.', 'value' => 'Entrevista Individual pacientes'],
-                ['id' => 'G.H.', 'value' => 'Grupo de entrenamiento en habilidades'],
-                ['id' => 'G.H.F.A.', 'value' => 'Grupo de entrenamiento en habilidades a familiares y allegados'],
-                ['id' => 'E.F.A.', 'value' => 'Entrevista familiar y allegados'],
-                ['id' => 'E.P.', 'value' => 'Entrevista Psiquiátrica'],
-                ['id' => 'I.C.', 'value' => 'Interconsulta'],
-                ['id' => 'T.P.', 'value' => 'Terapia de Pareja'],
-                ['id' => 'T.F.S.', 'value' => 'Taller de Fobia Social'],
-                ['id' => 'T.M.', 'value' => 'Taller Multifamiliar'],
-                ['id' => 'O.F.A.', 'value' => 'Orientación a Familiares y/o Allegados'],
-                ['id' => 'T.E.P.T.', 'value' => 'Terapia de Exposición Post Traumática'],
-                ['id' => 'otros', 'value' => 'Otros', 'with_text' => 'type_info'],
-            ],
+            'since' => $since,
+            'to' => $to,
+            'consultationTypes' => $consultationTypes,
+            'pdf' => $request->pdf
         ];
 
-        $data['pdf_url'] = route('professionals.report', ['professional_id' => $professional_id]) . '?pdf=true&since='.$data['since'].'&to='.$data['to'];
-
-        $data['professionals'] = $this->account->professionals()->where(function ($query) use ($data) {
-            $query->whereHas('hcDates', function ($query) use ($data) {
-                $query->dateWhere('created_at', '>=', $data['since'].' 00:00:00');
-                $query->dateWhere('created_at', '<=', $data['to'].' 23:59:59');
-                if (in_array(Auth::user()->permissions, ['administrator'])) {
-                    $query->where('type', '!=', 'otros');
-                }
-            })->orWhereHas('admissions', function ($query) use ($data) {
-                $query->dateWhere('created_at', '>=', $data['since'].' 00:00:00');
-                $query->dateWhere('created_at', '<=', $data['to'].' 23:59:59');
-            });
-        })->orderBy('firstname', 'ASC');
+        $hcDates = $this->account->hcDates()
+            ->where('created_at', '>=', $since.' 00:00:00')
+            ->where('created_at', '<=', $to.' 23:59:59')
+            ->orderBy('professional_id', 'ASC')
+            ->orderBy('type', 'ASC')
+            ->orderBy('patient_id', 'ASC')
+            ->orderBy('created_at', 'ASC');
 
         if ($data['professional_id']) {
-            $data['professionals'] = $data['professionals']->where('id', $data['professional_id']);
+            $hcDates = $hcDates->where('professional_id', $data['professional_id']);
         }
 
-        $data['professionals'] = $data['professionals']->get();
+        $hcDates = $hcDates->get();
 
+        foreach ($hcDates as $key => $hcDate) {
+            $data['hcDates']['professionals'][$hcDate->professional_id]['data'] = $hcDate->professional;
+            $data['hcDates']['professionals'][$hcDate->professional_id]['consultationTypes'][$hcDate->type]['patients'][$hcDate->patient_id]['dates'][] = $hcDate;
+            $data['hcDates']['professionals'][$hcDate->professional_id]['consultationTypes'][$hcDate->type]['patients'][$hcDate->patient_id]['data'] = $hcDate->patient;
+            $data['hcDates']['professionals'][$hcDate->professional_id]['consultationTypes'][$hcDate->type]['count'] = (! isset($data['hcDates']['professionals'][$hcDate->professional_id]['consultationTypes'][$hcDate->type]['count'])) ? 1 : $data['hcDates']['professionals'][$hcDate->professional_id]['consultationTypes'][$hcDate->type]['count'] + 1;
+        }
 
-        if ($request->pdf) {
-            $view = \View::make('pdf.professionalsReport', $data)->render();
+        $admissions = $this->account->patientAdmissions()
+            ->orderBy('professional_id', 'ASC')
+            ->orderBy('patient_id', 'ASC')
+            ->orderBy('created_at', 'ASC')
+            ->dateWhere('created_at', '>=', $since.' 00:00:00')
+            ->dateWhere('created_at', '<=', $to.' 23:59:59');
 
-            $pdf = new Dompdf();
+        if ($data['professional_id']) {
+            $admissions = $admissions->where('professional_id', $data['professional_id']);
+        }
 
-            $pdf->loadHTML($view);
-            $pdf->setPaper('A4');
-            $pdf->render();
-            $canvas = $pdf->get_canvas();
-            $canvas->page_text(15, 15, '{PAGE_NUM} de {PAGE_COUNT}', null, 10, [0, 0, 0]);
+        $admissions = $admissions->get();
 
-            return $pdf->stream('reporte_professionales_'.$data['since'].'_'.$data['to'].'.pdf');
+        foreach ($admissions as $key => $admission) {
+            if (! isset($data['hcDates']['professionals'][$admission->professional_id])) {
+                $data['hcDates']['professionals'][$admission->professional_id]['data'] = $this->account->patients()->find($admission->professional_id);
+                $data['hcDates']['professionals'][$admission->professional_id]['consultationTypes'] = [];
+            }
+            $data['hcDates']['professionals'][$admission->professional_id]['admissions'][] = $admission;
         }
 
         return view('professionalsReport', $data);

@@ -1545,8 +1545,6 @@ class PatientController extends AdminController
             'pdf' => $request->pdf
         ];
 
-        $data['pdf_url'] = route('patients.report', ['patient_id' => $patient_id]) . '?pdf=true&since='.$data['since'].'&to='.$data['to'];
-
         $hcDates = $this->account->hcDates()
             ->where('created_at', '>=', $since.' 00:00:00')
             ->where('created_at', '<=', $to.' 23:59:59')
@@ -1563,8 +1561,8 @@ class PatientController extends AdminController
 
         foreach ($hcDates as $key => $hcDate) {
             $data['hcDates']['patients'][$hcDate->patient_id]['data'] = $hcDate->patient;
-            $data['hcDates']['patients'][$hcDate->patient_id]['professionalData'] = $hcDate->professional;
             $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['professionals'][$hcDate->professional_id]['dates'][] = $hcDate;
+            $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['professionals'][$hcDate->professional_id]['data'] = $hcDate->professional;
             $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'] = (! isset($data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'])) ? 1 : $data['hcDates']['patients'][$hcDate->patient_id]['consultationTypes'][$hcDate->type]['count'] + 1;
         }
 
