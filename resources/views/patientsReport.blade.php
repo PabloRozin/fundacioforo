@@ -65,11 +65,6 @@
                                                     @if ($typeId == 'otros' and ! empty($hcDate->type_info))
                                                         / Info: {{ $hcDate->type_info }}
                                                     @endif
-                    <div style="display:none">
-                        <pre>
-                            {{ var_dump($hcDate) }}
-                        </pre>
-                    </div>
                                                     <br>
                                                 @endforeach
                                             @endforeach
