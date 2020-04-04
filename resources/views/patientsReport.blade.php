@@ -37,11 +37,6 @@
 
             @if($hcDates)
                 @foreach($hcDates['patients'] as $patient)
-                    <div style="display:none">
-                        <pre>
-                            {{ var_dump($patient) }}
-                        </pre>
-                    </div>
                     <div class="hc-item">
                         <div class="hc-item-cont">
                             <div class="hc-item-data-cont hc"><!--
@@ -70,6 +65,11 @@
                                                     @if ($typeId == 'otros' and ! empty($hcDate->type_info))
                                                         / Info: {{ $hcDate->type_info }}
                                                     @endif
+                    <div style="display:none">
+                        <pre>
+                            {{ var_dump($hcDate) }}
+                        </pre>
+                    </div>
                                                     <br>
                                                 @endforeach
                                             @endforeach
