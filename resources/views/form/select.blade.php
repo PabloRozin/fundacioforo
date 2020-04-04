@@ -6,13 +6,12 @@
 		@endif
 	>
 		@foreach ($options as $option)
-			<option value="{{ $option['id'] }}" 
-				@if($option['id'] == $value or $option['id'] == old($name)) 
+			<option value="{{ $option['id'] }}"
+				@if($option['id'] == $value or $option['id'] == old($name))
 					selected
 				@elseif ( ! isset($value) and isset($option['defalut']) and $option['defalut'])
 					selected
-				@endif 
-
+				@endif
 			>
 				{{ $option['value'] }}
 			</option>

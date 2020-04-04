@@ -711,12 +711,14 @@ class ProfessionalController extends AdminController
         ];
 
         $hcDates = $this->account->hcDates()
-            ->where('created_at', '>=', $since.' 00:00:00')
-            ->where('created_at', '<=', $to.' 23:59:59')
-            ->orderBy('professional_id', 'ASC')
-            ->orderBy('type', 'ASC')
-            ->orderBy('patient_id', 'ASC')
-            ->orderBy('created_at', 'ASC');
+            ->select('hc_dates.*', 'professionals.firstname as firstname')
+            ->leftJoin('professionals', 'professionals.id', '=', 'hc_dates.professional_id')
+            ->where('hc_dates.created_at', '>=', $since.' 00:00:00')
+            ->where('hc_dates.created_at', '<=', $to.' 23:59:59')
+            ->orderBy('professionals.firstname', 'ASC')
+            ->orderBy('hc_dates.type', 'ASC')
+            ->orderBy('hc_dates.professional_id', 'ASC')
+            ->orderBy('hc_dates.created_at', 'ASC');
 
         if ($data['professional_id']) {
             $hcDates = $hcDates->where('professional_id', $data['professional_id']);
@@ -725,18 +727,20 @@ class ProfessionalController extends AdminController
         $hcDates = $hcDates->get();
 
         foreach ($hcDates as $key => $hcDate) {
-            $data['hcDates']['professionals'][$hcDate->professional_id]['data'] = $hcDate->professional;
-            $data['hcDates']['professionals'][$hcDate->professional_id]['consultationTypes'][$hcDate->type]['patients'][$hcDate->patient_id]['dates'][] = $hcDate;
-            $data['hcDates']['professionals'][$hcDate->professional_id]['consultationTypes'][$hcDate->type]['patients'][$hcDate->patient_id]['data'] = $hcDate->patient;
-            $data['hcDates']['professionals'][$hcDate->professional_id]['consultationTypes'][$hcDate->type]['count'] = (! isset($data['hcDates']['professionals'][$hcDate->professional_id]['consultationTypes'][$hcDate->type]['count'])) ? 1 : $data['hcDates']['professionals'][$hcDate->professional_id]['consultationTypes'][$hcDate->type]['count'] + 1;
+            $data['hcDates']['professionals'][urlencode($hcDate->firstname)]['data'] = $hcDate->professional;
+            $data['hcDates']['professionals'][urlencode($hcDate->firstname)]['consultationTypes'][$hcDate->type]['patients'][$hcDate->patient_id]['dates'][] = $hcDate;
+            $data['hcDates']['professionals'][urlencode($hcDate->firstname)]['consultationTypes'][$hcDate->type]['patients'][$hcDate->patient_id]['data'] = $hcDate->patient;
+            $data['hcDates']['professionals'][urlencode($hcDate->firstname)]['consultationTypes'][$hcDate->type]['count'] = (! isset($data['hcDates']['professionals'][urlencode($hcDate->firstname)]['consultationTypes'][$hcDate->type]['count'])) ? 1 : $data['hcDates']['professionals'][urlencode($hcDate->firstname)]['consultationTypes'][$hcDate->type]['count'] + 1;
         }
 
         $admissions = $this->account->patientAdmissions()
-            ->orderBy('professional_id', 'ASC')
-            ->orderBy('patient_id', 'ASC')
-            ->orderBy('created_at', 'ASC')
-            ->dateWhere('created_at', '>=', $since.' 00:00:00')
-            ->dateWhere('created_at', '<=', $to.' 23:59:59');
+            ->select('patient_admissions.*', 'professionals.firstname as firstname')
+            ->leftJoin('professionals', 'professionals.id', '=', 'patient_admissions.professional_id')
+            ->orderBy('professionals.firstname', 'ASC')
+            ->orderBy('patient_admissions.professional_id', 'ASC')
+            ->orderBy('patient_admissions.created_at', 'ASC')
+            ->dateWhere('patient_admissions.created_at', '>=', $since.' 00:00:00')
+            ->dateWhere('patient_admissions.created_at', '<=', $to.' 23:59:59');
 
         if ($data['professional_id']) {
             $admissions = $admissions->where('professional_id', $data['professional_id']);
@@ -745,11 +749,11 @@ class ProfessionalController extends AdminController
         $admissions = $admissions->get();
 
         foreach ($admissions as $key => $admission) {
-            if (! isset($data['hcDates']['professionals'][$admission->professional_id])) {
-                $data['hcDates']['professionals'][$admission->professional_id]['data'] = $this->account->patients()->find($admission->professional_id);
-                $data['hcDates']['professionals'][$admission->professional_id]['consultationTypes'] = [];
+            if (! isset($data['hcDates']['professionals'][urlencode($admission->firstname)])) {
+                $data['hcDates']['professionals'][urlencode($admission->firstname)]['data'] = $this->account->professionals()->find($admission->professional_id);
+                $data['hcDates']['professionals'][urlencode($admission->firstname)]['consultationTypes'] = [];
             }
-            $data['hcDates']['professionals'][$admission->professional_id]['admissions'][] = $admission;
+            $data['hcDates']['professionals'][urlencode($admission->firstname)]['admissions'][] = $admission;
         }
 
         return view('professionalsReport', $data);

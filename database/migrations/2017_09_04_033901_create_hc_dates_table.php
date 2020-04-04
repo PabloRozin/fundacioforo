@@ -13,12 +13,12 @@ class CreateHcDatesTable extends Migration
     public function up()
     {
         Schema::create('hc_dates', function (Blueprint $table) {
-
             $table->increments('id');
             $table->timestamps();
 
             $table->integer('patient_id')->nullable();
             $table->integer('professional_id')->nullable();
+            $table->integer('account_id');
 
             $table->text('type_info')->nullable();
             $table->text('detail')->nullable();

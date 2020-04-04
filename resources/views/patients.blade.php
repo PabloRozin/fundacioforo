@@ -127,8 +127,6 @@
 				<div class="hc-button">
 					<a href="{{ route('patients.create') }}" class="btn">Agregar</a>
 				</div>
-			@endif
-			@if (in_array(Auth::user()->permissions, ['admin', 'professional', 'administrator']))
 				<div class="hc-button">
 					<button class="btn btn-secondary act-report">Reporte</a>
 				</div>
@@ -217,10 +215,15 @@
 										<a href="{{ route('patients.admissions.index', ['patient_id' => $patient['id']]) }}">Admisión</a>
 									</li>
 								@endif
+								@if (in_array(Auth::user()->permissions, ['professional','admin']))
+									<li>
+										<a href="{{ route('patients.prescriptions.index', ['patient_id' => $patient['id']]) }}">Recetas</a>
+									</li>
+								@endif
 								<li>
 									<a href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Datos</a>
 								</li>
-								@if (in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional']))
+								@if (in_array(Auth::user()->permissions, ['admin', 'professional']))
 									<li>
 										<span class="act-report-one" data-id="{{ $patient['id'] }}" data-name="{{ $patient['patient_firstname'] }} {{ $patient['patient_lastname'] }}">Reporte</span>
 									</li>

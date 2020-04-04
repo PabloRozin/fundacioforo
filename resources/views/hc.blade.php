@@ -3,9 +3,9 @@
 @section('content')
 
 <div class="hc-list">
-	
+
 	<div class="center">
-		
+
 		<div class="hc-title">Historia Clínica de "{{ $patient->patient_firstname }} {{ $patient->patient_lastname }}"</div>
 
 		<div class="hc-buttons">

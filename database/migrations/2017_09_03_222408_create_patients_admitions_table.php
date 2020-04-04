@@ -16,6 +16,7 @@ class CreatePatientsAdmitionsTable extends Migration
             $table->increments('id');
             $table->integer('professional_id');
             $table->integer('patient_id')->nullable();
+            $table->integer('account_id');
             $table->timestamps();
 
             $table->text('background_reason')->nullable();

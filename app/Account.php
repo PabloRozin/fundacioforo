@@ -72,7 +72,7 @@ class Account extends Model
      */
     public function prescriptions()
     {
-        return $this->hasMany('App\Prescriptions');
+        return $this->hasMany('App\Prescription');
     }
 
     public function getCreatedAtAttribute($value)

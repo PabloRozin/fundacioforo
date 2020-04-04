@@ -2,13 +2,13 @@
 	@if ($title)
 		<label for="{{ $name }}">{{ $title }}</label>
 	@endif
-	<input 
+	<input
 		type="date"
 		name="{{ $name }}"
-		@if(isset($value)) 
+		@if(isset($value))
 			value="{{ $value }}"
 		@elseif(old($name))
-			value="{{ old($name) }}" 
+			value="{{ old($name) }}"
 		@endif
 		max="{{ $max }}"
 		min="{{ $min }}"
