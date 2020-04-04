@@ -37,6 +37,11 @@
 
             @if($hcDates)
                 @foreach($hcDates['patients'] as $patient)
+                    <div style="display:none">
+                        <pre>
+                            {{ var_dump($patient) }}
+                        </pre>
+                    </div>
                     <div class="hc-item">
                         <div class="hc-item-cont">
                             <div class="hc-item-data-cont hc"><!--

@@ -215,6 +215,11 @@
 										<a href="{{ route('patients.admissions.index', ['patient_id' => $patient['id']]) }}">Admisión</a>
 									</li>
 								@endif
+								@if (in_array(Auth::user()->permissions, ['professional','admin']))
+									<li>
+										<a href="{{ route('patients.prescriptions.index', ['patient_id' => $patient['id']]) }}">Recetas</a>
+									</li>
+								@endif
 								<li>
 									<a href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Datos</a>
 								</li>
@@ -277,13 +282,12 @@
 									<a href="{{ route('patients.admissions.index', ['patient_id' => $patient['id']]) }}">Admisión</a>
 								</li>
 								<li>
-									<a href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Datos</a>
-								</li>
-							@else
-								<li>
-									<a href="{{ route('patients.show', ['id' => $patient['id']]) }}">Datos</a>
+									<a href="{{ route('patients.prescriptions.index', ['patient_id' => $patient['id']]) }}">Recetas</a>
 								</li>
 							@endif
+							<li>
+								<a href="{{ route('patients.show', ['id' => $patient['id']]) }}">Datos</a>
+							</li>
 							@if (in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional']))
 								<li>
 									<span class="act-report-one" data-id="{{ $patient['id'] }}" data-name="{{ $patient['patient_firstname'] }} {{ $patient['patient_lastname'] }}">Reporte</span>
