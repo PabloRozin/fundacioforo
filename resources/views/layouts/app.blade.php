@@ -41,7 +41,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700" rel="stylesheet">
 
 </head>
-<body id="@yield('sectionName')" class="{{ (isset($pdf) and $pdf) ? 'pdfprint' : '' }}">
+<body id="@yield('sectionName')" class="@yield('sectionClass'){{ (isset($pdf) and $pdf) ? 'pdfprint' : '' }}">
 
 	@if (Auth::user())
 		@include('partials.header', [])

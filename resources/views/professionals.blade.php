@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="popup full_size">
-	
+
 	<div class="popup-content vertical_align">
 
 		<div class="popup-cont">
@@ -11,41 +11,41 @@
 			<div class="popup-close">
 				<span class="lnr lnr-cross"></span>
 			</div>
-			
+
 			<div class="popup-search popup-body">
 
 				<div class="hc-title">Buscador de profesionales</div>
 
 				<form class="form" action="{{ route('professionals.index') }}" method="GET">
-					
+
 					<div class="item">
 						<input class="focus" type="text" name="id" placeholder="ID">
 					</div>
-					
+
 					<div class="item">
 						<input type="text" name="document_number" placeholder="Nº de documento">
 					</div>
-					
+
 					<div class="item">
 						<input type="text" name="registration_number" placeholder="Matrícula">
 					</div>
-					
+
 					<div class="item">
 						<input type="text" name="firstname" placeholder="Nombre">
 					</div>
-					
+
 					<div class="item">
 						<input type="text" name="lastname" placeholder="Apellido">
 					</div>
-					
+
 					<div class="item">
 						<input type="email" name="email" placeholder="Email">
 					</div>
-					
+
 					<div class="item">
 						<input type="text" name="district" placeholder="Barrio">
 					</div>
-					
+
 					<div class="item">
 						<select name="profession">
 							<option value="">Especialidad</option>
@@ -64,18 +64,18 @@
 				</form>
 
 			</div>
-			
+
 			@if (in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional']))
 				<div class="popup-report popup-body">
 
 					<div class="hc-title">Reporte general de profesionales</div>
 
 					<form class="form" action="{{ route('professionals.report') }}" method="GET">
-						
+
 						<div class="item">
 							<input class="focus" type="date" name="since" placeholder="Fecha desde" min="1979-12-31" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
 						</div>
-						
+
 						<div class="item">
 							<input type="date" name="to" placeholder="Fecha hasta" min="1979-12-31" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
 						</div>
@@ -87,17 +87,17 @@
 					</form>
 
 				</div>
-				
+
 				<div class="popup-report-one popup-body">
 
 					<div class="hc-title">Reporte de profesional <span class="report-data-name"></span></div>
 
 					<form class="form" action="{{ route('professionals.report') }}" method="GET">
-						
+
 						<div class="item">
 							<input class="focus" type="date" name="since" placeholder="Fecha desde" min="1979-12-31" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
 						</div>
-						
+
 						<div class="item">
 							<input type="date" name="to" placeholder="Fecha hasta" min="1979-12-31" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}">
 						</div>
@@ -118,9 +118,9 @@
 </div>
 
 <div class="hc-list">
-	
+
 	<div class="center">
-		
+
 		<div class="hc-title">Listado de profesionales</div>
 
 		<div class="hc-buttons">
@@ -208,6 +208,11 @@
 									<a href="{{ route('professionals.show', ['id' => $professional['id']]) }}">Datos</a>
 								@endif
 							</li>
+							@if (in_array(Auth::user()->permissions, ['professional', 'admin']))
+								<li>
+									<a href="{{ route('professionals.prescriptions.index', ['id' => $professional['id']]) }}">Recetas</a>
+								</li>
+							@endif
 							@if (in_array(Auth::user()->permissions, ['administrator', 'admin']))
 								<li>
 									<span class="act-report-one" data-id="{{ $professional['id'] }}" data-name="{{ $professional['firstname'] }} {{ $professional['lastname'] }}">Reporte</span>

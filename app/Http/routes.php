@@ -83,9 +83,11 @@ Route::group(
         Route::get('/patients/{patient_id}/admissions/{admission_id?}', 'PatientController@show_admissions')->name('patients.admissions.show');
 
         Route::get('/patients/{patient_id}/prescriptions', 'PrescriptionController@patient_index')->name('patients.prescriptions.index');
+        Route::get('/patients/{patient_id}/prescriptions/report', 'PrescriptionController@patient_report')->name('patients.prescriptions.report');
         Route::get('/patients/{patient_id}/prescriptions/create', 'PrescriptionController@patient_create')->name('patients.prescriptions.create');
         Route::post('/patients/{patient_id}/prescriptions', 'PrescriptionController@patient_store')->name('patients.prescriptions.store');
         Route::get('/patients/{patient_id}/prescriptions/{prescription_id?}', 'PrescriptionController@patient_show')->name('patients.prescriptions.show');
+        Route::get('/patients/{patient_id}/prescriptions/duplicate/{prescription_id?}', 'PrescriptionController@patient_duplicate')->name('patients.prescriptions.duplicate');
 
         Route::get('/patients/{patient_id}/hc', 'PatientController@index_hc')->name('patients.hc');
         Route::get('/patients/{patient_id}/hc/create', 'PatientController@create_hc')->name('patients.hc.create');
@@ -97,6 +99,9 @@ Route::group(
         // -------------------------------
 
         Route::get('/professionals/report/{professional_id?}', 'ProfessionalController@report')->name('professionals.report');
+
+        Route::get('/professionals/{professional_id}/prescriptions', 'PrescriptionController@professional_index')->name('professionals.prescriptions.index');
+        Route::get('/professionals/{professional_id}/prescriptions/{prescription_id?}', 'PrescriptionController@professional_show')->name('professionals.prescriptions.show');
 
         Route::resource('professionals', 'ProfessionalController');
 
