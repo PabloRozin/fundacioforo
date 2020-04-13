@@ -167,7 +167,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_index(Request $request, $patient_id)
     {
-        if (Auth::user()->id != 145) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 245) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -228,7 +228,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_report(Request $request, $patient_id)
     {
-        if (Auth::user()->id != 145) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 245) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -283,7 +283,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_create(Request $request, $patient_id)
     {
-        if (Auth::user()->id != 145) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 245) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -319,7 +319,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_duplicate(Request $request, $patient_id, $prescription_id)
     {
-        if (Auth::user()->id != 145) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 245) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -366,7 +366,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_store(Request $request, $patient_id)
     {
-        if (Auth::user()->id != 145) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 245) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -432,7 +432,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_show(Request $request, $patient_id, $prescription_id)
     {
-        if (Auth::user()->id != 145) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 245) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -480,7 +480,7 @@ class PrescriptionController extends AdminController
      */
     public function professional_index(Request $request, $professional_id)
     {
-        if (Auth::user()->id != 145) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 245) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -542,7 +542,7 @@ class PrescriptionController extends AdminController
      */
     public function professional_show(Request $request, $professional_id, $prescription_id)
     {
-        if (Auth::user()->id != 145) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 245) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
