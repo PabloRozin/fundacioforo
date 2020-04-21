@@ -286,7 +286,7 @@
 								</li>
 							@endif
 							<li>
-								<a href="{{ route('patients.show', ['id' => $patient['id']]) }}">Datos</a>
+								<a href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Datos</a>
 							</li>
 							@if (in_array(Auth::user()->permissions, ['administrator', 'admin', 'professional']))
 								<li>
