@@ -1368,7 +1368,7 @@ class PatientController extends AdminController
 
         if (in_array(Auth::user()->permissions, ['admin'])) {
             $this->patientData['Profesionales Asignados']['']['professional_state'] = [
-                'css_class' => 'col-1-4',
+                'css_class' => 'col-1-4 asd123',
                 'type' => 'select',
                 'title' => 'Estado de profesionales',
                 'options' => [
