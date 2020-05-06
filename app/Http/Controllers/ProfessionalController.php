@@ -617,7 +617,7 @@ class ProfessionalController extends AdminController
                         $validationName = $item['title'];
                     }
                     $validationNames[$itemName] = $validationName;
-                    if (! in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data'])) {
+                    if (in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data'])) {
                         if (! empty($item['validation']) and (! isset($item['not_updatable']) or ! $item['not_updatable'])) {
                             if (! isset($item['not_show_to']) or  ! in_array(Auth::user()->permissions, $item['not_show_to'])) {
                                 $validation[$itemName] = $item['validation'];
