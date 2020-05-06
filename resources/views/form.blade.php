@@ -46,7 +46,7 @@
 
 						@foreach ($subgroup_items as $item_name => $item)
 
-							@if (in_array(Auth::user()->permissions, ['professional']) or ! isset($item['user_data']))
+							@if (in_array(Auth::user()->permissions, ['admin']) or ! isset($item['user_data']))
 
 								@if ( ! isset($item['not_show_to']) or  ! in_array(Auth::user()->permissions, $item['not_show_to']))
 
