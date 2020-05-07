@@ -137,7 +137,7 @@
 				</div>
 			@endif
 			<div class="hc-button-right hide-on-celphone">
-				@include('partials.pagination', ['items' => $patients, 'route' => route('patients.index') ])
+				@include('partials.pagination', ['items' => $patients, 'route' => route('patients.index'), 'extraFiters' => $filtersUrl ])
 
 				<div class="hc-button">
 					<button class="btn act-search">Buscar</a>

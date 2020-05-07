@@ -1066,11 +1066,14 @@ class PatientController extends AdminController
                 ->where('patient_state', 1);
 
             $filters = false;
+            $data['filtersUrl'] = '';
+            $data['filtersUrl'] .= '&' .$itemName . '=' . $filter['value'];
 
             foreach ($data['filters'] as $itemName => $filter) {
                 if (! empty($filter['value'])) {
                     $data['patients'] = $data['patients']->{$filter['type']}($itemName, 'like', '%'.str_replace(' ', '%', $filter['value']).'%');
                     $filters = true;
+                    $data['filtersUrl'] .= '&' .$itemName . '=' . $filter['value'];
                 }
             }
 
@@ -1097,6 +1100,7 @@ class PatientController extends AdminController
             foreach ($data['filters'] as $itemName => $filter) {
                 if (! empty($filter['value'])) {
                     $data['patientsHighlight'] = $data['patientsHighlight']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
+                    $data['filtersUrl'] .= '&' .$itemName . '=' . $filter['value'];
                 }
             }
 
@@ -1108,11 +1112,13 @@ class PatientController extends AdminController
                 ->orderBy('patient_firstname', 'ASC');
 
             $filters = false;
+            $data['filtersUrl'] = '';
 
             foreach ($data['filters'] as $itemName => $filter) {
                 if (! empty($filter['value'])) {
                     $data['patients'] = $data['patients']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
                     $filters = true;
+                    $data['filtersUrl'] .= '&' .$itemName . '=' . $filter['value'];
                 }
             }
 
@@ -1127,11 +1133,13 @@ class PatientController extends AdminController
                 ->orderBy('patient_firstname', 'ASC');
 
             $filters = false;
+            $data['filtersUrl'] = '';
 
             foreach ($data['filters'] as $itemName => $filter) {
                 if (! empty($filter['value'])) {
                     $data['patients'] = $data['patients']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
                     $filters = true;
+                    $data['filtersUrl'] .= '&' .$itemName . '=' . $filter['value'];
                 }
             }
 
