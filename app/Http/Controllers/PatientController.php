@@ -1067,7 +1067,6 @@ class PatientController extends AdminController
 
             $filters = false;
             $data['filtersUrl'] = '';
-            $data['filtersUrl'] .= '&' .$itemName . '=' . $filter['value'];
 
             foreach ($data['filters'] as $itemName => $filter) {
                 if (! empty($filter['value'])) {
