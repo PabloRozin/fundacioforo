@@ -1099,7 +1099,6 @@ class PatientController extends AdminController
             foreach ($data['filters'] as $itemName => $filter) {
                 if (! empty($filter['value'])) {
                     $data['patientsHighlight'] = $data['patientsHighlight']->{$filter['type']}($itemName, 'like', '%'.$filter['value'].'%');
-                    $data['filtersUrl'] .= '&' .$itemName . '=' . $filter['value'];
                 }
             }
 
