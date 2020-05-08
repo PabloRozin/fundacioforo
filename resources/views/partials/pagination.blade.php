@@ -19,12 +19,12 @@
 		-->
 		<div class="hc-button">
 			@if ($items->currentPage() > 1)
-				<a href="{{ $route . '?page=' . ($items->currentPage() - 1) . $extraFiters }}" class="btn btn-secondary lnr lnr-chevron-left"></a>
+				<a href="{{ $route . '?page=' . ($items->currentPage() - 1) . (isset($extraFiters) ? $extraFiters : '' ) }}" class="btn btn-secondary lnr lnr-chevron-left"></a>
 			@endif
 		</div>
 		<div class="hc-button">
 			@if ($items->currentPage() + 1 <= $items->lastPage())
-				<a href="{{ $route . '?page=' . ($items->currentPage() + 1) . $extraFiters }}" class="btn btn-secondary lnr lnr-chevron-right"></a>
+				<a href="{{ $route . '?page=' . ($items->currentPage() + 1) . (isset($extraFiters) ? $extraFiters : '' ) }}" class="btn btn-secondary lnr lnr-chevron-right"></a>
 			@endif
 		</div>
 	</div>
