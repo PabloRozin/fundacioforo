@@ -40,7 +40,7 @@ class PatientController extends AdminController
                     'css_class' => 'col-1-6',
                     'type' => 'inputText',
                     'title' => 'Nº de documento',
-                    'validation' => 'required|integer',
+                    'validation' => 'required|alpha_num',
                 ],
                 'patient_document_type' => [
                     'css_class' => 'col-1-6',
