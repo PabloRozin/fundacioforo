@@ -1512,6 +1512,10 @@ class PatientController extends AdminController
             return redirect()->route('patients.index');
         }
 
+        if (in_array(Auth::user()->permissions, ['professional'])) {
+            $professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
+        }
+
         $validation = [
             'since' => 'required|date',
             'to' => 'required|date',
@@ -1548,7 +1552,8 @@ class PatientController extends AdminController
             'since' => $since,
             'to' => $to,
             'consultationTypes' => $consultationTypes,
-            'pdf' => $request->pdf
+            'pdf' => $request->pdf,
+            'hcDates' => false
         ];
 
         $hcDates = $this->account->hcDates()
@@ -1563,6 +1568,10 @@ class PatientController extends AdminController
 
         if ($data['patient_id']) {
             $hcDates = $hcDates->where('patient_id', $data['patient_id']);
+        }
+
+        if (isset($professional)) {
+            $hcDates = $hcDates->where('professional_id', $professional->id);
         }
 
         $hcDates = $hcDates->get();
