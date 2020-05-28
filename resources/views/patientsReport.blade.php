@@ -62,6 +62,7 @@
                                                 <br>
                                                 @foreach ($professional['dates'] as $hcDate)
                                                     - Fecha: {{ date('d-m-Y', strtotime($hcDate->created_at)) }}
+                                                    <span style="display: none">{{ $hcDate->created_at }}</span>
                                                     @if ($typeId == 'otros' and ! empty($hcDate->type_info))
                                                         / Info: {{ $hcDate->type_info }}
                                                     @endif
