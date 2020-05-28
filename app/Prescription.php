@@ -80,11 +80,11 @@ class Prescription extends Model
 //
 //        return $date;
 //    }
-//
-//    public function scopeDateWhere($query, $name, $operator = '=', $date)
-//    {
-//        $date = date('Y-m-d h:i:s', strtotime($date) + 10800);
-//
-//        $query->where($name, $operator, $date);
-//    }
+
+    public function scopeDateWhere($query, $name, $operator = '=', $date)
+    {
+        $date = date('Y-m-d h:i:s', strtotime($date));
+
+        $query->where($name, $operator, $date);
+    }
 }
