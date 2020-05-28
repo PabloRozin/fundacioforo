@@ -61,24 +61,24 @@ class HCDate extends Model
         return $this->hasMany('App\Prescription');
     }
 
-    public function getCreatedAtAttribute($value)
-    {
-        $date = date('Y-m-d h:i:s', strtotime($value) - 10800);
+//    public function getCreatedAtAttribute($value)
+//    {
+//        $date = date('Y-m-d h:i:s', strtotime($value) - 10800);
+//
+//        return $date;
+//    }
+//
+//    public function getUpdatedAtAttribute($value)
+//    {
+//        $date = date('Y-m-d h:i:s', strtotime($value) - 10800);
+//
+//        return $date;
+//    }
 
-        return $date;
-    }
-
-    public function getUpdatedAtAttribute($value)
-    {
-        $date = date('Y-m-d h:i:s', strtotime($value) - 10800);
-
-        return $date;
-    }
-
-    public function scopeDateWhere($query, $name, $operator = '=', $date)
-    {
-        $date = date('Y-m-d h:i:s', strtotime($date) + 10800);
-
-        $query->where($name, $operator, $date);
-    }
+//    public function scopeDateWhere($query, $name, $operator = '=', $date)
+//    {
+//        $date = date('Y-m-d h:i:s', strtotime($date) + 10800);
+//
+//        $query->where($name, $operator, $date);
+//    }
 }
