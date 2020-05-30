@@ -217,7 +217,7 @@ class ProfessionalController extends AdminController
                     'css_class' => 'col-1-4',
                     'type' => 'inputText',
                     'title' => 'Información',
-                    'validation' => 'string|max:10',
+                    'validation' => 'string|max:20',
                 ],
             ],
             'Dirección 2' => [
@@ -261,7 +261,7 @@ class ProfessionalController extends AdminController
                     'css_class' => 'col-1-4',
                     'type' => 'inputText',
                     'title' => 'Información',
-                    'validation' => 'string|max:10',
+                    'validation' => 'string|max:20',
                 ],
             ],
             'Dirección 3' => [
@@ -305,7 +305,7 @@ class ProfessionalController extends AdminController
                     'css_class' => 'col-1-4',
                     'type' => 'inputText',
                     'title' => 'Información',
-                    'validation' => 'string|max:10',
+                    'validation' => 'string|max:20',
                 ],
             ],
         ],
