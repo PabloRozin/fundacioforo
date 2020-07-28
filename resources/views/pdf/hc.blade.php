@@ -1,9 +1,11 @@
 <table cellpadding="0" cellspacing="0" style="widows:185mm;font-size:16px;color:#333;line-height:20px;font-weight:300;font-family:Helvetica;">
     <tr>
         <td style="width:185mm;text-align:center;">
-            <!--<div style="padding-bottom:30px;">
-                <img src="{{ Auth::user()->account->logo }}">
-            </div>-->
+            @if(Auth::user()->account->id == 1)
+                <div style="padding-bottom:30px;">
+                    <img src="{{ Auth::user()->account->logo }}">
+                </div>
+            @endif
         </td>
     </tr>
     <tr>
