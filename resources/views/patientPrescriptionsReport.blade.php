@@ -53,12 +53,10 @@
                                                 <br>
                                             @endif
                                             <strong>{{ date('d-m-Y', strtotime($prescription->date)) }}</strong>
-                                            @for($i=1; $i<=20; $i++)
-                                                @if ($prescription->{"medicine-".$i})
-                                                    <br>
-                                                    {{ nl2br($prescription->{"medicine-".$i}) }}
-                                                @endif
-                                            @endfor
+                                            @foreach ($prescription->medicines as $medicine)
+                                                <br>
+                                                - {{ $medicine->name }}
+                                            @endforeach
                                             <br>
                                         <?php endforeach ?>
                                     </div>
