@@ -68,12 +68,26 @@
 					height 75px
 
 		label
-			montserratFont(11px, 13px, color-gris-texto, 300)
+			montserratFont(13px, 15px, color-gris-texto, 300)
 			margin-bottom 5px
 			display: block
 
 			@media screen and (min-width: width-break)
-				montserratFont(13px, 13px, color-gris-texto, 300)
+				montserratFont(16px, 18px, color-gris-texto, 300)
+
+		.small
+			montserratFont(11px, 13px, color-gris-texto, 300)
+			margin-top 5px
+			display: block
+
+			a
+				color color-verde
+
+				&:hover
+					color color-verde-oscuro
+
+			@media screen and (min-width: width-break)
+				montserratFont(13px, 15px, color-gris-texto, 300)
 
 	.hc-form-buttons
 		overflow hidden

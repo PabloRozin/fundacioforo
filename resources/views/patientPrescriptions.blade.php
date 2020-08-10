@@ -102,7 +102,7 @@
 							<div class="t">Fecha</div>
 						</div><!--
 						--><div class="hc-item-data admission-professional">
-							<div class="t">Profesional</div>
+							<div class="t">Medicamentos</div>
 						</div><!--
 					--></div>
 				</div>
@@ -116,21 +116,27 @@
 								<div class="t">Fecha</div>
 								<div class="p">{{ date('d-m-Y', strtotime($prescription->date)) }}</div>
 							</div><!--
-							--><div class="hc-item-data admission-professional">
-								<div class="t">Profesional</div>
-								@if ($prescription->professional)
-									<div class="p">
-                                        <a href="{{ route('professionals.edit', ['professional_id' => $prescription->professional_id]) }}">
-											{{ $prescription->professional->firstname }} {{ $prescription->professional->lastname }}
-										</a>
-									</div>
-								@endif
+							--><div class="hc-item-data hc-detail">
+								<div class="t">Medicamentos</div>
+								<ul class="p">
+									@foreach ($prescription->medicines as $medicine)
+										<li>- {{ $medicine->name }}</li>
+									@endforeach
+								</ul>
 							</div><!--
 						--></div>
 						<ul class="hc-item-options">
 							<li>
-								<a href="{{ route('patients.prescriptions.show', ['patient_id' => $patient->id, 'prescription_id' => $prescription->id]) }}">Ver</a>
+								<a href="{{ route('patients.prescriptions.show', ['patient_id' => $patient->id, 'prescription_id' => $prescription->id]) }}">Imprimir</a>
 							</li>
+							<li>
+								<a href="{{ route('patients.prescriptions.edit', ['patient_id' => $patient->id, 'prescription_id' => $prescription->id]) }}">Editar</a>
+							</li>
+							@if (in_array(Auth::user()->permissions, ['professional']))
+								<li>
+									<a href="{{ route('patients.prescriptions.duplicate', ['patient_id' => $patient->id, 'prescription_id' => $prescription->id]) }}">Duplicar</a>
+								</li>
+							@endif
 						</ul>
 						<div class="hc-item-toggle">
 							<span class="lnr lnr-chevron-down"></span>

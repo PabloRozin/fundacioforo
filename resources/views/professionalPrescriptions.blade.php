@@ -94,11 +94,27 @@
 									</div>
 								@endif
 							</div><!--
+							--><div class="hc-item-data hc-detail">
+								<div class="t">Medicamentos</div>
+								<ul class="p">
+									@foreach ($prescription->medicines as $medicine)
+										<li>- {{ $medicine->name }}</li>
+									@endforeach
+								</ul>
+							</div><!--
 						--></div>
 						<ul class="hc-item-options">
 							<li>
-								<a href="{{ route('professionals.prescriptions.show', ['patient_id' => $professional->id, 'prescription_id' => $prescription->id]) }}">Ver</a>
+								<a href="{{ route('patients.prescriptions.show', ['patient_id' => $prescription->patient->id, 'prescription_id' => $prescription->id]) }}">Imprimir</a>
 							</li>
+							<li>
+								<a href="{{ route('patients.prescriptions.edit', ['patient_id' => $prescription->patient->id, 'prescription_id' => $prescription->id]) }}">Editar</a>
+							</li>
+							@if (in_array(Auth::user()->permissions, ['professional']))
+								<li>
+									<a href="{{ route('patients.prescriptions.duplicate', ['patient_id' => $prescription->patient->id, 'prescription_id' => $prescription->id]) }}">Duplicar</a>
+								</li>
+							@endif
 						</ul>
 						<div class="hc-item-toggle">
 							<span class="lnr lnr-chevron-down"></span>

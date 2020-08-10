@@ -9,11 +9,6 @@
 	<div class="center">
 
 		<div class="hc-buttons">
-			@if (in_array(Auth::user()->permissions, ['professional']))
-				<div class="hc-button">
-					<a href="{{ route('patients.prescriptions.duplicate', ['patient_id' => $patient->id, 'prescription_id' => $prescription->id]) }}" class="btn">Duplicar</a>
-				</div>
-			@endif
 			<div class="hc-button">
 				<a href="{{ $back_url }}" class="btn btn-secondary">Volver</a>
 			</div>
@@ -35,7 +30,7 @@
 			<div class="patient-information">
 				<div class="item">
 					<span class="title">Fecha:</span>
-					<span class="text">{{ date('d-m-Y', strtotime($prescription->date)) }}</span>
+					<span class="text"><input type="date" value="{{ date('Y-m-d') }}"></span>
 				</div>
 				<div class="item">
 					<span class="title">Paciente:</span>
@@ -52,14 +47,18 @@
 			</div>
 
 			<div class="medicines">
-				@for($i=1; $i<=20; $i++)
-					@if ($prescription->{"medicine-".$i})
-						<div class="medicine">
-							{{ nl2br($prescription->{"medicine-".$i}) }}
-						</div>
-					@endif
-				@endfor
+				@foreach ($prescription->medicines as $medicine)
+					<div class="medicine">
+						- {{ $medicine->name }}
+					</div>
+				@endforeach
 			</div>
+
+			@if ($prescription->text and ! empty($prescription->text))
+				<div class="text">
+					{{ nl2br($prescription->text) }}
+				</div>
+			@endif
 
 			<div class="professional-signature">
 				<div>

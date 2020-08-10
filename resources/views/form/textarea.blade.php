@@ -8,5 +8,5 @@
 		@if($only_view)
 			disabled
 		@endif
-	>@if(isset($value)) {{ $value }} @elseif(old($name)) {{ old($name) }} @endif</textarea>
+	>@if(isset($value)){{ $value }}@elseif(old($name)){{ old($name) }}@endif</textarea>
 </div>

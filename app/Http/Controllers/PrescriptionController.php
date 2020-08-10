@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use Auth;
+
 use Storage;
+use Response;
+use App\Medicine;
 use App\Prescription;
+use Illuminate\Http\Request;
 
 class PrescriptionController extends AdminController
 {
@@ -16,158 +18,49 @@ class PrescriptionController extends AdminController
                 'date' => [
                     'css_class' => 'col-1-4',
                     'type' => 'inputDate',
-                    'title' => 'Fecha de la receta',
+                    'title' => 'Fecha de la plantilla',
                     'validation' => 'required',
                 ],
-                'items_per_prescription' => [
+                'name' => [
                     'css_class' => 'col-1-4',
-                    'type' => 'select',
-                    'title' => 'Cantidad de medicamentos por receta',
-                    'options' => [
-                        ['id' => 1, 'value' => '1'],
-                        ['id' => 2, 'value' => '2'],
-                        ['id' => 3, 'value' => '3'],
-                        ['id' => 4, 'value' => '4'],
-                        ['id' => 5, 'value' => '5', 'defalut' => true],
-                    ],
-                    'validation' => 'required|integer|min:1|max:5',
+                    'type' => 'inputText',
+                    'title' => 'Nombre de la plantilla',
+                    'validation' => 'required|max:255',
                 ],
             ],
         ],
         'Medicamentos' => [
             '' => [
-                'medicine-1' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'required|string|max:255',
+                'medicines' => [
+                    'css_class' => 'col-1-2',
+                    'type' => 'mutiItem',
+                    'title' => 'Medicamentos',
+                    'config' => [
+                        'object' => 'App\\Medicine',
+                        'url' => '/patients/prescriptions/medicines',
+                        'help' => 'Buscá los medicamentos ya utilizados o agregá nuevos<br> <a href="http://alfabeta.net/medicamento/index-ar.jsp" target="_blank">Podés ver el vademecum haciendo click aquí</a>'
+                    ],
                 ],
-                'medicine-2' => [
-                    'css_class' => 'col-1-4',
+            ],
+        ],
+        'Texto complementario' => [
+            '' => [
+                'text' => [
+                    'css_class' => 'col-1-2',
                     'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-3' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-4' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-5' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-6' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-7' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-8' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-9' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-10' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-11' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-12' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-13' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-14' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-15' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-16' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-17' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-18' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-19' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
-                ],
-                'medicine-20' => [
-                    'css_class' => 'col-1-4',
-                    'type' => 'textarea',
-                    'title' => 'Medicamento',
-                    'validation' => 'string|max:255',
+                    'title' => 'Agregá un texto complementario en la receta.',
+                    'validation' => 'string',
+                    'config' => [
+                        'url' => '/patients/prescriptions/medicines',
+                    ],
                 ],
             ],
         ],
     ];
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function patient_index(Request $request, $patient_id)
-    {
-        if (Auth::user()->id != 145 and Auth::user()->id != 80) {
+    public function medicines(Request $request) {
+
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -176,7 +69,51 @@ class PrescriptionController extends AdminController
         if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
-            return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id]);
+            return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
+        }
+
+        $this->validate($request, ['qry' => 'required'], [], ['qry' => 'Búsqueda']);
+        
+        $medicines = $this->account
+            ->medicines()
+            ->limit(5)
+            ->where('professional_id', Auth::user()->professional->id);
+
+        $search_words = explode(' ', $request->qry);
+
+        foreach ($search_words as $word) {
+            $medicines = $medicines->where('name', 'LIKE', "%$word%");
+        }
+
+        $medicines = $medicines->get()->toArray();
+
+        $medicines[] = [
+            'id' => false,
+            'name' => $request->qry
+        ];
+
+        return Response::json([
+            'options' => $medicines
+        ], 200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function patient_index(Request $request, $patient_id)
+    {
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.index');
+        }
+
+        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
         }
 
         $data['filters'] = [
@@ -201,6 +138,12 @@ class PrescriptionController extends AdminController
             ->leftJoin('professionals', 'professionals.id', '=', 'prescriptions.professional_id')
             ->orderBy('date', 'DESC');
 
+        if (in_array(Auth::user()->permissions, ['professional'])) {
+            $professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
+
+            $data['prescriptions'] = $data['prescriptions']->where('professional_id', $professional->id);
+        }
+
         $filters = false;
 
         foreach ($data['filters'] as $itemName => $filter) {
@@ -209,7 +152,7 @@ class PrescriptionController extends AdminController
                 $filters = true;
             }
         }
-
+        
         $data['back_url'] = route('patients.index');
 
         if ($filters) {
@@ -228,7 +171,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_report(Request $request, $patient_id)
     {
-        if (Auth::user()->id != 145 and Auth::user()->id != 80) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -237,7 +180,7 @@ class PrescriptionController extends AdminController
         if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
-            return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id]);
+            return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
         }
 
         $validation = [
@@ -283,7 +226,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_create(Request $request, $patient_id)
     {
-        if (Auth::user()->id != 145 and Auth::user()->id != 80) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -292,7 +235,7 @@ class PrescriptionController extends AdminController
         if (! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
-            return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id]);
+            return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
         }
 
         $this->prescriptionData['Datos generales']['']['date']['min'] = date('Y-m-d');
@@ -319,28 +262,31 @@ class PrescriptionController extends AdminController
      */
     public function patient_duplicate(Request $request, $patient_id, $prescription_id)
     {
-        if (Auth::user()->id != 145 and Auth::user()->id != 80) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
         }
 
-        if (! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
+        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
-            return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id]);
+            return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
         }
 
         $patient = $this->account->patients()->findOrFail($patient_id);
 
-        $prescription = $this->account->prescriptions()->where('id', $prescription_id)->where('patient_id', $patient_id)->first();
+        $prescription = $this->account->prescriptions()->where('id', $prescription_id)->first();
+
+        $professional = $this->account->professionals()->where('id', $prescription->professional_id)->first();
 
         $data = [
             'items' => $this->prescriptionData,
-            'back_url' => route('patients.prescriptions.index', ['patient_id' => $patient_id]),
+            'back_url' => route('patients.prescriptions.index', ['patient_id' => $patient->id]),
             'form_url' => route('patients.prescriptions.store', ['patient_id' => $patient_id]),
             'form_method' => 'POST',
-            'title' => 'Crear nueva receta para el paciente ' . $patient->patient_firstname . ' ' . $patient->patient_lastname,
+            'title' => 'Receta del paciente "' . $patient['patient_firstname'] . ' ' . $patient['patient_lastname'] . '"',
+            'model' => $prescription,
         ];
 
         foreach ($data['items'] as $key => &$itemGroup) {
@@ -350,10 +296,6 @@ class PrescriptionController extends AdminController
                 }
             }
         }
-
-        $data['items']['Datos generales']['']['date']['min'] = date('Y-m-d');
-        $data['items']['Datos generales']['']['date']['max'] = date('Y-m-d', time() + 180*24*60*60);
-        $data['items']['Datos generales']['']['date']['value'] = date('Y-m-d');
 
         return view('form', $data);
     }
@@ -366,7 +308,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_store(Request $request, $patient_id)
     {
-        if (Auth::user()->id != 145 and Auth::user()->id != 80) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -375,8 +317,9 @@ class PrescriptionController extends AdminController
         if (! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
-            return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id]);
+            return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
         }
+
         $validation = [];
 
         foreach ($this->prescriptionData as $key => $itemGroup) {
@@ -412,6 +355,10 @@ class PrescriptionController extends AdminController
         foreach ($this->prescriptionData as $key => $itemGroup) {
             foreach ($itemGroup as $key => $itemSubroup) {
                 foreach ($itemSubroup as $itemName => $item) {
+                    if($item['type'] == 'mutiItem') {
+                        continue;
+                    }
+
                     $prescription->$itemName = $request->$itemName;
                 }
             }
@@ -419,20 +366,44 @@ class PrescriptionController extends AdminController
 
         $prescription->save();
 
-        $request->session()->flash('success', 'Se editaron con éxito los datos de admisión del paciente.');
+        foreach ($this->prescriptionData as $key => $itemGroup) {
+            foreach ($itemGroup as $key => $itemSubroup) {
+                foreach ($itemSubroup as $itemName => $item) {
+                    if($item['type'] == 'mutiItem') {
+                        foreach($request->$itemName as $multiItemName) {
+                            $multiItem = $this->account
+                                ->$itemName()
+                                ->where('name', $multiItemName)
+                                ->where('professional_id', Auth::user()->professional->id)
+                                ->first();
+
+                            if(! $multiItem) {
+                                $multiItem = new $item['config']['object'];
+
+                                $multiItem->name = $multiItemName;
+                                $multiItem->professional_id = $professional->id;
+                                $multiItem->account_id = $this->account->id;
+
+                                $multiItem->save();
+                            }
+
+                            $prescription->$itemName()->attach($multiItem->id);
+                        }
+
+                        continue;
+                    }
+                }
+            }
+        }
+
+        $request->session()->flash('success', 'Se agregó una nueva plantilla de receta.');
 
         return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id, 'prescription_id' => $prescription->id]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function patient_show(Request $request, $patient_id, $prescription_id)
     {
-        if (Auth::user()->id != 145 and Auth::user()->id != 80) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -452,25 +423,154 @@ class PrescriptionController extends AdminController
 
         $data = [
             'items' => $this->prescriptionData,
+            'back_url' => route('patients.prescriptions.index', ['patient_id' => $patient->id]),
+            'form_url' => route('patients.prescriptions.update', ['patient_id' => $patient->id, 'prescription_id' => $prescription->id]),
             'form_method' => 'PUT',
             'title' => 'Receta del paciente "' . $patient['patient_firstname'] . ' ' . $patient['patient_lastname'] . '"',
-            'only_view' => true,
+            'prescription' => $prescription,
             'patient' => $patient,
             'professional' => $professional,
-            'prescription' => $prescription,
+            'professions' => [
+                'psicologia' => 'Lic. Psicología',
+                'psiquiatra' => 'Médico Psiquiatra',
+                'psicopedagogia' => 'Lic. Psicopedagogía',
+                'at' => 'A.T.',
+                'otros' => 'Otros',
+            ],
         ];
 
-        $data['professions'] = [
-            'psicologia' => 'Lic. Psicología',
-            'psiquiatra' => 'Médico Psiquiatra',
-            'psicopedagogia' => 'Lic. Psicopedagogía',
-            'at' => 'A.T.',
-            'otros' => 'Otro',
-        ];
-
-        $data['back_url'] = route('patients.prescriptions.index', ['patient_id' => $patient->id]);
+        foreach ($data['items'] as $key => &$itemGroup) {
+            foreach ($itemGroup as $key => &$itemSubroup) {
+                foreach ($itemSubroup as $itemName => &$item) {
+                    $item['value'] = $prescription->$itemName;
+                }
+            }
+        }
 
         return view('prescription', $data);
+    }
+
+    public function patient_edit(Request $request, $patient_id, $prescription_id)
+    {
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.index');
+        }
+
+        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
+        }
+
+        $patient = $this->account->patients()->findOrFail($patient_id);
+
+        $prescription = $this->account->prescriptions()->where('id', $prescription_id)->first();
+
+        $professional = $this->account->professionals()->where('id', $prescription->professional_id)->first();
+
+        $data = [
+            'items' => $this->prescriptionData,
+            'back_url' => route('patients.prescriptions.index', ['patient_id' => $patient->id]),
+            'form_url' => route('patients.prescriptions.update', ['patient_id' => $patient->id, 'prescription_id' => $prescription->id]),
+            'form_method' => 'PUT',
+            'title' => 'Receta del paciente "' . $patient['patient_firstname'] . ' ' . $patient['patient_lastname'] . '"',
+            'model' => $prescription,
+        ];
+
+        foreach ($data['items'] as $key => &$itemGroup) {
+            foreach ($itemGroup as $key => &$itemSubroup) {
+                foreach ($itemSubroup as $itemName => &$item) {
+                    $item['value'] = $prescription->$itemName;
+                }
+            }
+        }
+
+        return view('form', $data);
+    }
+
+    public function patient_update(Request $request, $patient_id, $prescription_id)
+    {
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.index');
+        }
+
+        if (! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
+        }
+
+        $validation = [];
+
+        foreach ($this->prescriptionData as $key => $itemGroup) {
+            if (! empty($key)) {
+                $validationName = $key;
+            }
+            foreach ($itemGroup as $key => $itemSubroup) {
+                if (! empty($key)) {
+                    $validationName = $key;
+                }
+                foreach ($itemSubroup as $itemName => $item) {
+                    if (! empty($item['title'])) {
+                        $validationName = $item['title'];
+                    }
+                    if (! empty($item['validation'])) {
+                        $validation[$itemName] = $item['validation'];
+                        $validationNames[$itemName] = $validationName;
+                    }
+                }
+            }
+        }
+
+        $patient = $this->account->patients()->findOrFail($patient_id);
+        $professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
+        $prescription = $this->account->prescriptions()->where('id', $prescription_id)->first();
+
+        $this->validate($request, $validation, [], $validationNames);
+
+        foreach ($this->prescriptionData as $key => $itemGroup) {
+            foreach ($itemGroup as $key => $itemSubroup) {
+                foreach ($itemSubroup as $itemName => $item) {
+                    if($item['type'] == 'mutiItem') {
+                        $prescription->$itemName()->detach();
+
+                        foreach($request->$itemName as $multiItemName) {
+                            $multiItem = $this->account
+                                ->$itemName()
+                                ->where('name', $multiItemName)
+                                ->where('professional_id', Auth::user()->professional->id)
+                                ->first();
+
+                            if(! $multiItem) {
+                                $multiItem = new $item['config']['object'];
+
+                                $multiItem->name = $multiItemName;
+                                $multiItem->professional_id = $professional->id;
+                                $multiItem->account_id = $this->account->id;
+
+                                $multiItem->save();
+                            }
+
+                            $prescription->$itemName()->attach($multiItem->id);
+                        }
+
+                        continue;
+                    }
+
+                    $prescription->$itemName = $request->$itemName;
+                }
+            }
+        }
+
+        $prescription->save();
+
+        $request->session()->flash('success', 'Se editó con éxito la plantilla de receta.');
+
+        return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id, 'prescription_id' => $prescription->id]);
     }
 
     /**
@@ -480,7 +580,7 @@ class PrescriptionController extends AdminController
      */
     public function professional_index(Request $request, $professional_id)
     {
-        if (Auth::user()->id != 145 and Auth::user()->id != 80) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -489,7 +589,7 @@ class PrescriptionController extends AdminController
         if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
-            return redirect()->route('professionals.prescriptions.show', ['professional_id' => $professional_id]);
+            return redirect()->route('professionals.prescriptions.edit', ['professional_id' => $professional_id]);
         }
 
         $data['filters'] = [
@@ -542,7 +642,7 @@ class PrescriptionController extends AdminController
      */
     public function professional_show(Request $request, $professional_id, $prescription_id)
     {
-        if (Auth::user()->id != 145 and Auth::user()->id != 80) {
+        if (Auth::user()->id != 145 and Auth::user()->id != 80 and Auth::user()->email != 'pablorozin91@gmail.com') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -551,7 +651,7 @@ class PrescriptionController extends AdminController
         if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
-            return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id]);
+            return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
         }
 
         $professional = $this->account->professionals()->findOrFail($professional_id);

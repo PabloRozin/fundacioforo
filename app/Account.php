@@ -75,6 +75,14 @@ class Account extends Model
         return $this->hasMany('App\Prescription');
     }
 
+    /**
+     * The admissions that belong to the account.
+     */
+    public function medicines()
+    {
+        return $this->hasMany('App\Medicine');
+    }
+
 //    public function getCreatedAtAttribute($value)
 //    {
 //        $date = date('Y-m-d h:i:s', strtotime($value) - 10800);

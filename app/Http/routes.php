@@ -86,8 +86,11 @@ Route::group(
         Route::get('/patients/{patient_id}/prescriptions/report', 'PrescriptionController@patient_report')->name('patients.prescriptions.report');
         Route::get('/patients/{patient_id}/prescriptions/create', 'PrescriptionController@patient_create')->name('patients.prescriptions.create');
         Route::post('/patients/{patient_id}/prescriptions', 'PrescriptionController@patient_store')->name('patients.prescriptions.store');
+        Route::get('/patients/{patient_id}/prescriptions/{prescription_id?}/edit', 'PrescriptionController@patient_edit')->name('patients.prescriptions.edit');
         Route::get('/patients/{patient_id}/prescriptions/{prescription_id?}', 'PrescriptionController@patient_show')->name('patients.prescriptions.show');
+        Route::put('/patients/{patient_id}/prescriptions/{prescription_id?}', 'PrescriptionController@patient_update')->name('patients.prescriptions.update');
         Route::get('/patients/{patient_id}/prescriptions/duplicate/{prescription_id?}', 'PrescriptionController@patient_duplicate')->name('patients.prescriptions.duplicate');
+        Route::get('/patients/prescriptions/medicines', 'PrescriptionController@medicines')->name('patients.prescriptions.medicines');
 
         Route::get('/patients/{patient_id}/hc', 'PatientController@index_hc')->name('patients.hc');
         Route::get('/patients/{patient_id}/hc/create', 'PatientController@create_hc')->name('patients.hc.create');

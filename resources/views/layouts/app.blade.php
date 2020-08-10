@@ -40,6 +40,18 @@
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700" rel="stylesheet">
 
+	<!-- Scripts -->
+	<script src="{{ asset('/js/jquery.min.js') }}"></script>
+	<script src="{{ asset('/js/bootstrap-4.3.1.min.js') }}"></script>
+	<script src="{{ asset('/js/jquery.noty.packaged.min.js') }}"></script>
+	<script src="{{ asset('/js/dropzone/dropzone.min.js') }}?2"></script>
+	<script src="{{ asset('/js/fullcalendar/core/main.js') }}?2"></script>
+	<script src="{{ asset('/js/fullcalendar/core/locales/es.js') }}?2"></script>
+	<script src="{{ asset('/js/fullcalendar/daygrid/main.js') }}?2"></script>
+	<script src="{{ asset('/js/fullcalendar/timegrid/main.js') }}?2"></script>
+	<script src="{{ asset('/js/bootstrap-autocomplete.min.js') }}?2"></script>
+	<script src="{{ asset('/js/web.js') }}?{{ time() }}"></script>
+
 </head>
 <body id="@yield('sectionName')" class="@yield('sectionClass'){{ (isset($pdf) and $pdf) ? 'pdfprint' : '' }}">
 
@@ -54,16 +66,6 @@
 	</div>
 
 	@include('partials.footer', [])
-
-	<!-- Scripts -->
-	<script src="{{ asset('/js/jquery.min.js') }}"></script>
-	<script src="{{ asset('/js/jquery.noty.packaged.min.js') }}"></script>
-	<script src="{{ asset('/js/dropzone/dropzone.min.js') }}?2"></script>
-	<script src="{{ asset('/js/fullcalendar/core/main.js') }}?2"></script>
-	<script src="{{ asset('/js/fullcalendar/core/locales/es.js') }}?2"></script>
-	<script src="{{ asset('/js/fullcalendar/daygrid/main.js') }}?2"></script>
-	<script src="{{ asset('/js/fullcalendar/timegrid/main.js') }}?2"></script>
-	<script src="{{ asset('/js/web.js') }}?{{ time() }}"></script>
 
 	@if (session()->has('success'))
 		<script>
