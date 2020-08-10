@@ -12,6 +12,7 @@
     <div class="small">{!! $config['help'] !!}</div>
 
     <table id="multiItem-{{ $name }}-selection" class="table multiItem-table">
+        @if (isset($model))
         @foreach ($model->$name as $item)
             <tr id="multiItem-{{ $name }}-item-{{ $item->id }}">
                 <td>
@@ -28,6 +29,7 @@
                 </td>
             </tr>
         @endforeach
+        @endif
     </table>
 </div>
 
