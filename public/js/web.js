@@ -12,6 +12,7 @@ $(document).ready(function()
     $('body').addClass('pdfprint');
     $('body').addClass('moznomarginboxes');
     $('body').addClass('mozdisallowselectionprint');
+    $('#noty_top_layout_container').hide();
     window.print();
     $('body').removeClass('pdfprint');
     $('body').removeClass('moznomarginboxes');
