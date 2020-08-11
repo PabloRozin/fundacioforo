@@ -11,6 +11,7 @@ class Prescription extends Model
         'items_per_prescription',
         'name',
         'text',
+        'prolonged_treatment',
     ];
     
     protected $hidden = [];

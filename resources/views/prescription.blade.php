@@ -60,6 +60,12 @@
 				</div>
 			@endif
 
+			@if ($prescription->prolonged_treatment)
+				<div class="text">
+					Tratamiento prolongado
+				</div>
+			@endif
+
 			<div class="professional-signature">
 				<div>
 					{{ $professional->firstname }} {{ $professional->lastname }} <br>

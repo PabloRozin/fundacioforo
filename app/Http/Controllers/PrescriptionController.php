@@ -580,7 +580,7 @@ class PrescriptionController extends AdminController
 
         $request->session()->flash('success', 'Se editó con éxito la plantilla de receta.');
 
-        return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id, 'prescription_id' => $prescription->id]);
+        return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id, 'prescription_id' => $prescription->id]);
     }
 
     /**

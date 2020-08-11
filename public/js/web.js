@@ -10,8 +10,12 @@ $(document).ready(function()
 
   $('.send-to-print').bind('click', function() {
     $('body').addClass('pdfprint');
-      window.print();
-      $('body').removeClass('pdfprint');
+    $('body').addClass('moznomarginboxes');
+    $('body').addClass('mozdisallowselectionprint');
+    window.print();
+    $('body').removeClass('pdfprint');
+    $('body').removeClass('moznomarginboxes');
+    $('body').removeClass('mozdisallowselectionprint');
   });
 
   $('.toggle-multiselect').each(function()
