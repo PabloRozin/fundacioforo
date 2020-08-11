@@ -27,6 +27,16 @@ class PrescriptionController extends AdminController
                     'title' => 'Nombre de la plantilla',
                     'validation' => 'required|max:255',
                 ],
+                'prolonged_treatment' => [
+                    'css_class' => 'col-1-4',
+                    'type' => 'select',
+                    'title' => 'Tratamiento prolongado',
+                    'options' => [
+                        ['id' => 1, 'value' => 'Si'],
+                        ['id' => 0, 'value' => 'No'],
+                    ],
+                    'validation' => 'required',
+                ],
             ],
         ],
         'Medicamentos' => [
@@ -34,7 +44,7 @@ class PrescriptionController extends AdminController
                 'medicines' => [
                     'css_class' => 'col-1-2',
                     'type' => 'mutiItem',
-                    'title' => 'Medicamentos',
+                    'title' => '',
                     'config' => [
                         'object' => 'App\\Medicine',
                         'url' => '/patients/prescriptions/medicines',
