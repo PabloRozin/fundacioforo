@@ -3,6 +3,10 @@
         <td style="width:185mm;text-align:center;">
             @if(Auth::user()->account->id == 1)
                 <div style="padding-bottom:30px;">
+                    <img src="{{ public_path('/images/evolucion-hcd-logo.jpg') }}">
+                </div>
+            @else
+                <div style="padding-bottom:30px;">
                     <img src="{{ public_path('/images/evolucion-hcd-logo-interno.jpg') }}">
                 </div>
             @endif
@@ -54,7 +58,6 @@
             <td style="vertical-align:top;width:45mm;padding:0 0 20px 0;">
             </td>
             <td style="vertical-align:top;width:140mm;padding:0 0 20px 0;">
-                <br>
                 <span style="border-top:solid 1px #d9d9d9; display:block; width: 55mm;padding-top:5px;font-size:13px;display: inline-block;line-height:16px;">
                     {{ $hc_date->professional->firstname }} {{ $hc_date->professional->lastname }} <br>
                     {{ $professions[$hc_date->professional->profession] }} <br>
