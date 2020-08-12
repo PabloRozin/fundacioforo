@@ -3,7 +3,7 @@
         <td style="width:185mm;text-align:center;">
             @if(Auth::user()->account->id == 1)
                 <div style="padding-bottom:30px;">
-                    <img src="{{ public_path('/images/evolucion-hcd-logo-75.jpg') }}">
+                    <img src="{{ public_path('/images/fundacionforo-logo.jpg') }}">
                 </div>
             @else
                 <div style="padding-bottom:30px;">
