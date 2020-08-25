@@ -6,10 +6,32 @@
         #header
             display none !important
 
+        .date
+
+            .input
+                display none
+
+            .text
+                display block
+
+        .prescription
+            padding 0 15px
+            box-shadow none
+
+        .prescription-container
+            padding 0
+
+.prescription-container
+    padding 0 15px 15px 15px
+
 .prescription
     position: relative
-    max-width: 750px
-    padding-top 155px !important
+    max-width: 800px
+    box-sizing border-box
+    padding 30px
+    margin 0 auto
+    box-shadow 0 0 10px #ccc
+    margin-top 15px
 
     .logo
         position: absolute
@@ -21,31 +43,62 @@
             height 90px
             display block
 
+    .professional-information
+        text-align center
+
+        .name
+            text-transform uppercase
+            montserratFont(24px, 24px, black, 300, 5px)
+
+        .number
+            text-transform uppercase
+            padding-top 5px
+            montserratFont(18px, 18px, color-gris-texto, 300)
+
+    .date
+        position: absolute;
+        bottom: 12px;
+    
+        .input
+            padding-bottom 16px
+
+        .text
+            display none
+
     .patient-information
         display block
-        width 250px
-        top 12px
-        position absolute
-        right 15px
-        top 0
+        width 260px
+        margin auto
+        padding:30px 0
 
         .item
+            text-transform uppercase
 
             .title
-                montserratFont(16px, 18px, color-gris-texto, bold)
+                montserratFont(16px, 18px, color-gris-texto, 500)
 
             .text
-                montserratFont(16px, 18px, color-gris-texto, 400)
+                montserratFont(16px, 18px, color-gris-texto, 300)
 
     .medicines
 
         .medicine
+            padding-left:60px;
+            position:relative;
             padding-top 10px
             montserratFont(16px, 20px, color-gris-texto, 300)
+
+            span
+                position:absolute;
+                top:10px;
+                left:45px;
 
     .text
         padding-top 30px
         montserratFont(16px, 20px, color-gris-texto, 300)
+
+        strong
+            montserratFont(16px, 18px, color-gris-texto, 500)
 
     .professional-signature
         margin-top 60px
@@ -54,10 +107,15 @@
         text-align right
 
         div
-            width 150px
+            width 250px
             padding 5px 5px 0 5px
             box-sizing border-box
-            margin-right 115px
+            margin-right 15px
             border-top:solid 1px #d9d9d9;
             display inline-block
             text-align left
+            text-transform uppercase
+            montserratFont(13px, 15px, color-gris-texto, 300)
+
+            strong
+                montserratFont(16px, 18px, color-gris-texto, 500)

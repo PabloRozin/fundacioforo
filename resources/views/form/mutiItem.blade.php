@@ -13,22 +13,26 @@
 
     <table id="multiItem-{{ $name }}-selection" class="table multiItem-table">
         @if (isset($model))
-        @foreach ($model->$name as $item)
-            <tr id="multiItem-{{ $name }}-item-{{ $item->id }}">
-                <td>
-                    <div class="multiItem-table-item">
-                        <input 
-                            class="multiItem-{{ $name }}-item"
-                            type="hidden"
-                            name="{{ $name }}[{{ $item->name }}]"
-                            value="{{ $item->name }}"
-                        >
-                        {{ $item->name }}
-                        <div class="lnr lnr-cross multiItem-table-item-close" data-id="#multiItem-{{ $name }}-item-{{ $item->id }}"></div>
-                    </div>
-                </td>
-            </tr>
-        @endforeach
+            @foreach ($model->$name as $item)
+                <tr id="multiItem-{{ $name }}-item-{{ $item->id }}">
+                    <td>
+                        <div class="multiItem-table-item row pb-0 mb-0"><!--
+                            @foreach ($config['data'] as $key => $data)
+                                --><div class="col col-1-2 pt-0 mt-0">
+                                    <div class="multiItem-table-item-title">{{ $data['label'] }}</div>
+                                    <input 
+                                        class="multiItem-{{ $name }}-item"
+                                        type="text"
+                                        name="{{ $name }}[{{ $key }}][{{ $data['name'] }}]"
+                                        value="{{ $item->{$data['name']} }}"
+                                    >
+                                </div><!--
+                            @endforeach
+                            --><div class="lnr lnr-cross multiItem-table-item-close" data-id="#multiItem-{{ $name }}-item-{{ $item->id }}"></div><!--
+                        --></div>
+                    </td>
+                </tr>
+            @endforeach
         @endif
     </table>
 </div>
@@ -38,6 +42,9 @@
         margin-top:15px;
         margin-bottom:0;
     }
+    .multiItem-table td{
+        padding-left:0;
+    }
     .multiItem-table-item{
         padding-right: 45px;
         position: relative;
@@ -45,8 +52,13 @@
     .multiItem-table-item-close{
         position: absolute;
         right: 0;
-        top: 0;
+        top: 50%;
+        margin-top: -8px;
         cursor: pointer;
+    }
+    .multiItem-table-item-title{
+        padding-bottom:5px;
+        font-size:13px;
     }
 </style>
 
@@ -65,7 +77,7 @@
             formatResult: function (item) {
                 return {
                     value: item.id,
-                    text: item.name,
+                    text: item.name + ' - ' + item.modality,
                 };
             },
             events: {
@@ -92,17 +104,23 @@
 
             var id = generateUniqueString();
 
+            var date = Date.now();
+
             $('#multiItem-{{ $name }}-selection').append(
                 '<tr id="multiItem-{{ $name }}-item-' + id + '">' +
                     '<td>' +
                         '<div class="multiItem-table-item">' +
-                            '<input ' +
-                                'class="multiItem-{{ $name }}-item"' +
-                                'type="hidden"' +
-                                'name="{{ $name }}[' + item.name + ']"' +
-                                'value="' + item.name + '"' +
-                            '>' +
-                            item.name +
+                            @foreach ($config['data'] as $key => $data)
+                                '<div>' +
+                                    '{{ $data['label'] }}' +
+                                    '<input ' +
+                                        'class="multiItem-{{ $name }}-item"' +
+                                        'type="text"' +
+                                        'name="{{ $name }}[{' + date + '}][{{ $data['name'] }}]"' +
+                                        'value="' + item.{{ $data['name'] }} + '"' +
+                                    '>' +
+                                '</div>' +
+                            @endforeach
                             '<div class="lnr lnr-cross multiItem-table-item-close"></div>' +
                         '</div>' +
                     '</td>' +

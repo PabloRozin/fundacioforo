@@ -101,7 +101,10 @@
 						--><div class="hc-item-data admission-date">
 							<div class="t">Fecha</div>
 						</div><!--
-						--><div class="hc-item-data admission-professional">
+						--><div class="hc-item-data name">
+							<div class="t">Nombre</div>
+						</div><!--
+						--><div class="hc-item-data details">
 							<div class="t">Medicamentos</div>
 						</div><!--
 					--></div>
@@ -116,7 +119,11 @@
 								<div class="t">Fecha</div>
 								<div class="p">{{ date('d-m-Y', strtotime($prescription->date)) }}</div>
 							</div><!--
-							--><div class="hc-item-data hc-detail">
+							--><div class="hc-item-data name">
+								<div class="t">Nombre</div>
+								<div class="p">{{ $prescription->name }}</div>
+							</div><!--
+							--><div class="hc-item-data details">
 								<div class="t">Medicamentos</div>
 								<ul class="p">
 									@foreach ($prescription->medicines as $medicine)
@@ -135,6 +142,13 @@
 							@if (in_array(Auth::user()->permissions, ['professional']))
 								<li>
 									<a href="{{ route('patients.prescriptions.duplicate', ['patient_id' => $patient->id, 'prescription_id' => $prescription->id]) }}">Duplicar</a>
+								</li>
+								<li>
+									<form action="{{ route('patients.prescriptions.destroy', ['patient_id' => $patient->id, 'prescription_id' => $prescription->id]) }}" method="POST">
+										{{ csrf_field() }}
+										<input type="hidden" name="_method" value="DELETE" >
+										<button type="submit">Eliminar</button>
+									</form>
 								</li>
 							@endif
 						</ul>

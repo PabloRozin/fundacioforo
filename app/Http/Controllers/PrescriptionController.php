@@ -32,7 +32,7 @@ class PrescriptionController extends AdminController
                     'type' => 'select',
                     'title' => 'Tratamiento prolongado',
                     'options' => [
-                        ['id' => 1, 'value' => 'Si'],
+                        ['id' => 1, 'value' => 'Si', 'default' => true],
                         ['id' => 0, 'value' => 'No'],
                     ],
                     'validation' => 'required',
@@ -47,6 +47,16 @@ class PrescriptionController extends AdminController
                     'title' => '',
                     'config' => [
                         'object' => 'App\\Medicine',
+                        'data' => [
+                            [
+                                'name' => 'name',
+                                'label' => 'Medicamento',
+                            ],
+                            [
+                                'name' => 'modality',
+                                'label' => 'Modalidad',
+                            ],
+                        ],
                         'url' => '/patients/prescriptions/medicines',
                         'help' => 'Buscá los medicamentos ya utilizados o agregá nuevos<br> <a href="http://alfabeta.net/medicamento/index-ar.jsp" target="_blank">Podés ver el vademecum haciendo click aquí</a>'
                     ],
@@ -99,7 +109,8 @@ class PrescriptionController extends AdminController
 
         $medicines[] = [
             'id' => false,
-            'name' => $request->qry
+            'name' => $request->qry,
+            'modality' => ''
         ];
 
         return Response::json([
@@ -311,6 +322,34 @@ class PrescriptionController extends AdminController
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $patient_id, $prescription_id)
+    {
+        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.index');
+        }
+
+        if (! in_array(Auth::user()->permissions, ['professional'])) {
+            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
+
+            return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
+        }
+
+        $prescription = $this->account->prescriptions()->where('id', $prescription_id)->firstOrFail();
+
+        $prescription->delete();
+
+        $request->session()->flash('success', 'Se eliminó correctamente la plantilla.');
+
+        return redirect()->route('patients.prescriptions.index', ['patient_id' => $patient_id]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -380,17 +419,23 @@ class PrescriptionController extends AdminController
             foreach ($itemGroup as $key => $itemSubroup) {
                 foreach ($itemSubroup as $itemName => $item) {
                     if($item['type'] == 'mutiItem') {
-                        foreach($request->$itemName as $multiItemName) {
+                        foreach($request->$itemName as $multiItemId => $multiItemData) {
                             $multiItem = $this->account
-                                ->$itemName()
-                                ->where('name', $multiItemName)
-                                ->where('professional_id', Auth::user()->professional->id)
+                                ->$itemName();
+
+                            foreach ($item['config']['data'] as $key => $data) {
+                                $multiItem = $multiItem->where($data['name'], $multiItemData[($data['name'])]);
+                            }
+                            
+                            $multiItem = $multiItem->where('professional_id', Auth::user()->professional->id)
                                 ->first();
 
                             if(! $multiItem) {
                                 $multiItem = new $item['config']['object'];
 
-                                $multiItem->name = $multiItemName;
+                                foreach ($item['config']['data'] as $key => $data) {
+                                    $multiItem->{$data['name']} = $multiItemData[($data['name'])];
+                                }
                                 $multiItem->professional_id = $professional->id;
                                 $multiItem->account_id = $this->account->id;
 

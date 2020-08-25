@@ -216,6 +216,15 @@
 					@media screen and (min-width: (width-break + 200))
 						width 25%
 
+				&.details
+					width 70%
+
+					@media screen and (min-width: width-break)
+						width 50%
+
+					@media screen and (min-width: (width-break + 200))
+						width 50%
+
 				&.cel
 					width 50%
 
@@ -277,11 +286,13 @@
 				overflow hidden
 				float left
 				width 100%
+				padding-bottom 5px
 
 				@media screen and (min-width: width-break)
 					width 39%
 					text-align right
 					padding-top 0
+					padding-bottom 0
 
 				@media screen and (min-width: (width-break + 200))
 					width 32%
@@ -292,7 +303,9 @@
 
 					a
 					span
-						curson pointer
+					button
+						background none
+						cursor pointer
 						montserratFont(13px, 16px, color-verde, 300)
 
 						@media screen and (min-width: width-break)

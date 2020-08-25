@@ -114,6 +114,9 @@
 								<li>
 									<a href="{{ route('patients.prescriptions.duplicate', ['patient_id' => $prescription->patient->id, 'prescription_id' => $prescription->id]) }}">Duplicar</a>
 								</li>
+								<li>
+									<a href="{{ route('patients.prescriptions.destroy', ['patient_id' => $prescription->patient->id, 'prescription_id' => $prescription->id]) }}">Eliminar</a>
+								</li>
 							@endif
 						</ul>
 						<div class="hc-item-toggle">

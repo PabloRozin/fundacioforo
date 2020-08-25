@@ -16,5 +16,6 @@ class Medicine extends Model
         'professional_id',
         'account_id',
         'name',
+        'modality',
     ];
 }

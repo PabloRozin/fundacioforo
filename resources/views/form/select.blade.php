@@ -7,9 +7,9 @@
 	>
 		@foreach ($options as $option)
 			<option value="{{ $option['id'] }}"
-				@if($option['id'] == $value or $option['id'] == old($name))
+				@if (isset($option['default']) and $option['default'])
 					selected
-				@elseif ( ! isset($value) and isset($option['defalut']) and $option['defalut'])
+				@elseif (! is_null($value) and ($option['id'] == $value or $option['id'] == old($name)))
 					selected
 				@endif
 			>

@@ -18,6 +18,7 @@ class CreateMedicinesTable extends Migration
             $table->integer('account_id');
 
             $table->string('name');
+            $table->string('modality');
                         
             $table->timestamps();
         });
