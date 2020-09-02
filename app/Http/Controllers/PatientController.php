@@ -88,8 +88,8 @@ class PatientController extends AdminController
                     'type' => 'select',
                     'title' => 'Habilitado',
                     'options' => [
-                        ['id' => 0, 'value' => 'No'],
                         ['id' => 1, 'value' => 'Si', 'defalut' => true],
+                        ['id' => 0, 'value' => 'No'],
                     ],
                     'validation' => 'boolean',
                 ],
