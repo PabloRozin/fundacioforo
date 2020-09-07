@@ -109,9 +109,9 @@
             $('#multiItem-{{ $name }}-selection').append(
                 '<tr id="multiItem-{{ $name }}-item-' + id + '">' +
                     '<td>' +
-                        '<div class="multiItem-table-item">' +
+                        '<div class="multiItem-table-item row pb-0 mb-0"><!--' +
                             @foreach ($config['data'] as $key => $data)
-                                '<div>' +
+                                '--><div class="col col-1-2 pt-0 mt-0">' +
                                     '{{ $data['label'] }}' +
                                     '<input ' +
                                         'class="multiItem-{{ $name }}-item"' +
@@ -119,10 +119,10 @@
                                         'name="{{ $name }}[' + date + '][{{ $data['name'] }}]"' +
                                         'value="' + item.{{ $data['name'] }} + '"' +
                                     '>' +
-                                '</div>' +
+                                '</div><!--' +
                             @endforeach
-                            '<div class="lnr lnr-cross multiItem-table-item-close"></div>' +
-                        '</div>' +
+                            '--><div class="lnr lnr-cross multiItem-table-item-close"></div><!--' +
+                        '--></div>' +
                     '</td>' +
                 '</tr>'
             );
