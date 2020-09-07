@@ -112,7 +112,7 @@
                         '<div class="multiItem-table-item row pb-0 mb-0"><!--' +
                             @foreach ($config['data'] as $key => $data)
                                 '--><div class="col col-1-2 pt-0 mt-0">' +
-                                    '{{ $data['label'] }}' +
+                                    '<div class="multiItem-table-item-title">{{ $data['label'] }}</div>' +
                                     '<input ' +
                                         'class="multiItem-{{ $name }}-item"' +
                                         'type="text"' +
