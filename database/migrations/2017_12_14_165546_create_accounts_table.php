@@ -20,6 +20,7 @@ class CreateAccountsTable extends Migration
             $table->integer('professionals_limit');
             $table->integer('patients_limit');
             $table->integer('administrator_limit');
+            $table->boolean('prescriptions')->default(0);
             $table->char('logo', 255);
             $table->timestamps();
         });

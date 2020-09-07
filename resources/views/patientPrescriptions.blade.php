@@ -78,18 +78,22 @@
 					<a href="{{ route('patients.prescriptions.create', ['patient_id' => $patient->id]) }}" class="btn">Agregar</a>
 				</div>
 			@endif
-			<div class="hc-button">
-				<button class="btn btn-secondary act-report">Reporte</a>
-			</div>
+			@if (false)
+				<div class="hc-button">
+					<button class="btn btn-secondary act-report">Reporte</a>
+				</div>
+			@endif
 			<div class="hc-button">
 				<a href="{{ $back_url }}" class="btn btn-secondary">Volver</a>
 			</div>
 			<div class="hc-button-right hide-on-celphone">
 				@include('partials.pagination', ['items' => $prescriptions, 'route' => route('patients.prescriptions.index', ['patient_id' => $patient->id])])
 
-				<div class="hc-button">
-					<button class="btn act-search">Buscar</a>
-				</div>
+				@if (false)
+					<div class="hc-button">
+						<button class="btn act-search">Buscar</a>
+					</div>
+				@endif
 			</div>
 		</div>
 

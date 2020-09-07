@@ -57,6 +57,16 @@ class AccountsController extends AdminController
                     'title' => 'Límite de usuarios administrativos (0 es ilimitados)',
                     'validation' => 'integer|min:0|required',
                 ],
+                'prescriptions' => [
+                    'css_class' => 'col-1-4',
+                    'type' => 'select',
+                    'title' => 'Módulo Recetas',
+                    'options' => [
+                        ['id' => 1, 'value' => 'Habilitado'],
+                        ['id' => 0, 'value' => 'Deshabilitado'],
+                    ],
+                    'validation' => 'required',
+                ],
             ],
         ],
         'Datos del usuario Admin' => [

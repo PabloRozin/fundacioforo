@@ -54,7 +54,7 @@ class PrescriptionController extends AdminController
                             ],
                             [
                                 'name' => 'modality',
-                                'label' => 'Modalidad',
+                                'label' => 'Presentación',
                             ],
                         ],
                         'url' => '/patients/prescriptions/medicines',
@@ -80,7 +80,7 @@ class PrescriptionController extends AdminController
 
     public function medicines(Request $request) {
 
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -125,7 +125,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_index(Request $request, $patient_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -192,7 +192,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_report(Request $request, $patient_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -247,7 +247,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_create(Request $request, $patient_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -283,7 +283,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_duplicate(Request $request, $patient_id, $prescription_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -328,7 +328,7 @@ class PrescriptionController extends AdminController
      */
     public function destroy(Request $request, $patient_id, $prescription_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -357,7 +357,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_store(Request $request, $patient_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -419,33 +419,35 @@ class PrescriptionController extends AdminController
             foreach ($itemGroup as $key => $itemSubroup) {
                 foreach ($itemSubroup as $itemName => $item) {
                     if($item['type'] == 'mutiItem') {
-                        foreach($request->$itemName as $multiItemId => $multiItemData) {
-                            $multiItem = $this->account
-                                ->$itemName();
-
-                            foreach ($item['config']['data'] as $key => $data) {
-                                $multiItem = $multiItem->where($data['name'], $multiItemData[($data['name'])]);
-                            }
-                            
-                            $multiItem = $multiItem->where('professional_id', Auth::user()->professional->id)
-                                ->first();
-
-                            if(! $multiItem) {
-                                $multiItem = new $item['config']['object'];
+                        if($request->$itemName) {
+                            foreach($request->$itemName as $multiItemId => $multiItemData) {
+                                $multiItem = $this->account
+                                    ->$itemName();
 
                                 foreach ($item['config']['data'] as $key => $data) {
-                                    $multiItem->{$data['name']} = $multiItemData[($data['name'])];
+                                    $multiItem = $multiItem->where($data['name'], $multiItemData[($data['name'])]);
                                 }
-                                $multiItem->professional_id = $professional->id;
-                                $multiItem->account_id = $this->account->id;
+                                
+                                $multiItem = $multiItem->where('professional_id', Auth::user()->professional->id)
+                                    ->first();
 
-                                $multiItem->save();
+                                if(! $multiItem) {
+                                    $multiItem = new $item['config']['object'];
+
+                                    foreach ($item['config']['data'] as $key => $data) {
+                                        $multiItem->{$data['name']} = $multiItemData[($data['name'])];
+                                    }
+                                    $multiItem->professional_id = $professional->id;
+                                    $multiItem->account_id = $this->account->id;
+
+                                    $multiItem->save();
+                                }
+
+                                $prescription->$itemName()->attach($multiItem->id);
                             }
 
-                            $prescription->$itemName()->attach($multiItem->id);
-                        }
-
                         continue;
+                        }
                     }
                 }
             }
@@ -458,7 +460,7 @@ class PrescriptionController extends AdminController
 
     public function patient_show(Request $request, $patient_id, $prescription_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -507,7 +509,7 @@ class PrescriptionController extends AdminController
 
     public function patient_edit(Request $request, $patient_id, $prescription_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -547,7 +549,7 @@ class PrescriptionController extends AdminController
 
     public function patient_update(Request $request, $patient_id, $prescription_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -581,7 +583,6 @@ class PrescriptionController extends AdminController
             }
         }
 
-        $patient = $this->account->patients()->findOrFail($patient_id);
         $professional = $this->account->professionals()->where('user_id', Auth::user()->id)->first();
         $prescription = $this->account->prescriptions()->where('id', $prescription_id)->first();
 
@@ -592,25 +593,32 @@ class PrescriptionController extends AdminController
                 foreach ($itemSubroup as $itemName => $item) {
                     if($item['type'] == 'mutiItem') {
                         $prescription->$itemName()->detach();
+                        if($request->$itemName) {
+                            foreach($request->$itemName as $multiItemId => $multiItemData) {
+                                $multiItem = $this->account
+                                    ->$itemName();
 
-                        foreach($request->$itemName as $multiItemName) {
-                            $multiItem = $this->account
-                                ->$itemName()
-                                ->where('name', $multiItemName)
-                                ->where('professional_id', Auth::user()->professional->id)
-                                ->first();
+                                foreach ($item['config']['data'] as $key => $data) {
+                                    $multiItem = $multiItem->where($data['name'], $multiItemData[($data['name'])]);
+                                }
+                                
+                                $multiItem = $multiItem->where('professional_id', Auth::user()->professional->id)
+                                    ->first();
 
-                            if(! $multiItem) {
-                                $multiItem = new $item['config']['object'];
+                                if(! $multiItem) {
+                                    $multiItem = new $item['config']['object'];
+                                    
+                                    foreach ($item['config']['data'] as $key => $data) {
+                                        $multiItem->{$data['name']} = $multiItemData[($data['name'])];
+                                    }
+                                    $multiItem->professional_id = $professional->id;
+                                    $multiItem->account_id = $this->account->id;
+                                    
+                                    $multiItem->save();
+                                }
 
-                                $multiItem->name = $multiItemName;
-                                $multiItem->professional_id = $professional->id;
-                                $multiItem->account_id = $this->account->id;
-
-                                $multiItem->save();
+                                $prescription->$itemName()->attach($multiItem->id);
                             }
-
-                            $prescription->$itemName()->attach($multiItem->id);
                         }
 
                         continue;
@@ -635,7 +643,7 @@ class PrescriptionController extends AdminController
      */
     public function professional_index(Request $request, $professional_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');
@@ -697,7 +705,7 @@ class PrescriptionController extends AdminController
      */
     public function professional_show(Request $request, $professional_id, $prescription_id)
     {
-        if (! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
+        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.index');

@@ -13,17 +13,17 @@
 
     <table id="multiItem-{{ $name }}-selection" class="table multiItem-table">
         @if (isset($model))
-            @foreach ($model->$name as $item)
+            @foreach ($model->$name as $itemKey => $item)
                 <tr id="multiItem-{{ $name }}-item-{{ $item->id }}">
                     <td>
                         <div class="multiItem-table-item row pb-0 mb-0"><!--
-                            @foreach ($config['data'] as $key => $data)
+                            @foreach ($config['data'] as $dataKey => $data)
                                 --><div class="col col-1-2 pt-0 mt-0">
                                     <div class="multiItem-table-item-title">{{ $data['label'] }}</div>
                                     <input 
                                         class="multiItem-{{ $name }}-item"
                                         type="text"
-                                        name="{{ $name }}[{{ $key }}][{{ $data['name'] }}]"
+                                        name="{{ $name }}[{{ $itemKey }}][{{ $data['name'] }}]"
                                         value="{{ $item->{$data['name']} }}"
                                     >
                                 </div><!--
@@ -116,7 +116,7 @@
                                     '<input ' +
                                         'class="multiItem-{{ $name }}-item"' +
                                         'type="text"' +
-                                        'name="{{ $name }}[{' + date + '}][{{ $data['name'] }}]"' +
+                                        'name="{{ $name }}[' + date + '][{{ $data['name'] }}]"' +
                                         'value="' + item.{{ $data['name'] }} + '"' +
                                     '>' +
                                 '</div>' +

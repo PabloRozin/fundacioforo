@@ -16,13 +16,13 @@ class ProfessionalController extends AdminController
         'Datos generales' => [
             '' => [
                 'firstname' => [
-                    'css_class' => 'col-1-4',
+                    'css_class' => 'col-1-6',
                     'type' => 'inputText',
                     'title' => 'Nombre',
                     'validation' => 'required|string|max:50',
                 ],
                 'lastname' => [
-                    'css_class' => 'col-1-4',
+                    'css_class' => 'col-1-6',
                     'type' => 'inputText',
                     'title' => 'Apellido',
                     'validation' => 'required|string|max:50',
@@ -49,14 +49,14 @@ class ProfessionalController extends AdminController
                     'not_show_to' => ['professional'],
                 ],
                 'birthdate' => [
-                    'css_class' => 'col-1-4',
+                    'css_class' => 'col-1-6',
                     'type' => 'inputDate',
                     'title' => 'Fecha de nacimiento',
                     'validation' => 'date',
                     'not_show_to' => ['professional'],
                 ],
                 'profession' => [
-                    'css_class' => 'col-1-4',
+                    'css_class' => 'col-1-6',
                     'type' => 'select',
                     'title' => 'Profesión',
                     'options' => [
@@ -81,7 +81,7 @@ class ProfessionalController extends AdminController
                     'validation' => 'string|max:20',
                 ],
                 'team' => [
-                    'css_class' => 'col-1-4',
+                    'css_class' => 'col-1-6',
                     'type' => 'select',
                     'title' => 'Equipo',
                     'options' => [
@@ -97,6 +97,12 @@ class ProfessionalController extends AdminController
                     'title' => 'Fecha de ingreso',
                     'validation' => 'date',
                     'not_show_to' => ['professional'],
+                ],
+                'prescription_cv' => [
+                    'css_class' => 'col-1-2',
+                    'type' => 'textarea',
+                    'title' => 'CV en recetas',
+                    'validation' => '',
                 ],
             ],
         ],
@@ -634,7 +640,9 @@ class ProfessionalController extends AdminController
             foreach ($itemGroup as $key => $itemSubroup) {
                 foreach ($itemSubroup as $itemName => $item) {
                     if ($itemName != 'password' and (! isset($item['not_updatable']) or ! $item['not_updatable'])) {
-                        $professional->$itemName = $request->$itemName;
+                        if ($request->$itemName) {
+                            $professional->$itemName = $request->$itemName;
+                        }
                     }
                 }
             }

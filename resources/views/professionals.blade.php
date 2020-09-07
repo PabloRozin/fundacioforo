@@ -209,9 +209,11 @@
 								@endif
 							</li>
 							@if (in_array(Auth::user()->permissions, ['professional', 'admin']))
-								<li>
-									<a href="{{ route('professionals.prescriptions.index', ['id' => $professional['id']]) }}">Recetas</a>
-								</li>
+								@if (Auth::user()->account->prescriptions)
+									<li>
+										<a href="{{ route('professionals.prescriptions.index', ['id' => $professional['id']]) }}">Recetas</a>
+									</li>
+								@endif
 							@endif
 							@if (in_array(Auth::user()->permissions, ['administrator', 'admin']))
 								<li>

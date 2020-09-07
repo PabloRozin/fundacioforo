@@ -55,9 +55,11 @@
 			<div class="hc-button-right hide-on-celphone">
 				@include('partials.pagination', ['items' => $prescriptions, 'route' => route('professionals.prescriptions.index', ['professional_id' => $professional->id])])
 
-				<div class="hc-button">
-					<button class="btn act-search">Buscar</a>
-				</div>
+				@if (false)
+					<div class="hc-button">
+						<button class="btn act-search">Buscar</a>
+					</div>
+				@endif
 			</div>
 		</div>
 

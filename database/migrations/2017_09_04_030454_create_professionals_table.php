@@ -58,6 +58,7 @@ class CreateProfessionalsTable extends Migration
             $table->string('address_info_1')->nullable();
             $table->string('address_info_2')->nullable();
             $table->string('address_info_3')->nullable();
+            $table->text('prescription_cv')->nullable();
         });
     }
 

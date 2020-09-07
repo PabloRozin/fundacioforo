@@ -214,9 +214,11 @@
 									<li>
 										<a href="{{ route('patients.admissions.index', ['patient_id' => $patient['id']]) }}">Admisión</a>
 									</li>
-									<li>
-										<a href="{{ route('patients.prescriptions.index', ['patient_id' => $patient['id']]) }}">Recetas</a>
-									</li>
+									@if (Auth::user()->account->prescriptions)
+										<li>
+											<a href="{{ route('patients.prescriptions.index', ['patient_id' => $patient['id']]) }}">Recetas</a>
+										</li>
+									@endif
 									<li>
 										<a href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Datos</a>
 									</li>
@@ -283,9 +285,11 @@
 								<li>
 									<a href="{{ route('patients.admissions.index', ['patient_id' => $patient['id']]) }}">Admisión</a>
 								</li>
-								<li>
-									<a href="{{ route('patients.prescriptions.index', ['patient_id' => $patient['id']]) }}">Recetas</a>
-								</li>
+								@if (Auth::user()->account->prescriptions)
+									<li>
+										<a href="{{ route('patients.prescriptions.index', ['patient_id' => $patient['id']]) }}">Recetas</a>
+									</li>
+								@endif
 								<li>
 									<a href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Datos</a>
 								</li>
