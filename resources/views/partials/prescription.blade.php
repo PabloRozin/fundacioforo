@@ -1,6 +1,6 @@
 <div class="prescription">
 
-    <div class="professional-information">
+    <div class="professional-information" style="padding-top:30px">
         <div class="name">Dr. {{ $professional->firstname }} {{ $professional->lastname }}</div>
         @if (isset($professional->prescription_cv) and ! empty($professional->prescription_cv))
             <div class="number">{!! nl2br($professional->prescription_cv) !!}</div>

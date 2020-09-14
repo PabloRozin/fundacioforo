@@ -13,10 +13,14 @@ $(document).ready(function()
     $('body').addClass('moznomarginboxes');
     $('body').addClass('mozdisallowselectionprint');
     $('#noty_top_layout_container').hide();
-    window.print();
-    $('body').removeClass('pdfprint');
-    $('body').removeClass('moznomarginboxes');
-    $('body').removeClass('mozdisallowselectionprint');
+    setTimeout(function () { 
+      window.print(); 
+      setTimeout(function () { 
+        $('body').removeClass('pdfprint');
+        $('body').removeClass('moznomarginboxes');
+        $('body').removeClass('mozdisallowselectionprint');
+      }, 100);
+    }, 300);
   });
 
   $('.toggle-multiselect').each(function()
