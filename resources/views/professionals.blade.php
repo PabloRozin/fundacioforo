@@ -208,12 +208,10 @@
 									<a href="{{ route('professionals.show', ['id' => $professional['id']]) }}">Datos</a>
 								@endif
 							</li>
-							@if (in_array(Auth::user()->permissions, ['professional', 'admin']))
-								@if (Auth::user()->account->prescriptions)
-									<li>
-										<a href="{{ route('professionals.prescriptions.index', ['id' => $professional['id']]) }}">Recetas</a>
-									</li>
-								@endif
+							@if (Auth::user()->account->prescriptions)
+								<li>
+									<a href="{{ route('professionals.prescriptions.index', ['id' => $professional['id']]) }}">Recetas</a>
+								</li>
 							@endif
 							@if (in_array(Auth::user()->permissions, ['administrator', 'admin']))
 								<li>

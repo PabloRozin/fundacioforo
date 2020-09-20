@@ -106,13 +106,13 @@
 							</div><!--
 						--></div>
 						<ul class="hc-item-options">
-							<li>
-								<a href="{{ route('patients.prescriptions.show', ['patient_id' => $prescription->patient->id, 'prescription_id' => $prescription->id]) }}">Imprimir</a>
-							</li>
-							<li>
-								<a href="{{ route('patients.prescriptions.edit', ['patient_id' => $prescription->patient->id, 'prescription_id' => $prescription->id]) }}">Editar</a>
-							</li>
-							@if (in_array(Auth::user()->permissions, ['professional']))
+							@if (in_array(Auth::user()->permissions, ['professional']) and Auth::user()->professional->profession == 'psiquiatra')
+								<li>
+									<a href="{{ route('patients.prescriptions.show', ['patient_id' => $prescription->patient->id, 'prescription_id' => $prescription->id]) }}">Imprimir</a>
+								</li>
+								<li>
+									<a href="{{ route('patients.prescriptions.edit', ['patient_id' => $prescription->patient->id, 'prescription_id' => $prescription->id]) }}">Editar</a>
+								</li>
 								<li>
 									<a href="{{ route('patients.prescriptions.duplicate', ['patient_id' => $prescription->patient->id, 'prescription_id' => $prescription->id]) }}">Duplicar</a>
 								</li>

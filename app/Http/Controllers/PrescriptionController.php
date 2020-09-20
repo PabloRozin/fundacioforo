@@ -78,15 +78,9 @@ class PrescriptionController extends AdminController
         ],
     ];
 
-    public function medicines(Request $request) {
-
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+    public function medicines(Request $request) 
+    {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
@@ -125,13 +119,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_index(Request $request, $patient_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
@@ -192,13 +180,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_report(Request $request, $patient_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
@@ -247,13 +229,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_create(Request $request, $patient_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
@@ -283,13 +259,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_duplicate(Request $request, $patient_id, $prescription_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional', 'admin']) or Auth::user()->professional->profession != 'psiquiatra') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
@@ -328,13 +298,7 @@ class PrescriptionController extends AdminController
      */
     public function destroy(Request $request, $patient_id, $prescription_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional'])) {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
@@ -357,13 +321,7 @@ class PrescriptionController extends AdminController
      */
     public function patient_store(Request $request, $patient_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
@@ -460,13 +418,7 @@ class PrescriptionController extends AdminController
 
     public function patient_show(Request $request, $patient_id, $prescription_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional', 'admin']) or Auth::user()->professional->profession != 'psiquiatra') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.show', ['patient_id' => $patient_id]);
@@ -509,13 +461,7 @@ class PrescriptionController extends AdminController
 
     public function patient_edit(Request $request, $patient_id, $prescription_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional', 'admin']) or Auth::user()->professional->profession != 'psiquiatra') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
@@ -549,13 +495,7 @@ class PrescriptionController extends AdminController
 
     public function patient_update(Request $request, $patient_id, $prescription_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional']) or Auth::user()->professional->profession != 'psiquiatra') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
@@ -643,13 +583,7 @@ class PrescriptionController extends AdminController
      */
     public function professional_index(Request $request, $professional_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('professionals.prescriptions.edit', ['professional_id' => $professional_id]);
@@ -705,13 +639,7 @@ class PrescriptionController extends AdminController
      */
     public function professional_show(Request $request, $professional_id, $prescription_id)
     {
-        if (Auth::user()->account->prescriptions and ! in_array(Auth::user()->id, [145, 80]) and ! in_array(Auth::user()->email, ['pablorozin91@gmail.com', 'demianrodante@hotmail.com'])) {
-            $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
-
-            return redirect()->route('patients.index');
-        }
-
-        if (! in_array(Auth::user()->permissions, ['professional', 'admin'])) {
+        if (! Auth::user()->account->prescriptions or ! in_array(Auth::user()->permissions, ['professional', 'admin']) or Auth::user()->professional->profession != 'psiquiatra') {
             $request->session()->flash('error', 'No tenés permisos para realizar esta acción.');
 
             return redirect()->route('patients.prescriptions.edit', ['patient_id' => $patient_id]);
