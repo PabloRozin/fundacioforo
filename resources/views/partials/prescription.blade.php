@@ -3,7 +3,7 @@
     <div class="professional-information" style="padding-top:30px">
         <div class="name">Dr. {{ $professional->firstname }} {{ $professional->lastname }}</div>
         @if (isset($professional->prescription_cv) and ! empty($professional->prescription_cv))
-            <div class="number">{!! nl2br($professional->prescription_cv) !!}</div>
+            <div class="number">{!! strip_tags(nl2br($professional->prescription_cv), '<br>') !!}</div>
         @endif
         <div class="number" style="font-weight:400">M.N. {{ $professional->registration_number }}</div>
     </div>
@@ -41,7 +41,7 @@
 
     @if ($prescription->text and ! empty($prescription->text))
         <div class="text">
-            {!! nl2br($prescription->text) !!}
+            {!! strip_tags(nl2br($prescription->text), '<br>') !!}
         </div>
     @endif
 
@@ -82,6 +82,12 @@
             {{ $professions[$professional->profession] }} <br>
             M.N. {{ $professional->registration_number }}
         </div>
+    </div>
+
+    <div class="professional-information" style="padding-top:58px;">
+        @if (isset($professional->prescription_signature) and ! empty($professional->prescription_signature))
+            <div class="number">{!! strip_tags(nl2br($professional->prescription_signature), '<br>') !!}</div>
+        @endif
     </div>
 
 </div>

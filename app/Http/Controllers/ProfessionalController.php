@@ -104,6 +104,12 @@ class ProfessionalController extends AdminController
                     'title' => 'CV en recetas',
                     'validation' => '',
                 ],
+                'prescription_signature' => [
+                    'css_class' => 'col-1-2',
+                    'type' => 'textarea',
+                    'title' => 'Firma en recetas',
+                    'validation' => '',
+                ],
             ],
         ],
         'Datos de Usuario' => [
