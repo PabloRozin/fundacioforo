@@ -60,7 +60,7 @@
             <td style="vertical-align:top;width:140mm;padding:0 0 20px 0;">
                 <span style="border-top:solid 1px #d9d9d9; display:block; width: 55mm;padding-top:5px;font-size:13px;display: inline-block;line-height:16px;">
                     {{ $hc_date->professional->firstname }} {{ $hc_date->professional->lastname }} <br>
-                    {{ $professions[$hc_date->professional->profession] }} <br>
+                    {{ (isset($professions[$hc_date->professional->profession])) ? $professions[$hc_date->professional->profession] : 'Otro' }} <br>
                     M.N. {{ $hc_date->professional->registration_number }}
                 </span>
             </td>
