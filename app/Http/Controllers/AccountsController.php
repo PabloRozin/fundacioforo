@@ -30,7 +30,6 @@ class AccountsController extends AdminController
                         ['id' => 1, 'value' => 'Habilitado', 'defalut' => true],
                     ],
                     'validation' => 'boolean',
-                    'not_updatable' => true,
                 ],
                 'accountName' => [
                     'css_class' => 'col',
