@@ -738,6 +738,8 @@ class ProfessionalController extends AdminController
             $hcDates = $hcDates->where('professional_id', $data['professional_id']);
         }
 
+        $data['hcDates']['professionals'] = [];
+        
         $hcDates = $hcDates->get();
 
         foreach ($hcDates as $key => $hcDate) {
