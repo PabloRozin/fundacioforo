@@ -11,7 +11,7 @@
 |
 */
 
-Route::auth();
+//Route::auth();
 
 // Admin
 Route::group(
